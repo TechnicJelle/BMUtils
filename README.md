@@ -9,10 +9,22 @@ Visit https://jitpack.io/#TechnicJelle/BMUtils for details on how to install thi
 ## Usage
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils.html)
 
-### Copy Jar Resource To BlueMap
-This function copies any file from your jar to the BlueMap assets folder. This is useful for adding custom icons, scripts, or styles from your own addon.
+### Copy Jar Resource to BlueMap
+This function copies any resource file from your jar to the BlueMap assets folder. This is useful for adding custom icons, scripts, or styles from your own addon.
 ```java
-copyJarResourceToBlueMap(ClassLoader, BlueMapAPI, String fromResource, String toAsset, boolean overwrite)
+copyJarResourceToBlueMap(BlueMapAPI, ClassLoader, String fromResource, String toAsset, boolean overwrite)
+```
+
+### Copy Any File to BlueMap
+This function copies any file to the BlueMap assets folder. This is useful for copying user-provided assets to BlueMap, from a configuration directory for example.
+```java
+copyFileToBlueMap(BlueMapAPI, Path from, String toAsset, boolean overwrite)
+```
+
+### Copy Any Stream to BlueMap
+This function copies any stream to the BlueMap assets folder. This is useful for when you have a stream of data, for example from a URL.
+```java
+copyStreamToBlueMap(BlueMapAPI, InputStream in, String toAsset, boolean overwrite)
 ```
 
 ### Get Player Head Icon Address
