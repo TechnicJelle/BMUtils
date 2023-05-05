@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 public class BMUtils {
-	static final String FALLBACK_ICON = "assets/steve.png";
+	private static final String FALLBACK_ICON = "assets/steve.png";
 
 	private BMUtils() {
 		throw new IllegalStateException("Utility class");
