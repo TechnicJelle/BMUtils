@@ -1,7 +1,8 @@
 # BMUtils
 A small library with a collection of useful functions for BlueMap addons.
 
-Should work with any plugin/mod-loader. Currently only tested with Paper. Please let me know if you have any issues when using other platforms!
+Should work with any plugin/mod-loader. Currently only tested with Paper.
+Please let me know if you have any issues when using other platforms!
 
 ## Installation
 Visit https://jitpack.io/#TechnicJelle/BMUtils for details on how to install this library.
@@ -10,25 +11,31 @@ Visit https://jitpack.io/#TechnicJelle/BMUtils for details on how to install thi
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils.html)
 
 ### Copy Jar Resource to BlueMap
-This function copies any resource file from your jar to the BlueMap assets folder. This is useful for adding custom icons, scripts, or styles from your own addon.
+This function copies any resource file from your jar to the BlueMap assets folder.\
+Useful for adding custom icons, scripts, or styles from your own addon.
 ```java
 copyJarResourceToBlueMap(BlueMapAPI, ClassLoader, String fromResource, String toAsset, boolean overwrite)
 ```
 
 ### Copy Any File to BlueMap
-This function copies any file to the BlueMap assets folder. This is useful for copying user-provided assets to BlueMap, from a configuration directory for example.
+This function copies any file to the BlueMap assets folder.\
+Useful for copying user-provided assets to BlueMap,
+from a configuration directory for example.
 ```java
 copyFileToBlueMap(BlueMapAPI, Path from, String toAsset, boolean overwrite)
 ```
 
 ### Copy Any Stream to BlueMap
-This function copies any stream to the BlueMap assets folder. This is useful for when you have a stream of data, for example from a URL.
+This function copies any stream to the BlueMap assets folder.\
+Useful for when you have a stream of data, for example from a URL.
 ```java
 copyStreamToBlueMap(BlueMapAPI, InputStream in, String toAsset, boolean overwrite)
 ```
 
 ### Get Player Head Icon Address
-This function returns the address of a player head icon. This is useful when you want to use a playerhead on the map. For example, when adding custom icons to the map.
+This function returns the address of a player head icon.\
+Useful when you want to use a playerhead from the map.
+For example, when adding custom icons to the map that involve the player head.
 ```java
 getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap blueMapMap)
 ```
