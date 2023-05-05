@@ -20,19 +20,22 @@ import java.util.function.Consumer;
 public class BMUtils {
 	static final String FALLBACK_ICON = "assets/steve.png";
 
+	private BMUtils() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	/**
-	 * Copies a resource from the jar to the BlueMap asset folder.<br>
+	 * Copies any stream to the BlueMap asset folder.<br>
 	 * If the resource is a script or style, it will be registered with BlueMap.<br>
-	 * <b>This functions should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread from there.</b>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
 	 *
-	 * @param classLoader  The class loader to get the resource from the correct jar
-	 * @param blueMapAPI   The BlueMapAPI instance
-	 * @param fromResource The resource to copy from the jar
-	 * @param toAsset      The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
-	 * @param overwrite    Whether to overwrite the asset if it already exists
-	 * @throws IOException If the resource could not be found or copied
+	 * @param blueMapAPI The BlueMapAPI instance
+	 * @param in         The input stream to copy from
+	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @param overwrite  Whether to overwrite the asset if it already exists
+	 * @throws IOException If the resource could not be copied
 	 */
-	public static void copyJarResourceToBlueMap(@NotNull ClassLoader classLoader, @NotNull BlueMapAPI blueMapAPI, String fromResource, String toAsset, boolean overwrite) throws IOException {
+	public static void copyStreamToBlueMap(@NotNull BlueMapAPI blueMapAPI, @NotNull InputStream in, @NotNull String toAsset, boolean overwrite) throws IOException {
 		Path toPath = blueMapAPI.getWebApp().getWebRoot().resolve("assets").resolve(toAsset);
 
 		//Register script or style
@@ -44,11 +47,49 @@ public class BMUtils {
 		if (Files.exists(toPath) && !overwrite) return;
 		Files.createDirectories(toPath.getParent());
 		try (
-				InputStream in = classLoader.getResourceAsStream(fromResource);
 				OutputStream out = Files.newOutputStream(toPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
 		) {
-			if (in == null) throw new IOException("Resource not found: " + fromResource);
 			in.transferTo(out);
+		}
+	}
+
+	/**
+	 * Copies any file to the BlueMap asset folder.<br>
+	 * If the resource is a script or style, it will be registered with BlueMap.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI The BlueMapAPI instance
+	 * @param from       The file to copy
+	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @param overwrite  Whether to overwrite the asset if it already exists
+	 * @throws IOException If the resource could not be found or copied
+	 */
+	public static void copyFileToBlueMap(@NotNull BlueMapAPI blueMapAPI, @NotNull Path from, @NotNull String toAsset, boolean overwrite) throws IOException {
+		try (
+				InputStream in = Files.newInputStream(from)
+		) {
+			copyStreamToBlueMap(blueMapAPI, in, toAsset, overwrite);
+		}
+	}
+
+	/**
+	 * Copies a resource from the jar to the BlueMap asset folder.<br>
+	 * If the resource is a script or style, it will be registered with BlueMap.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI   The BlueMapAPI instance
+	 * @param classLoader  The class loader to get the resource from the correct jar
+	 * @param fromResource The resource to copy from the jar
+	 * @param toAsset      The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @param overwrite    Whether to overwrite the asset if it already exists
+	 * @throws IOException If the resource could not be found or copied
+	 */
+	public static void copyJarResourceToBlueMap(@NotNull BlueMapAPI blueMapAPI, @NotNull ClassLoader classLoader, @NotNull String fromResource, @NotNull String toAsset, boolean overwrite) throws IOException {
+		try (
+				InputStream in = classLoader.getResourceAsStream(fromResource)
+		) {
+			if (in == null) throw new IOException("Resource not found: " + fromResource);
+			copyStreamToBlueMap(blueMapAPI, in, toAsset, overwrite);
 		}
 	}
 
@@ -78,7 +119,7 @@ public class BMUtils {
 	/**
 	 * For when BlueMap doesn't have an icon for this player yet, so we need to make it create one.
 	 */
-	private static void createPlayerHead(@NotNull BlueMapAPI blueMapAPI, @NotNull UUID playerUUID, String assetName, BlueMapMap map) throws IOException {
+	private static void createPlayerHead(@NotNull BlueMapAPI blueMapAPI, @NotNull UUID playerUUID, @NotNull String assetName, @NotNull BlueMapMap map) throws IOException {
 		SkinProvider skinProvider = blueMapAPI.getPlugin().getSkinProvider();
 		try {
 			Optional<BufferedImage> oImgSkin = skinProvider.load(playerUUID);
