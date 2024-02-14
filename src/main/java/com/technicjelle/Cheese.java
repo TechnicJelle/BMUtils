@@ -12,6 +12,12 @@ import java.util.*;
 public class Cheese {
     private static final Vector2d CHUNK_CELL_SIZE = Vector2d.from(16, 16);
 
+    public static class InvalidSelectionException extends Exception {
+        public InvalidSelectionException(String message) {
+            super(message);
+        }
+    }
+
     private final Shape shape;
     private final Collection<Shape> holes;
 
@@ -38,11 +44,17 @@ public class Cheese {
         return holes;
     }
 
-    public static Cheese createFromChunks(Vector2i... chunks) {
-        return createFromCells(CHUNK_CELL_SIZE, chunks);
+    public static Cheese createFromChunks(Vector2i... chunks) throws InvalidSelectionException {
+        try {
+            return createFromCells(CHUNK_CELL_SIZE, chunks);
+        } catch (InvalidSelectionException e) {
+            throw new InvalidSelectionException("Chunks are not connected (or there are overlaps)");
+        }
     }
 
-    public static Cheese createFromCells(Vector2d cellSize, Vector2i... cells) {
+    public static Cheese createFromCells(Vector2d cellSize, Vector2i... cells) throws InvalidSelectionException {
+        if (!checkConnected(cells)) throw new InvalidSelectionException("Cells are not connected (or there are overlaps)");
+
         Set<Edge> edges = createEdgesFromCells(cells);
 
         // find all edges that don't have a second edge in the opposite direction (flipped)
@@ -69,6 +81,32 @@ public class Cheese {
         }
 
         return new Cheese(outline, holes);
+    }
+
+    /**
+     * @param cells The cells to check for connectivity
+     * @return Whether the cells are connected. Also returns false if there are overlaps.
+     */
+    public static boolean checkConnected(Vector2i... cells) {
+        Collection<Vector2i> cellsToCheck = List.of(cells);
+        Set<Vector2i> visited = new HashSet<>();
+        Queue<Vector2i> toVisit = new LinkedList<>();
+        toVisit.add(cellsToCheck.iterator().next()); // start with the first cell
+
+        while (!toVisit.isEmpty()) {
+            Vector2i current = toVisit.poll();
+            visited.add(current);
+
+            // add all neighbours that are in the cellsToCheck set and not visited yet
+            for (Direction direction : Direction.values()) {
+                Vector2i neighbour = current.add(direction.vector);
+                if (cellsToCheck.contains(neighbour) && !visited.contains(neighbour)) {
+                    toVisit.add(neighbour);
+                }
+            }
+        }
+
+        return visited.size() == cellsToCheck.size();
     }
 
     /**
@@ -229,12 +267,18 @@ public class Cheese {
             LEFT.opposite = RIGHT;
             DOWN.opposite = UP;
             RIGHT.opposite = LEFT;
+
+            UP.vector = Vector2i.from(0, 1);
+            RIGHT.vector = Vector2i.from(1, 0);
+            DOWN.vector = Vector2i.from(0, -1);
+            LEFT.vector = Vector2i.from(-1, 0);
         }
 
         private Direction clockwise;
         private Direction counterClockwise;
         private Direction opposite;
 
+        public Vector2i vector;
     }
 
 }
