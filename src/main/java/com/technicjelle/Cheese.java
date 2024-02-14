@@ -12,6 +12,9 @@ import java.util.*;
 public class Cheese {
     private static final Vector2d CHUNK_CELL_SIZE = Vector2d.from(16, 16);
 
+    /**
+     * Thrown when the provided cells/chunks selection is invalid
+     */
     public static class InvalidSelectionException extends Exception {
         public InvalidSelectionException(String message) {
             super(message);
@@ -36,14 +39,25 @@ public class Cheese {
         this.holes = holes;
     }
 
+    /**
+     * @return The outer shape of the cheese.
+     */
     public Shape getShape() {
         return shape;
     }
 
+    /**
+     * @return Any holes in the cheese.
+     */
     public Collection<Shape> getHoles() {
         return holes;
     }
 
+    /**
+     * @param chunks The chunks to create the cheese from
+     * @return A cheese created from the given chunks, if possible
+     * @throws InvalidSelectionException If the chunks are not connected, or if there are overlaps
+     */
     public static Cheese createFromChunks(Vector2i... chunks) throws InvalidSelectionException {
         try {
             return createFromCells(CHUNK_CELL_SIZE, chunks);
@@ -52,6 +66,12 @@ public class Cheese {
         }
     }
 
+    /**
+     * @param cellSize The size of a cell
+     * @param cells    The cells to create the cheese from
+     * @return A cheese created from the given cells, if possible
+     * @throws InvalidSelectionException If the cells are not connected, or if there are overlaps
+     */
     public static Cheese createFromCells(Vector2d cellSize, Vector2i... cells) throws InvalidSelectionException {
         if (!checkConnected(cells)) throw new InvalidSelectionException("Cells are not connected (or there are overlaps)");
 
