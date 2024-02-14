@@ -5,7 +5,20 @@ Should work with any plugin/mod-loader. Currently only tested with Paper.
 Please let me know if you have any issues when using other platforms!
 
 ## Installation
-Visit https://jitpack.io/#TechnicJelle/BMUtils for details on how to install this library.
+There are two ways to use this library:
+
+### Import as a Maven/Gradle dependency
+Visit https://jitpack.io/#TechnicJelle/BMUtils for detailed instructions
+on how to add this library to your project.
+
+You may want to shade the library!
+
+### Copy the source code
+You can also just copy only the specific source code files you need into your own project.\
+This is useful if you only need a few functions and don't want to add a whole new dependency.
+
+Please make sure to keep the license and author information in the source code files,
+and to abide by the [license](LICENSE) terms!
 
 ## Usage
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils.html)
