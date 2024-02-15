@@ -153,6 +153,55 @@ public class Cheese {
 	}
 
 	/**
+	 * @param chunks The chunks to create the cheese from
+	 * @return A collection of cheeses created from the given chunks, if possible
+	 */
+	public static Collection<Cheese> createMultiCheeseFromChunks(Vector2i... chunks) {
+		return createMultiCheeseFromCells(CHUNK_CELL_SIZE, chunks);
+	}
+
+	/**
+	 * In the case of (potentially) disconnected chunks, this method will create a cheese for each connected part
+	 *
+	 * @param cellSize The size of a cell
+	 * @param cells    The cells to create the cheese from
+	 * @return A collection of cheeses created from the given cells, if possible
+	 */
+	public static Collection<Cheese> createMultiCheeseFromCells(Vector2d cellSize, Vector2i... cells) {
+		Set<Vector2i> remainingCells = new HashSet<>(List.of(cells));
+		List<Cheese> cheeses = new LinkedList<>();
+
+		while (!remainingCells.isEmpty()) {
+			Vector2i start = remainingCells.iterator().next();
+			Set<Vector2i> connectedCells = new HashSet<>();
+			Queue<Vector2i> toVisit = new LinkedList<>();
+			toVisit.add(start);
+
+			while (!toVisit.isEmpty()) {
+				Vector2i current = toVisit.poll();
+				connectedCells.add(current);
+				remainingCells.remove(current);
+
+				// add all neighbours that are in the cellsToCheck set and not visited yet
+				for (Direction direction : Direction.values()) {
+					Vector2i neighbour = current.add(direction.vector);
+					if (remainingCells.contains(neighbour)) {
+						toVisit.add(neighbour);
+					}
+				}
+			}
+
+			try {
+				cheeses.add(createFromCells(cellSize, connectedCells.toArray(Vector2i[]::new)));
+			} catch (InvalidSelectionException e) {
+				// ignore
+			}
+		}
+
+		return cheeses;
+	}
+
+	/**
 	 * Create edges around each cell, in clockwise direction
 	 */
 	private static Set<Edge> createEdgesFromCells(Vector2i... cells) {

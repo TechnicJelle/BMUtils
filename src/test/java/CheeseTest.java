@@ -1,9 +1,23 @@
+/*
+ * This file is part of BMUtils, licensed under the MPL2 License (MPL).
+ * Please keep tabs on https://github.com/TechnicJelle/BMUtils for updates.
+ *
+ * Copyright (c) TechnicJelle <https://technicjelle.com>
+ * Copyright (c) contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 import com.flowpowered.math.vector.Vector2d;
 import com.flowpowered.math.vector.Vector2i;
 import com.technicjelle.Cheese;
 import de.bluecolored.bluemap.api.math.Shape;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Collection;
 
 
 public class CheeseTest {
@@ -311,5 +325,35 @@ public class CheeseTest {
 						Vector2i.from(0, 0),
 						Vector2i.from(12, 34)
 				));
+	}
+
+	@Test
+	public void multiCheese() {
+		Collection<Cheese> cheeses = Cheese.createMultiCheeseFromChunks(
+				Vector2i.from(0, 0),
+				Vector2i.from(12, 34)
+		);
+
+		Assert.assertEquals(2, cheeses.size());
+
+		Cheese[] cheeseArray = cheeses.toArray(Cheese[]::new);
+
+		Cheese cheese1 = cheeseArray[0];
+		Assert.assertTrue(cheese1.getHoles().isEmpty());
+		Shape shape1 = cheese1.getShape();
+		Assert.assertEquals(4, shape1.getPointCount());
+		Assert.assertEquals(Vector2d.from(16, 0), shape1.getPoint(0));  //top right
+		Assert.assertEquals(Vector2d.from(16, 16), shape1.getPoint(1)); //bottom right
+		Assert.assertEquals(Vector2d.from(0, 16), shape1.getPoint(2));  //bottom left
+		Assert.assertEquals(Vector2d.from(0, 0), shape1.getPoint(3));   //top left
+
+		Cheese cheese2 = cheeseArray[1];
+		Assert.assertTrue(cheese2.getHoles().isEmpty());
+		Shape shape2 = cheese2.getShape();
+		Assert.assertEquals(4, shape2.getPointCount());
+		Assert.assertEquals(Vector2d.from(208, 544), shape2.getPoint(0)); //top right
+		Assert.assertEquals(Vector2d.from(208, 560), shape2.getPoint(1)); //bottom right
+		Assert.assertEquals(Vector2d.from(192, 560), shape2.getPoint(2)); //bottom left
+		Assert.assertEquals(Vector2d.from(192, 544), shape2.getPoint(3)); //top left
 	}
 }
