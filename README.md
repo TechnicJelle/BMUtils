@@ -53,6 +53,31 @@ For example, when adding custom icons to the map that involve the player head.
 getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap blueMapMap)
 ```
 
+### Create Marker around a Claim
+With the Cheese class, you can create a [BlueMap Shape](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.\
+Useful for when you want to create a marker around a claim.
+
+Example:
+```java
+@Event
+void onPlayerClaimEvent(Player player, Collection<Chunk> claimedChunks) {
+	Collection<Vector2i> chunkCoordinates = claimedChunks.stream()
+		.map(chunk -> new Vector2i(chunk.getX(), chunk.getZ()))
+		.collect(Collectors.toList());
+
+	Cheese cheese = Cheese.createFromChunks(chunkCoordinates);
+	ExtrudeMarker.builder()
+		.shape(cheese.getShape())
+		.holes(cheese.getHoles())
+		//...
+		.build();
+}
+```
+
+You can use `Cheese.createFromCells` to create a Cheese from a collection of non-16x16 cells.
+
+_Thanks to @TBlueF for contributing this function, and the funny name!_
+
 ## Contributing
 If you have any suggestions for more useful functions to add, please let me know by creating an issue on GitHub.
 
