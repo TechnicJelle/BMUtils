@@ -53,10 +53,10 @@ public class BMUtils {
 			final @NotNull String toAsset,
 			final boolean overwrite
 	) throws IOException {
-		Path toPath = blueMapAPI.getWebApp().getWebRoot().resolve("assets").resolve(toAsset);
+		final Path toPath = blueMapAPI.getWebApp().getWebRoot().resolve("assets").resolve(toAsset);
 
 		//Register script or style
-		String assetPath = "assets/" + toAsset;
+		final String assetPath = "assets/" + toAsset;
 		if (toAsset.endsWith(".js")) blueMapAPI.getWebApp().registerScript(assetPath);
 		if (toAsset.endsWith(".css")) blueMapAPI.getWebApp().registerStyle(assetPath);
 
@@ -64,7 +64,7 @@ public class BMUtils {
 		if (Files.exists(toPath) && !overwrite) return;
 		Files.createDirectories(toPath.getParent());
 		try (
-				OutputStream out = Files.newOutputStream(toPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+				final OutputStream out = Files.newOutputStream(toPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
 		) {
 			in.transferTo(out);
 		}
@@ -88,7 +88,7 @@ public class BMUtils {
 			final boolean overwrite
 	) throws IOException {
 		try (
-				InputStream in = Files.newInputStream(from)
+				final InputStream in = Files.newInputStream(from)
 		) {
 			copyStreamToBlueMapWebApp(blueMapAPI, in, toAsset, overwrite);
 		}
@@ -114,7 +114,7 @@ public class BMUtils {
 			final boolean overwrite
 	) throws IOException {
 		try (
-				InputStream in = classLoader.getResourceAsStream(fromResource)
+				final InputStream in = classLoader.getResourceAsStream(fromResource)
 		) {
 			if (in == null) throw new IOException("Resource not found: " + fromResource);
 			copyStreamToBlueMapWebApp(blueMapAPI, in, toAsset, overwrite);
@@ -158,15 +158,15 @@ public class BMUtils {
 			final @NotNull String assetName,
 			final @NotNull BlueMapMap map
 	) throws IOException {
-		SkinProvider skinProvider = blueMapAPI.getPlugin().getSkinProvider();
+		final SkinProvider skinProvider = blueMapAPI.getPlugin().getSkinProvider();
 		try {
-			Optional<BufferedImage> oImgSkin = skinProvider.load(playerUUID);
+			final Optional<BufferedImage> oImgSkin = skinProvider.load(playerUUID);
 			if (oImgSkin.isEmpty()) {
 				throw new IOException(playerUUID + " doesn't have a skin");
 			}
 
 			try (OutputStream out = map.getAssetStorage().writeAsset(assetName)) {
-				BufferedImage head = blueMapAPI.getPlugin().getPlayerMarkerIconFactory()
+				final BufferedImage head = blueMapAPI.getPlugin().getPlayerMarkerIconFactory()
 						.apply(playerUUID, oImgSkin.get());
 				ImageIO.write(head, "png", out);
 			} catch (IOException e) {
