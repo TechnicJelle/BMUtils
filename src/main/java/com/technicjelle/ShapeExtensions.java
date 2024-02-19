@@ -16,6 +16,9 @@ import com.flowpowered.math.vector.Vector2d;
 import de.bluecolored.bluemap.api.math.Shape;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Utility functions for {@link Shape}s
+ */
 public class ShapeExtensions {
 	private ShapeExtensions() {
 		throw new IllegalStateException("Utility class");

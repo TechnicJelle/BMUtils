@@ -24,6 +24,9 @@ import java.io.OutputStream;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Utility functions for BlueMap skins and playerheads
+ */
 public class BMSkin {
 	private BMSkin() {
 		throw new IllegalStateException("Utility class");

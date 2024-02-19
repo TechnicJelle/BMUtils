@@ -24,6 +24,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.function.Consumer;
 
+/**
+ * Utility functions for copying stuff to BlueMap
+ */
 public class BMCopy {
 	private BMCopy() {
 		throw new IllegalStateException("Utility class");
