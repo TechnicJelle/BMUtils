@@ -17,12 +17,17 @@ import de.bluecolored.bluemap.api.math.Shape;
 import org.jetbrains.annotations.NotNull;
 
 public class ShapeExtensions {
+	private ShapeExtensions() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	/**
 	 * Expands a {@link Shape} by a given amount, in all directions.<br>
 	 * This function is more intuitive for rectangular shapes, but technically not exactly mathematically accurate.<br>
 	 * Use {@link #expandShapeAccurate(Shape, double)} for more free-form shapes, like ellipses and circles.<br>
 	 * <br>
 	 * Example: expanding a 16x16 square by 1 in each direction results in an 18x18 square
+	 *
 	 * @param amount The amount (in blocks) to expand the shape by. May be negative to shrink the shape.
 	 * @see #shrinkShapeRect(Shape, double)
 	 */
@@ -65,6 +70,7 @@ public class ShapeExtensions {
 	 * Use {@link #shrinkShapeAccurate(Shape, double)} for more free-form shapes, like ellipses and circles.<br>
 	 * <br>
 	 * Example: shrinking a 16x16 square by 1 in each direction results in a 14x14 square
+	 *
 	 * @param amount The amount (in blocks) to expand the shape by. May be negative to expand the shape.
 	 * @see #expandShapeRect(Shape, double)
 	 */
@@ -78,6 +84,7 @@ public class ShapeExtensions {
 	 * Use {@link #expandShapeRect(Shape, double)} for more rectangular shapes.<br>
 	 * <br>
 	 * Example: expanding a square by 1 in each direction will only offset each edge by (√2)/2
+	 *
 	 * @param amount The amount to expand the shape by. May be negative to shrink the shape.
 	 * @see #shrinkShapeAccurate(Shape, double)
 	 */
@@ -91,6 +98,7 @@ public class ShapeExtensions {
 	 * Use {@link #shrinkShapeRect(Shape, double)} for more rectangular shapes.<br>
 	 * <br>
 	 * Example: expanding a square by 1 in each direction will only offset each edge by (√2)/2
+	 *
 	 * @param amount The amount to expand the shape by. May be negative to shrink the shape.
 	 * @see #expandShapeAccurate(Shape, double)
 	 */
