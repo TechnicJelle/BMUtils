@@ -47,7 +47,12 @@ public class BMUtils {
 	 * @param overwrite  Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be copied
 	 */
-	public static void copyStreamToBlueMap(@NotNull BlueMapAPI blueMapAPI, @NotNull InputStream in, @NotNull String toAsset, boolean overwrite) throws IOException {
+	public static void copyStreamToBlueMapWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull InputStream in,
+			final @NotNull String toAsset,
+			final boolean overwrite
+	) throws IOException {
 		Path toPath = blueMapAPI.getWebApp().getWebRoot().resolve("assets").resolve(toAsset);
 
 		//Register script or style
@@ -76,11 +81,16 @@ public class BMUtils {
 	 * @param overwrite  Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
 	 */
-	public static void copyFileToBlueMap(@NotNull BlueMapAPI blueMapAPI, @NotNull Path from, @NotNull String toAsset, boolean overwrite) throws IOException {
+	public static void copyFileToBlueMapWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull Path from,
+			final @NotNull String toAsset,
+			final boolean overwrite
+	) throws IOException {
 		try (
 				InputStream in = Files.newInputStream(from)
 		) {
-			copyStreamToBlueMap(blueMapAPI, in, toAsset, overwrite);
+			copyStreamToBlueMapWebApp(blueMapAPI, in, toAsset, overwrite);
 		}
 	}
 
@@ -96,12 +106,18 @@ public class BMUtils {
 	 * @param overwrite    Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
 	 */
-	public static void copyJarResourceToBlueMap(@NotNull BlueMapAPI blueMapAPI, @NotNull ClassLoader classLoader, @NotNull String fromResource, @NotNull String toAsset, boolean overwrite) throws IOException {
+	public static void copyJarResourceToBlueMapWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull ClassLoader classLoader,
+			final @NotNull String fromResource,
+			final @NotNull String toAsset,
+			final boolean overwrite
+	) throws IOException {
 		try (
 				InputStream in = classLoader.getResourceAsStream(fromResource)
 		) {
 			if (in == null) throw new IOException("Resource not found: " + fromResource);
-			copyStreamToBlueMap(blueMapAPI, in, toAsset, overwrite);
+			copyStreamToBlueMapWebApp(blueMapAPI, in, toAsset, overwrite);
 		}
 	}
 
@@ -112,9 +128,14 @@ public class BMUtils {
 	 * @param blueMapAPI The BlueMapAPI instance
 	 * @param playerUUID The player to get the head of
 	 * @param blueMapMap The map to get the head for (each map has its own playerheads folder)
-	 * @return The URL to the player head, relative to BlueMap's web root,<br>or a Steve head if the head couldn't be found
+	 * @return The URL to the player head, relative to BlueMap's web root,<br>
+	 * or a Steve head if the head couldn't be found
 	 */
-	public static String getPlayerHeadIconAddress(@NotNull BlueMapAPI blueMapAPI, @NotNull UUID playerUUID, @NotNull BlueMapMap blueMapMap) {
+	public static String getPlayerHeadIconAddress(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull UUID playerUUID,
+			final @NotNull BlueMapMap blueMapMap
+	) {
 		final String assetName = "playerheads/" + playerUUID + ".png";
 
 		try {
@@ -131,7 +152,12 @@ public class BMUtils {
 	/**
 	 * For when BlueMap doesn't have an icon for this player yet, so we need to make it create one.
 	 */
-	private static void createPlayerHead(@NotNull BlueMapAPI blueMapAPI, @NotNull UUID playerUUID, @NotNull String assetName, @NotNull BlueMapMap map) throws IOException {
+	private static void createPlayerHead(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull UUID playerUUID,
+			final @NotNull String assetName,
+			final @NotNull BlueMapMap map
+	) throws IOException {
 		SkinProvider skinProvider = blueMapAPI.getPlugin().getSkinProvider();
 		try {
 			Optional<BufferedImage> oImgSkin = skinProvider.load(playerUUID);
