@@ -37,7 +37,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Generate JavaDoc
-        run: mvn javadoc:javadoc
+        run: mvn javadoc:javadoc -Dmaven.test.skip=true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
