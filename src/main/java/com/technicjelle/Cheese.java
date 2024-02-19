@@ -14,6 +14,8 @@ package com.technicjelle;
 
 import com.flowpowered.math.vector.Vector2d;
 import com.flowpowered.math.vector.Vector2i;
+import de.bluecolored.bluemap.api.markers.ExtrudeMarker;
+import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Shape;
 
 import java.util.Arrays;
@@ -36,6 +38,7 @@ public class Cheese {
 
 	/**
 	 * Thrown when the provided cells/chunks selection is invalid
+	 * (e.g. not connected, or overlapping)
 	 */
 	public static class InvalidSelectionException extends Exception {
 		public InvalidSelectionException(String message) {
@@ -76,9 +79,14 @@ public class Cheese {
 	}
 
 	/**
+	 * Create a BlueMap {@link Shape} with potentially some holes, from a collection of chunks.<br>
+	 * Designed to be fed directly into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}
+	 *
 	 * @param chunks The chunks to create the cheese from
 	 * @return A cheese created from the given chunks, if possible
 	 * @throws InvalidSelectionException If the chunks are not connected, or if there are overlaps
+	 * @see #createFromCells(Vector2d, Vector2i...)
+	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static Cheese createFromChunks(Vector2i... chunks) throws InvalidSelectionException {
 		try {
@@ -89,10 +97,16 @@ public class Cheese {
 	}
 
 	/**
+	 * Same as {@link #createFromChunks(Vector2i...)}, but allows you to specify your own cell-size,
+	 * instead of the default 16x16 for full chunks.<br>
+	 * This is useful in case your area data isn't chunk-based.
+	 *
 	 * @param cellSize The size of a cell
 	 * @param cells    The cells to create the cheese from
 	 * @return A cheese created from the given cells, if possible
 	 * @throws InvalidSelectionException If the cells are not connected, or if there are overlaps
+	 * @see #createFromChunks(Vector2i...)
+	 * @see #createMultiCheeseFromCells(Vector2d, Vector2i...)
 	 */
 	public static Cheese createFromCells(Vector2d cellSize, Vector2i... cells) throws InvalidSelectionException {
 		if (!checkConnected(cells))
@@ -127,8 +141,14 @@ public class Cheese {
 	}
 
 	/**
+	 * Simple function to check if a collection of cells is connected.<br>
+	 * It shouldn't be necessary to use this function directly, yourself, though.<br>
+	 * If you think you need this, you should probably just directly use
+	 * {@link #createMultiCheeseFromChunks(Vector2i...)} instead.
+	 *
 	 * @param cells The cells to check for connectivity
 	 * @return Whether the cells are connected. Also returns false if there are overlaps.
+	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static boolean checkConnected(Vector2i... cells) {
 		Collection<Vector2i> cellsToCheck = List.of(cells);
@@ -153,19 +173,23 @@ public class Cheese {
 	}
 
 	/**
+	 * In the case of (potentially) disconnected chunks, this method will create a cheese for each connected part.
+	 *
 	 * @param chunks The chunks to create the cheese from
 	 * @return A collection of cheeses created from the given chunks, if possible
+	 * @see #createMultiCheeseFromCells(Vector2d, Vector2i...)
 	 */
 	public static Collection<Cheese> createMultiCheeseFromChunks(Vector2i... chunks) {
 		return createMultiCheeseFromCells(CHUNK_CELL_SIZE, chunks);
 	}
 
 	/**
-	 * In the case of (potentially) disconnected chunks, this method will create a cheese for each connected part
+	 * In the case of (potentially) disconnected cells, this method will create a cheese for each connected part.
 	 *
 	 * @param cellSize The size of a cell
 	 * @param cells    The cells to create the cheese from
 	 * @return A collection of cheeses created from the given cells, if possible
+	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static Collection<Cheese> createMultiCheeseFromCells(Vector2d cellSize, Vector2i... cells) {
 		Set<Vector2i> remainingCells = new HashSet<>(List.of(cells));
