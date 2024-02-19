@@ -26,15 +26,16 @@ Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](ht
 
 ### Copy Jar Resource to BlueMap
 This function copies any resource file from your jar to the BlueMap assets folder.\
-Useful for adding custom icons, scripts, or styles from your own addon.
+Useful for adding custom icons, scripts, or styles from your own addon.\
+Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
 ```java
 copyJarResourceToBlueMap(BlueMapAPI, ClassLoader, String fromResource, String toAsset, boolean overwrite)
 ```
 
 ### Copy Any File to BlueMap
 This function copies any file to the BlueMap assets folder.\
-Useful for copying user-provided assets to BlueMap,
-from a configuration directory for example.
+Useful for copying user-provided assets to BlueMap, from a configuration directory for example.
+Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
 ```java
 copyFileToBlueMap(BlueMapAPI, Path from, String toAsset, boolean overwrite)
 ```
@@ -42,6 +43,7 @@ copyFileToBlueMap(BlueMapAPI, Path from, String toAsset, boolean overwrite)
 ### Copy Any Stream to BlueMap
 This function copies any stream to the BlueMap assets folder.\
 Useful for when you have a stream of data, for example from a URL.
+Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
 ```java
 copyStreamToBlueMap(BlueMapAPI, InputStream in, String toAsset, boolean overwrite)
 ```
