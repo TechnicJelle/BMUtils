@@ -24,6 +24,13 @@ and to abide by the [license](LICENSE) terms!
 This section just contains a brief overview of some of the most useful features of this library.\
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils.html)
 
+- [Copy Jar Resource to BlueMap](#copy-jar-resource-to-bluemap)
+- [Copy Any File to BlueMap](#copy-any-file-to-bluemap)
+- [Copy Any Stream to BlueMap](#copy-any-stream-to-bluemap)
+- [Get Player Head Icon Address](#get-player-head-icon-address)
+- [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area)
+- [Expand/Shrink a Shape](#expandshrink-a-shape)
+
 ### Copy Jar Resource to BlueMap
 This function copies any resource file from your jar to the BlueMap assets folder.\
 Useful for adding custom icons, scripts, or styles from your own addon.\
