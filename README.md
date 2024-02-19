@@ -1,5 +1,6 @@
 # BMUtils
-A small library with a collection of useful functions for BlueMap addons.
+A small library with a collection of useful functions for BlueMap addons,
+that I have created while working on my own BlueMap addons.
 
 Should work with any plugin/mod-loader. Currently only tested with Paper.
 Please let me know if you have any issues when using other platforms!
