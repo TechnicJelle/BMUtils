@@ -14,25 +14,18 @@ package com.technicjelle;
 
 import de.bluecolored.bluemap.api.BlueMapAPI;
 import de.bluecolored.bluemap.api.BlueMapMap;
-import de.bluecolored.bluemap.api.plugin.SkinProvider;
 import org.jetbrains.annotations.NotNull;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Consumer;
 
-public class BMUtils {
-	private static final String FALLBACK_ICON = "assets/steve.png";
-
-	private BMUtils() {
+public class BMCopy {
+	private BMCopy() {
 		throw new IllegalStateException("Utility class");
 	}
 
@@ -47,7 +40,7 @@ public class BMUtils {
 	 * @param overwrite  Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be copied
 	 */
-	public static void copyStreamToBlueMapWebApp(
+	public static void streamToWebApp(
 			final @NotNull BlueMapAPI blueMapAPI,
 			final @NotNull InputStream in,
 			final @NotNull String toAsset,
@@ -80,7 +73,7 @@ public class BMUtils {
 	 * @param overwrite Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be copied
 	 */
-	public static void copyStreamToBlueMapMap(
+	public static void streamToMap(
 			final @NotNull BlueMapMap map,
 			final @NotNull InputStream in,
 			final @NotNull String toAsset,
@@ -106,7 +99,7 @@ public class BMUtils {
 	 * @param overwrite  Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
 	 */
-	public static void copyFileToBlueMapWebApp(
+	public static void fileToWebApp(
 			final @NotNull BlueMapAPI blueMapAPI,
 			final @NotNull Path from,
 			final @NotNull String toAsset,
@@ -115,7 +108,7 @@ public class BMUtils {
 		try (
 				final InputStream in = Files.newInputStream(from)
 		) {
-			copyStreamToBlueMapWebApp(blueMapAPI, in, toAsset, overwrite);
+			streamToWebApp(blueMapAPI, in, toAsset, overwrite);
 		}
 	}
 
@@ -129,16 +122,16 @@ public class BMUtils {
 	 * @param overwrite Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
 	 */
-	public static void copyFileToBlueMapMap(
+	public static void fileToMap(
 			final @NotNull BlueMapMap map,
 			final @NotNull Path from,
 			final @NotNull String toAsset,
 			final boolean overwrite
 	) throws IOException {
 		try (
-				final InputStream in = Files.newInputStream(from);
+				final InputStream in = Files.newInputStream(from)
 		) {
-			copyStreamToBlueMapMap(map, in, toAsset, overwrite);
+			streamToMap(map, in, toAsset, overwrite);
 		}
 	}
 
@@ -154,7 +147,7 @@ public class BMUtils {
 	 * @param overwrite    Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
 	 */
-	public static void copyJarResourceToBlueMapWebApp(
+	public static void jarResourceToWebApp(
 			final @NotNull BlueMapAPI blueMapAPI,
 			final @NotNull ClassLoader classLoader,
 			final @NotNull String fromResource,
@@ -165,7 +158,7 @@ public class BMUtils {
 				final InputStream in = classLoader.getResourceAsStream(fromResource)
 		) {
 			if (in == null) throw new IOException("Resource not found: " + fromResource);
-			copyStreamToBlueMapWebApp(blueMapAPI, in, toAsset, overwrite);
+			streamToWebApp(blueMapAPI, in, toAsset, overwrite);
 		}
 	}
 
@@ -180,7 +173,7 @@ public class BMUtils {
 	 * @param overwrite    Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
 	 */
-	public static void copyJarResourceToBlueMapMap(
+	public static void jarResourceToMap(
 			final @NotNull BlueMapMap map,
 			final @NotNull ClassLoader classLoader,
 			final @NotNull String fromResource,
@@ -188,66 +181,10 @@ public class BMUtils {
 			final boolean overwrite
 	) throws IOException {
 		try (
-				final InputStream in = classLoader.getResourceAsStream(fromResource);
+				final InputStream in = classLoader.getResourceAsStream(fromResource)
 		) {
 			if (in == null) throw new IOException("Resource not found: " + fromResource);
-			copyStreamToBlueMapMap(map, in, toAsset, overwrite);
-		}
-	}
-
-	/**
-	 * Gets the URL to a player head icon for a specific map.<br>
-	 * If the icon doesn't exist yet, it will be created.
-	 *
-	 * @param blueMapAPI The BlueMapAPI instance
-	 * @param playerUUID The player to get the head of
-	 * @param blueMapMap The map to get the head for (each map has its own playerheads folder)
-	 * @return The URL to the player head, relative to BlueMap's web root,<br>
-	 * or a Steve head if the head couldn't be found
-	 */
-	public static String getPlayerHeadIconAddress(
-			final @NotNull BlueMapAPI blueMapAPI,
-			final @NotNull UUID playerUUID,
-			final @NotNull BlueMapMap blueMapMap
-	) {
-		final String assetName = "playerheads/" + playerUUID + ".png";
-
-		try {
-			if (!blueMapMap.getAssetStorage().assetExists(assetName)) {
-				createPlayerHead(blueMapAPI, playerUUID, assetName, blueMapMap);
-			}
-		} catch (IOException e) {
-			return FALLBACK_ICON;
-		}
-
-		return blueMapMap.getAssetStorage().getAssetUrl(assetName);
-	}
-
-	/**
-	 * For when BlueMap doesn't have an icon for this player yet, so we need to make it create one.
-	 */
-	private static void createPlayerHead(
-			final @NotNull BlueMapAPI blueMapAPI,
-			final @NotNull UUID playerUUID,
-			final @NotNull String assetName,
-			final @NotNull BlueMapMap map
-	) throws IOException {
-		final SkinProvider skinProvider = blueMapAPI.getPlugin().getSkinProvider();
-		try {
-			final Optional<BufferedImage> oImgSkin = skinProvider.load(playerUUID);
-			if (oImgSkin.isEmpty()) {
-				throw new IOException(playerUUID + " doesn't have a skin");
-			}
-
-			try (OutputStream out = map.getAssetStorage().writeAsset(assetName)) {
-				final BufferedImage head = blueMapAPI.getPlugin().getPlayerMarkerIconFactory()
-						.apply(playerUUID, oImgSkin.get());
-				ImageIO.write(head, "png", out);
-			} catch (IOException e) {
-				throw new IOException("Failed to write " + playerUUID + "'s head to asset-storage", e);
-			}
-		} catch (IOException e) {
-			throw new IOException("Failed to load skin for player " + playerUUID, e);
+			streamToMap(map, in, toAsset, overwrite);
 		}
 	}
 }

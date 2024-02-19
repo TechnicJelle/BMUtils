@@ -28,43 +28,64 @@ and to abide by the [license](LICENSE) terms!
 This section just contains a brief overview of some of the most useful features of this library.\
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils.html)
 
-- [Copy Jar Resource to BlueMap](#copy-jar-resource-to-bluemap)
-- [Copy Any File to BlueMap](#copy-any-file-to-bluemap)
-- [Copy Any Stream to BlueMap](#copy-any-stream-to-bluemap)
+- [Copying Assets](#copying-assets)
+	- [Copy Jar Resource](#copy-jar-resource)
+	- [Copy Any File](#copy-any-file)
+	- [Copy Any Stream](#copy-any-stream)
 - [Get Player Head Icon Address](#get-player-head-icon-address)
 - [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area)
 - [Expand/Shrink a Shape](#expandshrink-a-shape)
 
-### Copy Jar Resource to BlueMap
+### Copying Assets
+#### Copy Jar Resource
 This function copies any resource file from your jar to the BlueMap assets folder.\
 Useful for adding custom icons, scripts, or styles from your own addon.\
 Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
 ```java
-copyJarResourceToBlueMap(BlueMapAPI, ClassLoader, String fromResource, String toAsset, boolean overwrite)
+BMCopy.jarResourceToWebApp(BlueMapAPI, ClassLoader, String fromResource, String toAsset, boolean overwrite)
 ```
 
-### Copy Any File to BlueMap
+Also available for copying to a specific BlueMap map's [asset storage](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/AssetStorage.html).\
+Do not use this method for copying scripts or styles, as those need to be installed in the webapp.
+```java
+BMCopy.jarResourceToMap(BlueMapMap, ClassLoader, String fromResource, String toAsset, boolean overwrite)
+```
+
+#### Copy Any File
 This function copies any file to the BlueMap assets folder.\
-Useful for copying user-provided assets to BlueMap, from a configuration directory for example.
+Useful for copying user-provided assets to BlueMap, from a configuration directory for example.\
 Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
 ```java
-copyFileToBlueMap(BlueMapAPI, Path from, String toAsset, boolean overwrite)
+BMCopy.fileToWebApp(BlueMapAPI, Path from, String toAsset, boolean overwrite)
 ```
 
-### Copy Any Stream to BlueMap
+Also available for copying to a specific BlueMap map's [asset storage](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/AssetStorage.html).\
+Do not use this method for copying scripts or styles, as those need to be installed in the webapp.
+```java
+BMCopy.fileToMap(BlueMapMap, Path from, String toAsset, boolean overwrite)
+```
+
+#### Copy Any Stream
 This function copies any stream to the BlueMap assets folder.\
-Useful for when you have a stream of data, for example from a URL.
+Useful for when you have a stream of data, for example from a URL.\
 Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
 ```java
-copyStreamToBlueMap(BlueMapAPI, InputStream in, String toAsset, boolean overwrite)
+BMCopy.streamToWebApp(BlueMapAPI, InputStream in, String toAsset, boolean overwrite)
+```
+
+Also available for copying to a specific BlueMap map's [asset storage](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/AssetStorage.html).\
+Do not use this method for copying scripts or styles, as those need to be installed in the webapp.
+```java
+BMCopy.streamToMap(BlueMapMap, InputStream in, String toAsset, boolean overwrite)
 ```
 
 ### Get Player Head Icon Address
-This function returns the address of a player head icon.\
-Useful when you want to use a playerhead from the map.
+This function returns the address of a player head icon,
+and automatically generates the icon if it doesn't exist yet.\
+Useful when you want to use a playerhead from the map.\
 For example, when adding custom icons to the map that involve the player head.
 ```java
-getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap blueMapMap)
+BMSkin.getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap)
 ```
 
 ### Create Marker around a Claimed Area
