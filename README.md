@@ -2,6 +2,9 @@
 A small library with a collection of useful functions for BlueMap addons,
 that I have created while working on my own BlueMap addons.
 
+Please check them out if you're interested:
+[TechnicJelle.com BlueMap Addons](https://technicjelle.com/#%F0%9F%8C%90-bluemap-addons)
+
 Should work with any plugin/mod-loader. Currently only tested with Paper.
 Please let me know if you have any issues when using other platforms!
 
