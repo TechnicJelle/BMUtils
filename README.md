@@ -20,7 +20,8 @@ This is useful if you only need a few functions and don't want to add a whole ne
 Please make sure to keep the license and author information in the source code files,
 and to abide by the [license](LICENSE) terms!
 
-## Usage
+## Usage/Overview of Features
+This section just contains a brief overview of some of the most useful features of this library.\
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils.html)
 
 ### Copy Jar Resource to BlueMap
@@ -53,9 +54,9 @@ For example, when adding custom icons to the map that involve the player head.
 getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap blueMapMap)
 ```
 
-### Create Marker around a Claim
+### Create Marker around a Claimed Area
 With the Cheese class, you can create a [BlueMap Shape](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.\
-Useful for when you want to create a marker around a claim.
+Useful for when you want to create a marker around a claimed area.
 
 Example:
 ```java
@@ -74,9 +75,15 @@ void onPlayerClaimEvent(Player player, Collection<Chunk> claimedChunks) {
 }
 ```
 
-You can use `Cheese.createFromCells` to create a Cheese from a collection of non-16x16 cells.
+You can use `Cheese.createFromCells` to create a Cheese from a collection of non-16x16 cells,
+in case your area data isn't chunk-based.
 
-_Thanks to @TBlueF for contributing this function, and the funny name!_
+This function works only on areas that are all connected.
+It will throw an `InvalidSelectionException` if the areas are separated.\
+So for those situations where you have areas that are potentially separated,
+you should use the `Cheese.createMultiCheeseFromChunks` function, instead.
+
+_Thanks to [@TBlueF](https://github.com/TBlueF) for contributing this function, and the funny name!_
 
 ## Contributing
 If you have any suggestions for more useful functions to add, please let me know by creating an issue on GitHub.
