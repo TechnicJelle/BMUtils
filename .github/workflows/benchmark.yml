@@ -36,7 +36,7 @@ jobs:
           name: JMH Benchmark
           tool: 'jmh'
           output-file-path: jmh-result.json
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           # Set auto-push to false since GitHub API token is not given
           auto-push: true
           # Show alert with commit comment on detecting possible performance regression
