@@ -45,3 +45,5 @@ jobs:
           fail-on-alert: true
           alert-comment-cc-users: '@TechnicJelle'
           gh-repository: 'github.com/TechnicJelle/BMUtils-PerformanceReports'
+          gh-pages-branch: 'main'
+          benchmark-data-dir-path: '/'
