@@ -27,12 +27,12 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class CheeseBench {
 	private static final Vector2i[] chunkSquare10 = generateChunkSquare(10);
-//	private static final Vector2i[] chunkSquare11 = generateChunkSquare(11);
-//	private static final Vector2i[] chunkSquare12 = generateChunkSquare(12);
-//	private static final Vector2i[] chunkSquare13 = generateChunkSquare(13);
-//	private static final Vector2i[] chunkSquare14 = generateChunkSquare(14);
-//	private static final Vector2i[] chunkSquare15 = generateChunkSquare(15);
-//	private static final Vector2i[] chunkSquare16 = generateChunkSquare(16);
+	private static final Vector2i[] chunkSquare11 = generateChunkSquare(11);
+	private static final Vector2i[] chunkSquare12 = generateChunkSquare(12);
+	private static final Vector2i[] chunkSquare13 = generateChunkSquare(13);
+	private static final Vector2i[] chunkSquare14 = generateChunkSquare(14);
+	private static final Vector2i[] chunkSquare15 = generateChunkSquare(15);
+	private static final Vector2i[] chunkSquare16 = generateChunkSquare(16);
 
 	private static Vector2i[] generateChunkSquare(int size) {
 		Vector2i[] chunks = new Vector2i[size * size];
@@ -58,38 +58,37 @@ public class CheeseBench {
 	}
 
 	@Benchmark
-	public void measureCheese10() throws Cheese.InvalidSelectionException, InterruptedException {
-		Thread.sleep(300);
+	public void measureCheese10() throws Cheese.InvalidSelectionException {
 		testCheese(chunkSquare10, 10);
 	}
 
-//	@Benchmark
-//	public void measureCheese11() throws Cheese.InvalidSelectionException {
-//		testCheese(chunkSquare11, 11);
-//	}
-//
-//	@Benchmark
-//	public void measureCheese12() throws Cheese.InvalidSelectionException {
-//		testCheese(chunkSquare12, 12);
-//	}
-//
-//	@Benchmark
-//	public void measureCheese13() throws Cheese.InvalidSelectionException {
-//		testCheese(chunkSquare13, 13);
-//	}
-//
-//	@Benchmark
-//	public void measureCheese14() throws Cheese.InvalidSelectionException {
-//		testCheese(chunkSquare14, 14);
-//	}
-//
-//	@Benchmark
-//	public void measureCheese15() throws Cheese.InvalidSelectionException {
-//		testCheese(chunkSquare15, 15);
-//	}
-//
-//	@Benchmark
-//	public void measureCheese16() throws Cheese.InvalidSelectionException {
-//		testCheese(chunkSquare16, 16);
-//	}
+	@Benchmark
+	public void measureCheese11() throws Cheese.InvalidSelectionException {
+		testCheese(chunkSquare11, 11);
+	}
+
+	@Benchmark
+	public void measureCheese12() throws Cheese.InvalidSelectionException {
+		testCheese(chunkSquare12, 12);
+	}
+
+	@Benchmark
+	public void measureCheese13() throws Cheese.InvalidSelectionException {
+		testCheese(chunkSquare13, 13);
+	}
+
+	@Benchmark
+	public void measureCheese14() throws Cheese.InvalidSelectionException {
+		testCheese(chunkSquare14, 14);
+	}
+
+	@Benchmark
+	public void measureCheese15() throws Cheese.InvalidSelectionException {
+		testCheese(chunkSquare15, 15);
+	}
+
+	@Benchmark
+	public void measureCheese16() throws Cheese.InvalidSelectionException {
+		testCheese(chunkSquare16, 16);
+	}
 }

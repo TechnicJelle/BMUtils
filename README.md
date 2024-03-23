@@ -149,3 +149,7 @@ If you have any suggestions for more useful functions to add, please let me know
 ## Support
 To get support with this library, join the [BlueMap Discord server](https://bluecolo.red/map-discord)
 and ask your questions in [#3rd-party-support](https://discord.com/channels/665868367416131594/863844716047106068). You're welcome to ping me, @TechnicJelle.
+
+## Performance Reports
+I've set up automatic performance reports for this library, to keep track of how it performs over time.\
+You can view a graph of the performance reports over time [here!](https://technicjelle.com/BMUtils-PerformanceReports/)
