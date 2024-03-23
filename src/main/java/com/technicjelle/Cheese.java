@@ -151,7 +151,7 @@ public class Cheese {
 	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static boolean checkConnected(Vector2i... cells) {
-		Collection<Vector2i> cellsToCheck = List.of(cells);
+		Set<Vector2i> cellsToCheck = new HashSet<>(List.of(cells));
 		Set<Vector2i> visited = new HashSet<>();
 		Queue<Vector2i> toVisit = new LinkedList<>();
 		toVisit.add(cellsToCheck.iterator().next()); // start with the first cell
