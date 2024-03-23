@@ -59,7 +59,7 @@ public class CheeseBench {
 
 	@Benchmark
 	public void measureCheese10() throws Cheese.InvalidSelectionException, InterruptedException {
-//		Thread.sleep(300);
+		Thread.sleep(300);
 		testCheese(chunkSquare10, 10);
 	}
 
