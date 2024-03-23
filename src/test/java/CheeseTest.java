@@ -344,6 +344,7 @@ public class CheeseTest {
 	public void multiCheese() {
 		Collection<Cheese> cheeses = Cheese.createMultiCheeseFromChunks(
 				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
 				Vector2i.from(12, 34)
 		);
 
@@ -355,8 +356,8 @@ public class CheeseTest {
 		Assert.assertTrue(cheese1.getHoles().isEmpty());
 		Shape shape1 = cheese1.getShape();
 		Assert.assertEquals(4, shape1.getPointCount());
-		Assert.assertEquals(Vector2d.from(16, 0), shape1.getPoint(0));  //top right
-		Assert.assertEquals(Vector2d.from(16, 16), shape1.getPoint(1)); //bottom right
+		Assert.assertEquals(Vector2d.from(32, 0), shape1.getPoint(0));  //top right
+		Assert.assertEquals(Vector2d.from(32, 16), shape1.getPoint(1)); //bottom right
 		Assert.assertEquals(Vector2d.from(0, 16), shape1.getPoint(2));  //bottom left
 		Assert.assertEquals(Vector2d.from(0, 0), shape1.getPoint(3));   //top left
 
