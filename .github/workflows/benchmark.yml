@@ -36,6 +36,9 @@ jobs:
           gh-pages-branch: 'main'
           benchmark-data-dir-path: './'
 
+      - name: Cleanup before alerting
+        run: rm -rf ./benchmark-data-repository
+
       - name: Alert on performance regression
         uses: benchmark-action/github-action-benchmark@v1
         with:
