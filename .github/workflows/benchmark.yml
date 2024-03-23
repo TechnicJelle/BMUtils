@@ -23,11 +23,12 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+      - name: Install BMUtils
+        run: mvn clean install
+      - name: Compile benchmark
+        run: mvn -f benchmark/pom.xml clean verify
       - name: Run benchmark
-        run: |
-          mvn clean install
-          mvn -f benchmark/pom.xml clean verify
-          java -jar benchmark/target/benchmarks.jar -rf json
+        run: java -jar benchmark/target/benchmarks.jar -rf json
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
