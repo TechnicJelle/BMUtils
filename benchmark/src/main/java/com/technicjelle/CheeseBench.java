@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class CheeseBench {
 	private static final Vector2i[] chunkSquare10 = generateChunkSquare(10);
-	private static final Vector2i[] chunkSquare11 = generateChunkSquare(11);
+//	private static final Vector2i[] chunkSquare11 = generateChunkSquare(11);
 //	private static final Vector2i[] chunkSquare12 = generateChunkSquare(12);
 //	private static final Vector2i[] chunkSquare13 = generateChunkSquare(13);
 //	private static final Vector2i[] chunkSquare14 = generateChunkSquare(14);
@@ -62,11 +62,11 @@ public class CheeseBench {
 		testCheese(chunkSquare10, 10);
 	}
 
-	@Benchmark
-	public void measureCheese11() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare11, 11);
-	}
-
+//	@Benchmark
+//	public void measureCheese11() throws Cheese.InvalidSelectionException {
+//		testCheese(chunkSquare11, 11);
+//	}
+//
 //	@Benchmark
 //	public void measureCheese12() throws Cheese.InvalidSelectionException {
 //		testCheese(chunkSquare12, 12);
