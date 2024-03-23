@@ -30,17 +30,18 @@ jobs:
       - name: Run benchmark
         run: java -jar benchmark/target/benchmarks.jar -rf json
 
-      - name: Store benchmark result
+      - name: Store benchmark result - separate results repo
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: JMH Benchmark
           tool: 'jmh'
           output-file-path: jmh-result.json
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           # Set auto-push to false since GitHub API token is not given
-          auto-push: false
+          auto-push: true
           # Show alert with commit comment on detecting possible performance regression
           alert-threshold: '200%'
           comment-on-alert: true
           fail-on-alert: true
           alert-comment-cc-users: '@TechnicJelle'
+          gh-repository: 'github.com/TechnicJelle/BMUtils-PerformanceReports'
