@@ -58,7 +58,8 @@ public class CheeseBench {
 	}
 
 	@Benchmark
-	public void measureCheese10() throws Cheese.InvalidSelectionException {
+	public void measureCheese10() throws Cheese.InvalidSelectionException, InterruptedException {
+		Thread.sleep(10_000);
 		testCheese(chunkSquare10, 10);
 	}
 
