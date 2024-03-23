@@ -39,6 +39,8 @@ public class CheeseTest {
 
 	@Test
 	public void twoByTwoDisconnected() {
+		// X X
+		// X . X
 		Assert.assertFalse(Cheese.checkConnected(
 				Vector2i.from(0, 0), //top left
 				Vector2i.from(1, 0), //top right
@@ -305,6 +307,34 @@ public class CheeseTest {
 	public void twoSeparatedChunks() {
 		Assert.assertThrows(Cheese.InvalidSelectionException.class, () ->
 				Cheese.createFromChunks(
+						Vector2i.from(0, 0),
+						Vector2i.from(12, 34)
+				));
+	}
+
+	@Test
+	public void customCellSize() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromCells(Vector2d.from(10),
+				Vector2i.from(0, 0), //top left
+				Vector2i.from(1, 0), //top right
+				Vector2i.from(0, 1), //bottom left
+				Vector2i.from(1, 1)  //bottom right
+		);
+
+		Assert.assertTrue(cheese.getHoles().isEmpty());
+
+		Shape shape = cheese.getShape();
+		Assert.assertEquals(4, shape.getPointCount());
+		Assert.assertEquals(Vector2d.from(20, 0), shape.getPoint(0)); //top right
+		Assert.assertEquals(Vector2d.from(20, 20), shape.getPoint(1)); //bottom right
+		Assert.assertEquals(Vector2d.from(0, 20), shape.getPoint(2)); //bottom left
+		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3)); //top left
+	}
+
+	@Test
+	public void disconnectedCustomCells() {
+		Assert.assertThrows(Cheese.InvalidSelectionException.class, () ->
+				Cheese.createFromCells(Vector2d.from(8),
 						Vector2i.from(0, 0),
 						Vector2i.from(12, 34)
 				));

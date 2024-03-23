@@ -89,11 +89,21 @@ public class Cheese {
 	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static Cheese createFromChunks(Vector2i... chunks) throws InvalidSelectionException {
-		try {
-			return createFromCells(CHUNK_CELL_SIZE, chunks);
-		} catch (InvalidSelectionException e) {
+		if (!checkConnected(chunks))
 			throw new InvalidSelectionException("Chunks are not connected");
-		}
+
+		return createFromChunksUnsafe(chunks);
+	}
+
+	/**
+	 * Same as {@link #createFromChunks(Vector2i...)}, but skips the connected check.<br>
+	 * This is useful if you are 100% sure that your chunks will be connected.
+	 *
+	 * @param chunks The chunks to create the cheese from
+	 * @return A cheese created from the given chunks
+	 */
+	public static Cheese createFromChunksUnsafe(Vector2i... chunks) {
+		return createFromCellsUnsafe(CHUNK_CELL_SIZE, chunks);
 	}
 
 	/**
@@ -112,6 +122,18 @@ public class Cheese {
 		if (!checkConnected(cells))
 			throw new InvalidSelectionException("Cells are not connected");
 
+		return createFromCellsUnsafe(cellSize, cells);
+	}
+
+	/**
+	 * Same as {@link #createFromCells(Vector2d, Vector2i...)}, but skips the connected check.<br>
+	 * This is useful if you are 100% sure that your cells will be connected.
+	 *
+	 * @param cellSize The size of a cell
+	 * @param cells    The cells to create the cheese from
+	 * @return A cheese created from the given cells
+	 */
+	public static Cheese createFromCellsUnsafe(Vector2d cellSize, Vector2i... cells) {
 		Set<Edge> edges = createEdgesFromCells(cells);
 
 		// find all edges that don't have a second edge in the opposite direction (flipped)
@@ -215,11 +237,7 @@ public class Cheese {
 				}
 			}
 
-			try {
-				cheeses.add(createFromCells(cellSize, connectedCells.toArray(Vector2i[]::new)));
-			} catch (InvalidSelectionException e) {
-				// ignore
-			}
+			cheeses.add(createFromCellsUnsafe(cellSize, connectedCells.toArray(Vector2i[]::new)));
 		}
 
 		return cheeses;

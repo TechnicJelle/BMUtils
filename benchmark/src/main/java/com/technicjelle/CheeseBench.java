@@ -44,51 +44,99 @@ public class CheeseBench {
 		return chunks;
 	}
 
-	private void testCheese(Vector2i[] chunks, int size) throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunks);
-
+	private void testCheese(Cheese cheese, int size) {
 		Assert.assertTrue(cheese.getHoles().isEmpty());
 
 		Shape shape = cheese.getShape();
 		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(16 * size, 0), shape.getPoint(0));  //top right
+
+		Assert.assertEquals(Vector2d.from(16 * size, 0), shape.getPoint(0)); //top right
 		Assert.assertEquals(Vector2d.from(16 * size, 16 * size), shape.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(0, 16 * size), shape.getPoint(2));  //bottom left
-		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3));   //top left
+		Assert.assertEquals(Vector2d.from(0, 16 * size), shape.getPoint(2)); //bottom left
+		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3)); //top left
 	}
 
 	@Benchmark
 	public void measureCheese10() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare10, 10);
+		Cheese cheese = Cheese.createFromChunks(chunkSquare10);
+		testCheese(cheese, 10);
 	}
 
 	@Benchmark
 	public void measureCheese11() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare11, 11);
+		Cheese cheese = Cheese.createFromChunks(chunkSquare11);
+		testCheese(cheese, 11);
 	}
 
 	@Benchmark
 	public void measureCheese12() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare12, 12);
+		Cheese cheese = Cheese.createFromChunks(chunkSquare12);
+		testCheese(cheese, 12);
 	}
 
 	@Benchmark
 	public void measureCheese13() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare13, 13);
+		Cheese cheese = Cheese.createFromChunks(chunkSquare13);
+		testCheese(cheese, 13);
 	}
 
 	@Benchmark
 	public void measureCheese14() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare14, 14);
+		Cheese cheese = Cheese.createFromChunks(chunkSquare14);
+		testCheese(cheese, 14);
 	}
 
 	@Benchmark
 	public void measureCheese15() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare15, 15);
+		Cheese cheese = Cheese.createFromChunks(chunkSquare15);
+		testCheese(cheese, 15);
 	}
 
 	@Benchmark
 	public void measureCheese16() throws Cheese.InvalidSelectionException {
-		testCheese(chunkSquare16, 16);
+		Cheese cheese = Cheese.createFromChunks(chunkSquare16);
+		testCheese(cheese, 16);
+	}
+
+	@Benchmark
+	public void measureUnsafeCheese10() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromChunks(chunkSquare10);
+		testCheese(cheese, 10);
+	}
+
+	@Benchmark
+	public void measureUnsafeCheese11() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromChunks(chunkSquare11);
+		testCheese(cheese, 11);
+	}
+
+	@Benchmark
+	public void measureUnsafeCheese12() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromChunks(chunkSquare12);
+		testCheese(cheese, 12);
+	}
+
+	@Benchmark
+	public void measureUnsafeCheese13() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromChunks(chunkSquare13);
+		testCheese(cheese, 13);
+	}
+
+	@Benchmark
+	public void measureUnsafeCheese14() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromChunks(chunkSquare14);
+		testCheese(cheese, 14);
+	}
+
+	@Benchmark
+	public void measureUnsafeCheese15() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromChunks(chunkSquare15);
+		testCheese(cheese, 15);
+	}
+
+	@Benchmark
+	public void measureUnsafeCheese16() throws Cheese.InvalidSelectionException {
+		Cheese cheese = Cheese.createFromChunks(chunkSquare16);
+		testCheese(cheese, 16);
 	}
 }
