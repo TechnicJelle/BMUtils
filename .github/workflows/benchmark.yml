@@ -26,7 +26,7 @@ jobs:
       - name: Compile benchmark
         run: mvn -f benchmark/pom.xml clean verify
       - name: Run benchmark
-        run: java -jar benchmark/target/benchmarks.jar -wi 1 -i 1 -f 1 -rf json
+        run: java -jar benchmark/target/benchmarks.jar -rf json
 
       - name: Store benchmark result - separate results repo
         uses: benchmark-action/github-action-benchmark@v1
