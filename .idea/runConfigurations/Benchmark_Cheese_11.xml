@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+	<configuration default="false" name="Benchmark Cheese 11" type="jmh-id" vm-parameters=""
+				   program-parameters="com.technicjelle.CheeseBench.measureCheese11$" working-dir="$MODULE_WORKING_DIR$"
+				   benchmark-type="METHOD" benchmark-class="com.technicjelle.CheeseBench"
+				   isAlternativeJrePathEnabled="false">
+		<module name="benchmark"/>
+		<method v="2">
+			<option name="Make" enabled="true"/>
+		</method>
+	</configuration>
+</component>
