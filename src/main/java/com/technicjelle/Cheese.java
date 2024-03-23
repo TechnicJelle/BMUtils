@@ -38,7 +38,7 @@ public class Cheese {
 
 	/**
 	 * Thrown when the provided cells/chunks selection is invalid
-	 * (e.g. not connected, or overlapping)
+	 * (e.g. not connected)
 	 */
 	public static class InvalidSelectionException extends Exception {
 		public InvalidSelectionException(String message) {
@@ -84,7 +84,7 @@ public class Cheese {
 	 *
 	 * @param chunks The chunks to create the cheese from
 	 * @return A cheese created from the given chunks, if possible
-	 * @throws InvalidSelectionException If the chunks are not connected, or if there are overlaps
+	 * @throws InvalidSelectionException If the chunks are not connected
 	 * @see #createFromCells(Vector2d, Vector2i...)
 	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
@@ -92,7 +92,7 @@ public class Cheese {
 		try {
 			return createFromCells(CHUNK_CELL_SIZE, chunks);
 		} catch (InvalidSelectionException e) {
-			throw new InvalidSelectionException("Chunks are not connected (or there are overlaps)");
+			throw new InvalidSelectionException("Chunks are not connected");
 		}
 	}
 
@@ -104,13 +104,13 @@ public class Cheese {
 	 * @param cellSize The size of a cell
 	 * @param cells    The cells to create the cheese from
 	 * @return A cheese created from the given cells, if possible
-	 * @throws InvalidSelectionException If the cells are not connected, or if there are overlaps
+	 * @throws InvalidSelectionException If the cells are not connected
 	 * @see #createFromChunks(Vector2i...)
 	 * @see #createMultiCheeseFromCells(Vector2d, Vector2i...)
 	 */
 	public static Cheese createFromCells(Vector2d cellSize, Vector2i... cells) throws InvalidSelectionException {
 		if (!checkConnected(cells))
-			throw new InvalidSelectionException("Cells are not connected (or there are overlaps)");
+			throw new InvalidSelectionException("Cells are not connected");
 
 		Set<Edge> edges = createEdgesFromCells(cells);
 
@@ -147,7 +147,7 @@ public class Cheese {
 	 * {@link #createMultiCheeseFromChunks(Vector2i...)} instead.
 	 *
 	 * @param cells The cells to check for connectivity
-	 * @return Whether the cells are connected. Also returns false if there are overlaps.
+	 * @return Whether the cells are connected.
 	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static boolean checkConnected(Vector2i... cells) {

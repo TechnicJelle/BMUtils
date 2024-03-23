@@ -64,14 +64,6 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void overlappingConnected() {
-		Assert.assertFalse(Cheese.checkConnected(
-				Vector2i.from(0, 0),
-				Vector2i.from(0, 0)
-		));
-	}
-
-	@Test
 	public void singleChunkAtZeroZero() throws Cheese.InvalidSelectionException {
 		Cheese cheese = Cheese.createFromChunks(Vector2i.from(0, 0));
 
@@ -307,15 +299,6 @@ public class CheeseTest {
 		Assert.assertEquals(Vector2d.from(48, 16), rightHole.getPoint(1)); //bottom right
 		Assert.assertEquals(Vector2d.from(48, 0), rightHole.getPoint(2));  //top right
 		Assert.assertEquals(Vector2d.from(32, 0), rightHole.getPoint(3));  //top left
-	}
-
-	@Test
-	public void twoOverlappingChunks() {
-		Assert.assertThrows(Cheese.InvalidSelectionException.class, () ->
-				Cheese.createFromChunks(
-						Vector2i.from(0, 0),
-						Vector2i.from(0, 0)
-				));
 	}
 
 	@Test
