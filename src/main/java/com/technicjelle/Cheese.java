@@ -174,35 +174,29 @@ public class Cheese {
 	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static boolean checkConnected(Vector2i... cells) {
-		if (cells.length == 0) {
-			return false;
-		}
-
-		if (cells.length == 1) {
-			return true;
-		}
+		if (cells.length == 0) return false;
+		if (cells.length == 1) return true;
 
 		Set<Vector2i> cellsToCheck = Set.of(cells);
-
 		Set<Vector2i> visited = new HashSet<>();
-		Stack<Vector2i> stack = new Stack<>();
-
+		Stack<Vector2i> toVisit = new Stack<>();
+		toVisit.push(cells[0]); // start with the first cell
 		visited.add(cells[0]);
-		stack.push(cells[0]);
 
-		while (!stack.isEmpty()) {
-			Vector2i cell = stack.pop();
+		while (!toVisit.isEmpty()) {
+			Vector2i current = toVisit.pop();
 
+			// add all neighbours that are in the cellsToCheck set and not visited yet
 			for (Direction direction : Direction.values()) {
-				Vector2i neighbour = cell.add(direction.vector);
-				if (!visited.contains(neighbour) && cellsToCheck.contains(neighbour)) {
-					stack.push(neighbour);
+				Vector2i neighbour = current.add(direction.vector);
+				if (cellsToCheck.contains(neighbour) && !visited.contains(neighbour)) {
+					toVisit.push(neighbour);
 					visited.add(neighbour);
 				}
 			}
 		}
 
-		return cellsToCheck.size() == visited.size();
+		return visited.size() == cellsToCheck.size();
 	}
 
 	/**
