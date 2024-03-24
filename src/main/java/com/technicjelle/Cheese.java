@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 
 /**
@@ -173,20 +174,24 @@ public class Cheese {
 	 * @see #createMultiCheeseFromChunks(Vector2i...)
 	 */
 	public static boolean checkConnected(Vector2i... cells) {
-		Set<Vector2i> cellsToCheck = new HashSet<>(List.of(cells));
+		if (cells.length == 0) return false;
+		if (cells.length == 1) return true;
+
+		Set<Vector2i> cellsToCheck = Set.of(cells);
 		Set<Vector2i> visited = new HashSet<>();
-		Queue<Vector2i> toVisit = new LinkedList<>();
-		toVisit.add(cellsToCheck.iterator().next()); // start with the first cell
+		Stack<Vector2i> toVisit = new Stack<>();
+		toVisit.push(cells[0]); // start with the first cell
+		visited.add(cells[0]);
 
 		while (!toVisit.isEmpty()) {
-			Vector2i current = toVisit.poll();
-			visited.add(current);
+			Vector2i current = toVisit.pop();
 
 			// add all neighbours that are in the cellsToCheck set and not visited yet
 			for (Direction direction : Direction.values()) {
 				Vector2i neighbour = current.add(direction.vector);
 				if (cellsToCheck.contains(neighbour) && !visited.contains(neighbour)) {
-					toVisit.add(neighbour);
+					toVisit.push(neighbour);
+					visited.add(neighbour);
 				}
 			}
 		}

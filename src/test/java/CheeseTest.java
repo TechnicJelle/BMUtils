@@ -304,6 +304,49 @@ public class CheeseTest {
 	}
 
 	@Test
+	public void variousConnectedChecks() {
+		// No inputs
+		Assert.assertFalse(Cheese.checkConnected());
+
+		// Single point
+		Assert.assertTrue(Cheese.checkConnected(Vector2i.from(1, 2)));
+
+		// XX..X
+		// X..XX
+		Assert.assertFalse(Cheese.checkConnected(
+				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
+				Vector2i.from(0, 1),
+				Vector2i.from(4, 0),
+				Vector2i.from(3, 1),
+				Vector2i.from(4, 1)
+		));
+
+		// XX.XX
+		Assert.assertFalse(Cheese.checkConnected(
+				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
+				Vector2i.from(3, 0),
+				Vector2i.from(4, 0)
+		));
+
+		// XX..X
+		// XXX..
+		// XX..X
+		Assert.assertFalse(Cheese.checkConnected(
+				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
+				Vector2i.from(4, 0),
+				Vector2i.from(0, 1),
+				Vector2i.from(1, 1),
+				Vector2i.from(2, 1),
+				Vector2i.from(0, 2),
+				Vector2i.from(1, 2),
+				Vector2i.from(4, 2)
+		));
+	}
+
+	@Test
 	public void twoSeparatedChunks() {
 		Assert.assertThrows(Cheese.InvalidSelectionException.class, () ->
 				Cheese.createFromChunks(
