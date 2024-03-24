@@ -100,7 +100,7 @@ public class ShapeExtensions {
 	 * More accurate for free-form shapes, like ellipses and circles, but less intuitive for rectangular shapes<br>
 	 * Use {@link #shrinkShapeRect(Shape, double)} for more rectangular shapes.<br>
 	 * <br>
-	 * Example: expanding a square by 1 in each direction will only offset each edge by (√2)/2
+	 * Example: shrinking a square by 1 in each direction will only offset each edge by (√2)/2
 	 *
 	 * @param amount The amount to expand the shape by. May be negative to shrink the shape.
 	 * @see #expandShapeAccurate(Shape, double)
