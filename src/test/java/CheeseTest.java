@@ -304,7 +304,13 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void disconnectedIslands() {
+	public void variousConnectedChecks() {
+		// No inputs
+		Assert.assertFalse(Cheese.checkConnected());
+
+		// Single point
+		Assert.assertTrue(Cheese.checkConnected(Vector2i.from(1, 2)));
+
 		// XX..X
 		// X..XX
 		Assert.assertFalse(Cheese.checkConnected(
