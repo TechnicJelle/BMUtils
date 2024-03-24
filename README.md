@@ -153,3 +153,5 @@ and ask your questions in [#3rd-party-support](https://discord.com/channels/6658
 ## Performance Reports
 I've set up automatic performance reports for this library, to keep track of how it performs over time.\
 You can view a graph of the performance reports over time [here!](https://technicjelle.com/BMUtils-PerformanceReports/)
+
+If you'd like to test the performance on your own computer, in IntelliJ, you can use [this plugin](https://github.com/artyushov/idea-jmh-plugin).
