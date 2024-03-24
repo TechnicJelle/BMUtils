@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
 	<configuration default="false" name="Benchmark all Cheeses (Fast)" type="jmh-id" vm-parameters=""
-				   program-parameters="-wi 1 -i 1 -f 1 com.technicjelle.CheeseBench.*" working-dir="$MODULE_WORKING_DIR$"
+				   program-parameters="-wi 1 -i 1 -f 1 -t 1 com.technicjelle.CheeseBench.*" working-dir="$MODULE_WORKING_DIR$"
 				   benchmark-type="CLASS" benchmark-class="com.technicjelle.CheeseBench"
 				   isAlternativeJrePathEnabled="false">
 		<module name="benchmark"/>

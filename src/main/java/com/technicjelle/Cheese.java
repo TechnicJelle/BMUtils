@@ -189,9 +189,8 @@ public class Cheese {
 			// add all neighbours that are in the cellsToCheck set and not visited yet
 			for (Direction direction : Direction.values()) {
 				Vector2i neighbour = current.add(direction.vector);
-				if (cellsToCheck.contains(neighbour) && !visited.contains(neighbour)) {
+				if (cellsToCheck.contains(neighbour) && visited.add(neighbour)) {
 					toVisit.push(neighbour);
-					visited.add(neighbour);
 				}
 			}
 		}
