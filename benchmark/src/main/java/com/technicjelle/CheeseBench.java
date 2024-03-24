@@ -99,44 +99,44 @@ public class CheeseBench {
 	}
 
 	@Benchmark
-	public void measureUnsafeCheese10() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunkSquare10);
+	public void measureUnsafeCheese10() {
+		Cheese cheese = Cheese.createFromChunksUnsafe(chunkSquare10);
 		testCheese(cheese, 10);
 	}
 
 	@Benchmark
-	public void measureUnsafeCheese11() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunkSquare11);
+	public void measureUnsafeCheese11() {
+		Cheese cheese = Cheese.createFromChunksUnsafe(chunkSquare11);
 		testCheese(cheese, 11);
 	}
 
 	@Benchmark
-	public void measureUnsafeCheese12() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunkSquare12);
+	public void measureUnsafeCheese12() {
+		Cheese cheese = Cheese.createFromChunksUnsafe(chunkSquare12);
 		testCheese(cheese, 12);
 	}
 
 	@Benchmark
-	public void measureUnsafeCheese13() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunkSquare13);
+	public void measureUnsafeCheese13() {
+		Cheese cheese = Cheese.createFromChunksUnsafe(chunkSquare13);
 		testCheese(cheese, 13);
 	}
 
 	@Benchmark
-	public void measureUnsafeCheese14() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunkSquare14);
+	public void measureUnsafeCheese14() {
+		Cheese cheese = Cheese.createFromChunksUnsafe(chunkSquare14);
 		testCheese(cheese, 14);
 	}
 
 	@Benchmark
-	public void measureUnsafeCheese15() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunkSquare15);
+	public void measureUnsafeCheese15() {
+		Cheese cheese = Cheese.createFromChunksUnsafe(chunkSquare15);
 		testCheese(cheese, 15);
 	}
 
 	@Benchmark
-	public void measureUnsafeCheese16() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(chunkSquare16);
+	public void measureUnsafeCheese16() {
+		Cheese cheese = Cheese.createFromChunksUnsafe(chunkSquare16);
 		testCheese(cheese, 16);
 	}
 }
