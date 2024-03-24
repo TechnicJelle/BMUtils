@@ -92,22 +92,27 @@ BMSkin.getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap)
 With the Cheese class, you can create a [BlueMap Shape](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.\
 Useful for when you want to create a marker around a claimed area.
 
-Example:
+<details>
+<summary>Full code example</summary>
+
 ```java
 @Event
-void onPlayerClaimEvent(Player player, Collection<Chunk> claimedChunks) {
-	Collection<Vector2i> chunkCoordinates = claimedChunks.stream()
+void onPlayerClaimEvent(Player player, Town claimedTown) {
+	Collection<Vector2i> chunkCoordinates = claimedTown.getClaimedChunks().stream()
 		.map(chunk -> new Vector2i(chunk.getX(), chunk.getZ()))
 		.collect(Collectors.toList());
 
 	Cheese cheese = Cheese.createFromChunks(chunkCoordinates);
 	ExtrudeMarker.builder()
+		.label(claimedTown.getName())
 		.shape(cheese.getShape())
 		.holes(cheese.getHoles())
 		//...
 		.build();
 }
 ```
+
+</details>
 
 You can use `Cheese.createFromCells` to create a Cheese from a collection of non-16x16 cells,
 in case your area data isn't chunk-based.
@@ -116,6 +121,35 @@ This function works only on areas that are all connected.
 It will throw an `InvalidSelectionException` if the areas are separated.\
 So for those situations where you have areas that are potentially separated,
 you should use the `Cheese.createMultiCheeseFromChunks` function, instead.
+
+<details>
+<summary>Full code example</summary>
+
+```java
+@Event
+void onPlayerClaimEvent(Player player, Town claimedTown) {
+	//assuming a class member of Map<World, MarkerSet> markerSetMap;
+	MarkerSet markerSet = markerSetMap.get(claimedTown.getWorld());
+
+	Collection<Vector2i> chunkCoordinates = claimedTown.getClaimedChunks().stream()
+		.map(chunk -> new Vector2i(chunk.getX(), chunk.getZ()))
+		.collect(Collectors.toList());
+
+	Collection<Cheese> cheeses = Cheese.createMultiCheeseFromChunks(chunkCoordinates);
+	for (int i = 0; i < cheeses.size(); i++) {
+		Cheese cheese = cheeses[i];
+		ShapeMarker chunkMarker = new ShapeMarker.Builder()
+			.label(claimedTown.getName())
+			.shape(cheese.getShape())
+			.holes(cheese.getHoles())
+			//...
+			.build();
+		markerSet.put("town-" + claimedTown.getName() + "-segment-" + i, chunkMarker);
+	}
+}
+```
+
+</details>
 
 _Thanks to [@TBlueF](https://github.com/TBlueF) for contributing this function, and the funny name!_
 
