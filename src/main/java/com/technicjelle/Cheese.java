@@ -14,19 +14,15 @@ package com.technicjelle;
 
 import com.flowpowered.math.vector.Vector2d;
 import com.flowpowered.math.vector.Vector2i;
-import de.bluecolored.bluemap.api.markers.ExtrudeMarker;
-import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Shape;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -37,30 +33,10 @@ import java.util.TreeMap;
 public class Cheese {
 	private static final Vector2d CHUNK_CELL_SIZE = Vector2d.from(16, 16);
 
-	/**
-	 * Thrown when the provided cells/chunks selection is invalid
-	 * (e.g. not connected)
-	 */
-	public static class InvalidSelectionException extends Exception {
-		public InvalidSelectionException(String message) {
-			super(message);
-		}
-	}
-
 	private final Shape shape;
 	private final Collection<Shape> holes;
 
-	public Cheese(Shape shape) {
-		this.shape = shape;
-		this.holes = Collections.emptyList();
-	}
-
-	public Cheese(Shape shape, Shape... holes) {
-		this.shape = shape;
-		this.holes = Arrays.asList(holes);
-	}
-
-	public Cheese(Shape shape, Collection<Shape> holes) {
+	private Cheese(Shape shape, Collection<Shape> holes) {
 		this.shape = shape;
 		this.holes = holes;
 	}
@@ -79,62 +55,48 @@ public class Cheese {
 		return holes;
 	}
 
-	/**
-	 * Create a BlueMap {@link Shape} with potentially some holes, from a collection of chunks.<br>
-	 * Designed to be fed directly into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}
-	 *
-	 * @param chunks The chunks to create the cheese from
-	 * @return A cheese created from the given chunks, if possible
-	 * @throws InvalidSelectionException If the chunks are not connected
-	 * @see #createFromCells(Vector2d, Vector2i...)
-	 * @see #createMultiCheeseFromChunks(Vector2i...)
-	 */
-	public static Cheese createFromChunks(Vector2i... chunks) throws InvalidSelectionException {
-		if (!checkConnected(chunks))
-			throw new InvalidSelectionException("Chunks are not connected");
-
-		return createFromChunksUnsafe(chunks);
+	public static Collection<Cheese> createPlatterFromChunks(Vector2i... chunks) {
+		return createPlatterFromCells(CHUNK_CELL_SIZE, chunks);
 	}
 
-	/**
-	 * Same as {@link #createFromChunks(Vector2i...)}, but skips the connected check.<br>
-	 * This is useful if you are 100% sure that your chunks will be connected.
-	 *
-	 * @param chunks The chunks to create the cheese from
-	 * @return A cheese created from the given chunks
-	 */
-	public static Cheese createFromChunksUnsafe(Vector2i... chunks) {
-		return createFromCellsUnsafe(CHUNK_CELL_SIZE, chunks);
+	public static Cheese createSingleFromChunks(Vector2i... chunks) {
+		return createSingleFromCells(CHUNK_CELL_SIZE, chunks);
 	}
 
-	/**
-	 * Same as {@link #createFromChunks(Vector2i...)}, but allows you to specify your own cell-size,
-	 * instead of the default 16x16 for full chunks.<br>
-	 * This is useful in case your area data isn't chunk-based.
-	 *
-	 * @param cellSize The size of a cell
-	 * @param cells    The cells to create the cheese from
-	 * @return A cheese created from the given cells, if possible
-	 * @throws InvalidSelectionException If the cells are not connected
-	 * @see #createFromChunks(Vector2i...)
-	 * @see #createMultiCheeseFromCells(Vector2d, Vector2i...)
-	 */
-	public static Cheese createFromCells(Vector2d cellSize, Vector2i... cells) throws InvalidSelectionException {
-		if (!checkConnected(cells))
-			throw new InvalidSelectionException("Cells are not connected");
+	public static Collection<Cheese> createPlatterFromCells(Vector2d cellSize, Vector2i... cells) {
+		Set<Vector2i> remainingCells = new HashSet<>(Set.of(cells));
+		List<Cheese> platter = new ArrayList<>();
 
-		return createFromCellsUnsafe(cellSize, cells);
+		while (!remainingCells.isEmpty()) {
+			Set<Vector2i> connectedCells = new HashSet<>();
+			Stack<Vector2i> toVisit = new Stack<>();
+
+			// start with the first cell:
+			Vector2i start = remainingCells.iterator().next();
+			toVisit.push(start);
+
+			while (!toVisit.isEmpty()) {
+				Vector2i current = toVisit.pop();
+
+				remainingCells.remove(current);
+				connectedCells.add(current);
+
+				// add all neighbours that are in the remainingCells set and not visited yet
+				for (Direction direction : Direction.values()) {
+					Vector2i neighbour = current.add(direction.vector);
+					if (remainingCells.contains(neighbour)) {
+						toVisit.add(neighbour);
+					}
+				}
+			}
+
+			platter.add(createSingleFromCells(cellSize, connectedCells.toArray(Vector2i[]::new)));
+		}
+
+		return platter;
 	}
 
-	/**
-	 * Same as {@link #createFromCells(Vector2d, Vector2i...)}, but skips the connected check.<br>
-	 * This is useful if you are 100% sure that your cells will be connected.
-	 *
-	 * @param cellSize The size of a cell
-	 * @param cells    The cells to create the cheese from
-	 * @return A cheese created from the given cells
-	 */
-	public static Cheese createFromCellsUnsafe(Vector2d cellSize, Vector2i... cells) {
+	public static Cheese createSingleFromCells(Vector2d cellSize, Vector2i... cells) {
 		Set<Edge> edges = createEdgesFromCells(cells);
 
 		// find all edges that don't have a second edge in the opposite direction (flipped)
@@ -161,90 +123,6 @@ public class Cheese {
 		}
 
 		return new Cheese(outline, holes);
-	}
-
-	/**
-	 * Simple function to check if a collection of cells is connected.<br>
-	 * It shouldn't be necessary to use this function directly, yourself, though.<br>
-	 * If you think you need this, you should probably just directly use
-	 * {@link #createMultiCheeseFromChunks(Vector2i...)} instead.
-	 *
-	 * @param cells The cells to check for connectivity
-	 * @return Whether the cells are connected.
-	 * @see #createMultiCheeseFromChunks(Vector2i...)
-	 */
-	public static boolean checkConnected(Vector2i... cells) {
-		if (cells.length == 0) return false;
-		if (cells.length == 1) return true;
-
-		Set<Vector2i> cellsToCheck = Set.of(cells);
-		Set<Vector2i> visited = new HashSet<>();
-		Stack<Vector2i> toVisit = new Stack<>();
-		toVisit.push(cells[0]); // start with the first cell
-		visited.add(cells[0]);
-
-		while (!toVisit.isEmpty()) {
-			Vector2i current = toVisit.pop();
-
-			// add all neighbours that are in the cellsToCheck set and not visited yet
-			for (Direction direction : Direction.values()) {
-				Vector2i neighbour = current.add(direction.vector);
-				if (cellsToCheck.contains(neighbour) && visited.add(neighbour)) {
-					toVisit.push(neighbour);
-				}
-			}
-		}
-
-		return visited.size() == cellsToCheck.size();
-	}
-
-	/**
-	 * In the case of (potentially) disconnected chunks, this method will create a cheese for each connected part.
-	 *
-	 * @param chunks The chunks to create the cheese from
-	 * @return A collection of cheeses created from the given chunks, if possible
-	 * @see #createMultiCheeseFromCells(Vector2d, Vector2i...)
-	 */
-	public static Collection<Cheese> createMultiCheeseFromChunks(Vector2i... chunks) {
-		return createMultiCheeseFromCells(CHUNK_CELL_SIZE, chunks);
-	}
-
-	/**
-	 * In the case of (potentially) disconnected cells, this method will create a cheese for each connected part.
-	 *
-	 * @param cellSize The size of a cell
-	 * @param cells    The cells to create the cheese from
-	 * @return A collection of cheeses created from the given cells, if possible
-	 * @see #createMultiCheeseFromChunks(Vector2i...)
-	 */
-	public static Collection<Cheese> createMultiCheeseFromCells(Vector2d cellSize, Vector2i... cells) {
-		Set<Vector2i> remainingCells = new HashSet<>(List.of(cells));
-		List<Cheese> cheeses = new LinkedList<>();
-
-		while (!remainingCells.isEmpty()) {
-			Vector2i start = remainingCells.iterator().next();
-			Set<Vector2i> connectedCells = new HashSet<>();
-			Queue<Vector2i> toVisit = new LinkedList<>();
-			toVisit.add(start);
-
-			while (!toVisit.isEmpty()) {
-				Vector2i current = toVisit.poll();
-				connectedCells.add(current);
-				remainingCells.remove(current);
-
-				// add all neighbours that are in the cellsToCheck set and not visited yet
-				for (Direction direction : Direction.values()) {
-					Vector2i neighbour = current.add(direction.vector);
-					if (remainingCells.contains(neighbour)) {
-						toVisit.add(neighbour);
-					}
-				}
-			}
-
-			cheeses.add(createFromCellsUnsafe(cellSize, connectedCells.toArray(Vector2i[]::new)));
-		}
-
-		return cheeses;
 	}
 
 	/**
@@ -418,5 +296,4 @@ public class Cheese {
 
 		public Vector2i vector;
 	}
-
 }

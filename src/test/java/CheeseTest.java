@@ -22,52 +22,18 @@ import java.util.Collection;
 
 public class CheeseTest {
 	/*@Test
-	public void isDelicious() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(Vector2i.from(30, 55));
+	public void isDelicious() {
+		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(30, 55));
 		Assert.assertTrue(cheese.isDelicious());
 	}*/
 
-	@Test
-	public void twoByTwoConnected() {
-		Assert.assertTrue(Cheese.checkConnected(
-				Vector2i.from(0, 0), //top left
-				Vector2i.from(1, 0), //top right
-				Vector2i.from(0, 1), //bottom left
-				Vector2i.from(1, 1)  //bottom right
-		));
-	}
+	//region Single
+
+	//region Chunks
 
 	@Test
-	public void twoByTwoDisconnected() {
-		// X X
-		// X . X
-		Assert.assertFalse(Cheese.checkConnected(
-				Vector2i.from(0, 0), //top left
-				Vector2i.from(1, 0), //top right
-				Vector2i.from(0, 1), //bottom left
-				Vector2i.from(2, 1)  //bottom right
-		));
-	}
-
-	@Test
-	public void farawayDisconnected() {
-		Assert.assertFalse(Cheese.checkConnected(
-				Vector2i.from(0, 0),
-				Vector2i.from(12, 34)
-		));
-	}
-
-	@Test
-	public void diagonalDisconnected() {
-		Assert.assertFalse(Cheese.checkConnected(
-				Vector2i.from(0, 0), //top left
-				Vector2i.from(1, 1)  //bottom right
-		));
-	}
-
-	@Test
-	public void singleChunkAtZeroZero() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(Vector2i.from(0, 0));
+	public void singleChunkAtZeroZero() {
+		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(0, 0));
 
 		Assert.assertTrue(cheese.getHoles().isEmpty());
 
@@ -80,8 +46,8 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void singleChunkFarAway() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(Vector2i.from(123, 456));
+	public void singleChunkFarAway() {
+		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(123, 456));
 
 		Assert.assertTrue(cheese.getHoles().isEmpty());
 
@@ -94,8 +60,8 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void singleChunkNegative() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(Vector2i.from(-12, -34));
+	public void singleChunkNegative() {
+		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(-12, -34));
 
 		Assert.assertTrue(cheese.getHoles().isEmpty());
 
@@ -108,8 +74,8 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void twoByTwoChunks() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(
+	public void twoByTwoChunks() {
+		Cheese cheese = Cheese.createSingleFromChunks(
 				Vector2i.from(0, 0), //top left
 				Vector2i.from(1, 0), //top right
 				Vector2i.from(0, 1), //bottom left
@@ -127,8 +93,8 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void twoByTwoChunksDifferentOrder() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromChunks(
+	public void twoByTwoChunksDifferentOrder() {
+		Cheese cheese = Cheese.createSingleFromChunks(
 				Vector2i.from(0, 1), //bottom left
 				Vector2i.from(1, 0), //top right
 				Vector2i.from(1, 1), //bottom right
@@ -146,7 +112,7 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void threeChunksLaidOutInAnLShape() throws Cheese.InvalidSelectionException {
+	public void threeChunksLaidOutInAnLShape() {
 		/*
 		 *               │
 		 *               │
@@ -166,7 +132,7 @@ public class CheeseTest {
 		 *               │
 		 *               │
 		 */
-		Cheese cheese = Cheese.createFromChunks(
+		Cheese cheese = Cheese.createSingleFromChunks(
 				Vector2i.from(-1, 0), //top left
 				Vector2i.from(0, 0),  //top right
 				Vector2i.from(-1, 1)  //bottom (left)
@@ -185,7 +151,7 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void threeByThreeChunksWithHoleInMiddle() throws Cheese.InvalidSelectionException {
+	public void threeByThreeChunksWithHoleInMiddle() {
 		/*
 		 *               │
 		 *               │
@@ -207,7 +173,7 @@ public class CheeseTest {
 		 *               │
 		 *               │
 		 */
-		Cheese cheese = Cheese.createFromChunks(
+		Cheese cheese = Cheese.createSingleFromChunks(
 				Vector2i.from(-1, -1), //top left
 				Vector2i.from(0, -1),  //top middle
 				Vector2i.from(1, -1),  //top right
@@ -237,7 +203,7 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void fiveByThreeChunksWithHolesInMiddle() throws Cheese.InvalidSelectionException {
+	public void fiveByThreeChunksWithHolesInMiddle() {
 		/*
 		 *               │
 		 *               │
@@ -262,7 +228,7 @@ public class CheeseTest {
 		 *               │
 		 *               │
 		 */
-		Cheese cheese = Cheese.createFromChunks(
+		Cheese cheese = Cheese.createSingleFromChunks(
 				Vector2i.from(-1, -1), //top left
 				Vector2i.from(0, -1),  //top left/middle
 				Vector2i.from(1, -1),  //top middle
@@ -304,60 +270,20 @@ public class CheeseTest {
 	}
 
 	@Test
-	public void variousConnectedChecks() {
-		// No inputs
-		Assert.assertFalse(Cheese.checkConnected());
-
-		// Single point
-		Assert.assertTrue(Cheese.checkConnected(Vector2i.from(1, 2)));
-
-		// XX..X
-		// X..XX
-		Assert.assertFalse(Cheese.checkConnected(
-				Vector2i.from(0, 0),
-				Vector2i.from(1, 0),
-				Vector2i.from(0, 1),
-				Vector2i.from(4, 0),
-				Vector2i.from(3, 1),
-				Vector2i.from(4, 1)
-		));
-
-		// XX.XX
-		Assert.assertFalse(Cheese.checkConnected(
-				Vector2i.from(0, 0),
-				Vector2i.from(1, 0),
-				Vector2i.from(3, 0),
-				Vector2i.from(4, 0)
-		));
-
-		// XX..X
-		// XXX..
-		// XX..X
-		Assert.assertFalse(Cheese.checkConnected(
-				Vector2i.from(0, 0),
-				Vector2i.from(1, 0),
-				Vector2i.from(4, 0),
-				Vector2i.from(0, 1),
-				Vector2i.from(1, 1),
-				Vector2i.from(2, 1),
-				Vector2i.from(0, 2),
-				Vector2i.from(1, 2),
-				Vector2i.from(4, 2)
-		));
-	}
-
-	@Test
 	public void twoSeparatedChunks() {
-		Assert.assertThrows(Cheese.InvalidSelectionException.class, () ->
-				Cheese.createFromChunks(
-						Vector2i.from(0, 0),
-						Vector2i.from(12, 34)
-				));
+		Cheese.createSingleFromChunks(
+				Vector2i.from(0, 0),
+				Vector2i.from(12, 34)
+		);
 	}
 
+	//endregion Chunks
+
+	//region Cells
+
 	@Test
-	public void customCellSize() throws Cheese.InvalidSelectionException {
-		Cheese cheese = Cheese.createFromCells(Vector2d.from(10),
+	public void customCellSize() {
+		Cheese cheese = Cheese.createSingleFromCells(Vector2d.from(10),
 				Vector2i.from(0, 0), //top left
 				Vector2i.from(1, 0), //top right
 				Vector2i.from(0, 1), //bottom left
@@ -376,24 +302,30 @@ public class CheeseTest {
 
 	@Test
 	public void disconnectedCustomCells() {
-		Assert.assertThrows(Cheese.InvalidSelectionException.class, () ->
-				Cheese.createFromCells(Vector2d.from(8),
-						Vector2i.from(0, 0),
-						Vector2i.from(12, 34)
-				));
+		Cheese.createSingleFromCells(Vector2d.from(8),
+				Vector2i.from(0, 0),
+				Vector2i.from(12, 34)
+		);
 	}
 
+	//endregion Cells
+
+	//endregion Single
+
+
+	//region Platter
+
 	@Test
-	public void multiCheese() {
-		Collection<Cheese> cheeses = Cheese.createMultiCheeseFromChunks(
+	public void cheesePlatter() {
+		Collection<Cheese> platter = Cheese.createPlatterFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(1, 0),
 				Vector2i.from(12, 34)
 		);
 
-		Assert.assertEquals(2, cheeses.size());
+		Assert.assertEquals(2, platter.size());
 
-		Cheese[] cheeseArray = cheeses.toArray(Cheese[]::new);
+		Cheese[] cheeseArray = platter.toArray(Cheese[]::new);
 
 		Cheese cheese1 = cheeseArray[0];
 		Assert.assertTrue(cheese1.getHoles().isEmpty());
@@ -413,4 +345,51 @@ public class CheeseTest {
 		Assert.assertEquals(Vector2d.from(192, 560), shape2.getPoint(2)); //bottom left
 		Assert.assertEquals(Vector2d.from(192, 544), shape2.getPoint(3)); //top left
 	}
+
+	@Test
+	public void countCheesesOnPlatters() {
+		// No inputs
+		Assert.assertTrue(Cheese.createPlatterFromChunks().isEmpty());
+
+		// Single point
+		Assert.assertEquals(1, Cheese.createPlatterFromChunks(
+				Vector2i.from(1, 2)
+		).size());
+
+		// XX.XX
+		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
+				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
+				Vector2i.from(3, 0),
+				Vector2i.from(4, 0)
+		).size());
+
+		// XX..X
+		// X..XX
+		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
+				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
+				Vector2i.from(0, 1),
+				Vector2i.from(4, 0),
+				Vector2i.from(3, 1),
+				Vector2i.from(4, 1)
+		).size());
+
+		// XX..X
+		// XXX..
+		// XX..X
+		Assert.assertEquals(3, Cheese.createPlatterFromChunks(
+				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
+				Vector2i.from(4, 0),
+				Vector2i.from(0, 1),
+				Vector2i.from(1, 1),
+				Vector2i.from(2, 1),
+				Vector2i.from(0, 2),
+				Vector2i.from(1, 2),
+				Vector2i.from(4, 2)
+		).size());
+	}
+
+	//endregion Platter
 }
