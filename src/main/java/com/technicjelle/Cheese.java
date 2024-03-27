@@ -78,6 +78,7 @@ public class Cheese {
 			while (!toVisit.isEmpty()) {
 				Vector2i current = toVisit.pop();
 
+				if (!remainingCells.contains(current)) continue;
 				remainingCells.remove(current);
 				connectedCells.add(current);
 
