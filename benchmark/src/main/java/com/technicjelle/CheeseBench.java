@@ -38,11 +38,11 @@ public class CheeseBench {
 
 	@State(Scope.Benchmark)
 	public static class BenchmarkState {
-		@Param({"10", "13", "16", "24", "50", "100"})
+		@Param({"10", "100"})
 		public int size;
 		public Vector2i[] chunkSquare;
 
-		@Param({"1", "3", "5"})
+		@Param({"1", "5", "10"})
 		public int amount;
 		public Vector2i[] multipleSeparateChunkSquares;
 
@@ -78,23 +78,41 @@ public class CheeseBench {
 	}
 
 	@Benchmark
-	public void measureSingleCheese(BenchmarkState state) {
+	public void singleCheese(BenchmarkState state) {
 		for (int i = 0; i < state.amount; i++) {
 			Cheese cheese = Cheese.createSingleFromChunks(state.chunkSquare);
-			Assert.assertTrue(cheese.getHoles().isEmpty());
-
-			Shape shape = cheese.getShape();
-			Assert.assertEquals(4, shape.getPointCount());
-
-			Assert.assertEquals(Vector2d.from(16 * state.size * state.amount, 0), shape.getPoint(0)); //top right
-			Assert.assertEquals(Vector2d.from(16 * state.size * state.amount, 16 * state.size), shape.getPoint(1)); //bottom right
-			Assert.assertEquals(Vector2d.from(0, 16 * state.size), shape.getPoint(2)); //bottom left
-			Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3)); //top left
+			verifySingleCheese(state, cheese);
 		}
 	}
 
+	/**
+	 * For direct comparison with {@link #singleCheese(BenchmarkState)}
+	 * to see how much overhead the Platter adds.
+	 */
 	@Benchmark
-	public void measureCheesePlatter(BenchmarkState state) {
+	public void singleCheesePlatter(BenchmarkState state) {
+		for (int i = 0; i < state.amount; i++) {
+			Collection<Cheese> platter = Cheese.createPlatterFromChunks(state.chunkSquare);
+			Assert.assertEquals(1, platter.size());
+			Cheese cheese = platter.iterator().next();
+			verifySingleCheese(state, cheese);
+		}
+	}
+
+	private static void verifySingleCheese(BenchmarkState state, Cheese cheese) {
+		Assert.assertTrue(cheese.getHoles().isEmpty());
+
+		Shape shape = cheese.getShape();
+		Assert.assertEquals(4, shape.getPointCount());
+
+		Assert.assertEquals(Vector2d.from(16 * state.size * state.amount, 0), shape.getPoint(0)); //top right
+		Assert.assertEquals(Vector2d.from(16 * state.size * state.amount, 16 * state.size), shape.getPoint(1)); //bottom right
+		Assert.assertEquals(Vector2d.from(0, 16 * state.size), shape.getPoint(2)); //bottom left
+		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3)); //top left
+	}
+
+	@Benchmark
+	public void cheesePlatterSeparated(BenchmarkState state) {
 		Collection<Cheese> platter = Cheese.createPlatterFromChunks(state.multipleSeparateChunkSquares);
 
 		Assert.assertEquals(state.amount, platter.size());
