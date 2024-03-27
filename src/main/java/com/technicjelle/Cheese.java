@@ -14,6 +14,8 @@ package com.technicjelle;
 
 import com.flowpowered.math.vector.Vector2d;
 import com.flowpowered.math.vector.Vector2i;
+import de.bluecolored.bluemap.api.markers.ExtrudeMarker;
+import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Shape;
 
 import java.util.ArrayList;
@@ -55,14 +57,39 @@ public class Cheese {
 		return holes;
 	}
 
+	/**
+	 * Creates BlueMap {@link Shape}s with potentially some holes, from a collection of chunks.<br>
+	 * Designed to be looped over and fed into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}
+	 *
+	 * @param chunks The chunks to create the cheese from.
+	 * @return A collection of {@link Cheese} objects, each representing a single connected area.
+	 */
 	public static Collection<Cheese> createPlatterFromChunks(Vector2i... chunks) {
 		return createPlatterFromCells(CHUNK_CELL_SIZE, chunks);
 	}
 
+	/**
+	 * Creates a single BlueMap {@link Shape} with potentially some holes, from a collection of chunks.<br>
+	 * Designed to be fed directly into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}.<br>
+	 *
+	 * <h1>WARNING:</h1><b>This method assumes that all chunks are connected!</b><br>
+	 * If you're not absolutely 100% sure that your chunks will always be connected, use {@link #createPlatterFromChunks(Vector2i...)} instead.
+	 *
+	 * @param chunks The chunks to create the cheese from.
+	 * @return A single {@link Cheese} object representing a single connected area.
+	 */
 	public static Cheese createSingleFromChunks(Vector2i... chunks) {
 		return createSingleFromCells(CHUNK_CELL_SIZE, chunks);
 	}
 
+	/**
+	 * Creates BlueMap {@link Shape}s with potentially some holes, from a collection of custom-sized cells.<br>
+	 * Designed to be looped over and fed into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}
+	 *
+	 * @param cellSize The size of a single cell.
+	 * @param cells    The cells to create the cheese from.
+	 * @return A collection of {@link Cheese} objects, each representing a single connected area.
+	 */
 	public static Collection<Cheese> createPlatterFromCells(Vector2d cellSize, Vector2i... cells) {
 		Set<Vector2i> remainingCells = new HashSet<>(List.of(cells));
 		List<Cheese> platter = new ArrayList<>();
@@ -97,6 +124,17 @@ public class Cheese {
 		return platter;
 	}
 
+	/**
+	 * Creates a single BlueMap {@link Shape} with potentially some holes, from a collection of custom-sized cells.<br>
+	 * Designed to be fed directly into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}.<br>
+	 *
+	 * <h1>WARNING:</h1><b>This method assumes that all cells are connected!</b><br>
+	 * If you're not absolutely 100% sure that your cells will always be connected, use {@link #createPlatterFromCells(Vector2d, Vector2i...)} instead.
+	 *
+	 * @param cellSize The size of a single cell.
+	 * @param cells    The cells to create the cheese from.
+	 * @return A single {@link Cheese} object representing a single connected area.
+	 */
 	public static Cheese createSingleFromCells(Vector2d cellSize, Vector2i... cells) {
 		Set<Edge> edges = createEdgesFromCells(cells);
 
