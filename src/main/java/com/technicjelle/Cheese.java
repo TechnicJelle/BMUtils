@@ -19,7 +19,9 @@ import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Shape;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -38,7 +40,17 @@ public class Cheese {
 	private final Shape shape;
 	private final Collection<Shape> holes;
 
-	private Cheese(Shape shape, Collection<Shape> holes) {
+	public Cheese(Shape shape) {
+		this.shape = shape;
+		this.holes = Collections.emptyList();
+	}
+
+	public Cheese(Shape shape, Shape... holes) {
+		this.shape = shape;
+		this.holes = Arrays.asList(holes);
+	}
+
+	public Cheese(Shape shape, Collection<Shape> holes) {
 		this.shape = shape;
 		this.holes = holes;
 	}
