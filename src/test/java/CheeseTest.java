@@ -348,6 +348,8 @@ public class CheeseTest {
 
 	@Test
 	public void countCheesesOnPlatters() {
+		//TODO: Convert these to full tests, like above, instead of just counting
+
 		// No inputs
 		Assert.assertTrue(Cheese.createPlatterFromChunks().isEmpty());
 
@@ -356,7 +358,7 @@ public class CheeseTest {
 				Vector2i.from(1, 2)
 		).size());
 
-		// XX.XX
+		// ##.##
 		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(1, 0),
@@ -364,8 +366,8 @@ public class CheeseTest {
 				Vector2i.from(4, 0)
 		).size());
 
-		// XX..X
-		// X..XX
+		// ##..#
+		// #..##
 		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(1, 0),
@@ -375,19 +377,63 @@ public class CheeseTest {
 				Vector2i.from(4, 1)
 		).size());
 
-		// XX..X
-		// XXX..
-		// XX..X
+		// .##...
+		// .##...
+		// ...##.
+		// ...##.
+		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
+				Vector2i.from(1, 0),
+				Vector2i.from(2, 0),
+
+				Vector2i.from(1, 1),
+				Vector2i.from(2, 1),
+
+				Vector2i.from(3, 2),
+				Vector2i.from(4, 2),
+
+				Vector2i.from(3, 3),
+				Vector2i.from(4, 3)
+		).size());
+
+		// ##..#
+		// ###..
+		// ##..#
 		Assert.assertEquals(3, Cheese.createPlatterFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(1, 0),
 				Vector2i.from(4, 0),
+
 				Vector2i.from(0, 1),
 				Vector2i.from(1, 1),
 				Vector2i.from(2, 1),
+
 				Vector2i.from(0, 2),
 				Vector2i.from(1, 2),
 				Vector2i.from(4, 2)
+		).size());
+
+		// .###...
+		// .###...
+		// .#..##.
+		// .#####.
+		Assert.assertEquals(1, Cheese.createPlatterFromChunks(
+				Vector2i.from(1, 0),
+				Vector2i.from(2, 0),
+				Vector2i.from(3, 0),
+
+				Vector2i.from(1, 1),
+				Vector2i.from(2, 1),
+				Vector2i.from(3, 1),
+
+				Vector2i.from(1, 2),
+				Vector2i.from(4, 2),
+				Vector2i.from(5, 2),
+
+				Vector2i.from(1, 3),
+				Vector2i.from(2, 3),
+				Vector2i.from(3, 3),
+				Vector2i.from(4, 3),
+				Vector2i.from(5, 3)
 		).size());
 	}
 
