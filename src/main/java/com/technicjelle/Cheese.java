@@ -85,7 +85,8 @@ public class Cheese {
 	 * Designed to be fed directly into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}.<br>
 	 *
 	 * <h1>WARNING:</h1><b>This method assumes that all chunks are connected!</b><br>
-	 * If you're not absolutely 100% sure that your chunks will always be connected, use {@link #createPlatterFromChunks(Vector2i...)} instead.
+	 * If you're not absolutely 100% sure that your chunks will always be connected, use {@link #createPlatterFromChunks(Vector2i...)} instead.<br>
+	 * If multiple disconnected areas are found, only the first one will be returned.
 	 *
 	 * @param chunks The chunks to create the cheese from.
 	 * @return A single {@link Cheese} object representing a single connected area.
@@ -141,7 +142,8 @@ public class Cheese {
 	 * Designed to be fed directly into a BlueMap {@link ShapeMarker} or {@link ExtrudeMarker}.<br>
 	 *
 	 * <h1>WARNING:</h1><b>This method assumes that all cells are connected!</b><br>
-	 * If you're not absolutely 100% sure that your cells will always be connected, use {@link #createPlatterFromCells(Vector2d, Vector2i...)} instead.
+	 * If you're not absolutely 100% sure that your cells will always be connected, use {@link #createPlatterFromCells(Vector2d, Vector2i...)} instead.<br>
+	 * If multiple disconnected areas are found, only the first one will be returned.
 	 *
 	 * @param cellSize The size of a single cell.
 	 * @param cells    The cells to create the cheese from.
