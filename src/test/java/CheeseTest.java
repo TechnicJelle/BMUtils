@@ -17,15 +17,32 @@ import de.bluecolored.bluemap.api.math.Shape;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collection;
-
-
 public class CheeseTest {
 	/*@Test
 	public void isDelicious() {
 		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(30, 55));
 		Assert.assertTrue(cheese.isDelicious());
 	}*/
+
+	private static void compareCheese(Cheese cheese, Cheese testCheese) {
+		// Compare the shape
+		Shape cheeseShape = cheese.getShape();
+		Shape testShape = testCheese.getShape();
+		Assert.assertEquals("Shape point count", testShape.getPointCount(), cheeseShape.getPointCount());
+		Assert.assertArrayEquals("Shape points", testShape.getPoints(), cheeseShape.getPoints());
+
+		// Compare the holes
+		Shape[] cheeseHoles = cheese.getHoles().toArray(Shape[]::new);
+		Shape[] testHoles = testCheese.getHoles().toArray(Shape[]::new);
+		Assert.assertEquals("Holes amount", testHoles.length, cheeseHoles.length);
+		for (int i = 0; i < testHoles.length; i++) {
+			// Compare the shape of each hole
+			Shape hole = cheeseHoles[i];
+			Shape testHole = testHoles[i];
+			Assert.assertEquals("Hole " + i + " point count", testHole.getPointCount(), hole.getPointCount());
+			Assert.assertArrayEquals("Hole " + i + " points", testHole.getPoints(), hole.getPoints());
+		}
+	}
 
 	//region Single
 
@@ -34,62 +51,52 @@ public class CheeseTest {
 	@Test
 	public void singleChunkAtZeroZero() {
 		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(0, 0));
-
-		Assert.assertTrue(cheese.getHoles().isEmpty());
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(16, 0), shape.getPoint(0));  //top right
-		Assert.assertEquals(Vector2d.from(16, 16), shape.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(0, 16), shape.getPoint(2));  //bottom left
-		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3));   //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(16, 0), //top right
+				Vector2d.from(16, 16),//bottom right
+				Vector2d.from(0, 16), //bottom left
+				Vector2d.from(0, 0)  //top left
+		)));
 	}
 
 	@Test
 	public void singleChunkFarAway() {
 		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(123, 456));
-
-		Assert.assertTrue(cheese.getHoles().isEmpty());
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(1984, 7296), shape.getPoint(0)); //top right
-		Assert.assertEquals(Vector2d.from(1984, 7312), shape.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(1968, 7312), shape.getPoint(2)); //bottom left
-		Assert.assertEquals(Vector2d.from(1968, 7296), shape.getPoint(3)); //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(1984, 7296), //top right
+				Vector2d.from(1984, 7312), //bottom right
+				Vector2d.from(1968, 7312), //bottom left
+				Vector2d.from(1968, 7296)  //top left
+		)));
 	}
 
 	@Test
 	public void singleChunkNegative() {
 		Cheese cheese = Cheese.createSingleFromChunks(Vector2i.from(-12, -34));
-
-		Assert.assertTrue(cheese.getHoles().isEmpty());
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(-176, -544), shape.getPoint(0)); //top right
-		Assert.assertEquals(Vector2d.from(-176, -528), shape.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(-192, -528), shape.getPoint(2)); //bottom left
-		Assert.assertEquals(Vector2d.from(-192, -544), shape.getPoint(3)); //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(-176, -544), //top right
+				Vector2d.from(-176, -528), //bottom right
+				Vector2d.from(-192, -528), //bottom left
+				Vector2d.from(-192, -544)  //top left
+		)));
 	}
 
 	@Test
 	public void twoByTwoChunks() {
+		// ##
+		// ##
 		Cheese cheese = Cheese.createSingleFromChunks(
 				Vector2i.from(0, 0), //top left
 				Vector2i.from(1, 0), //top right
 				Vector2i.from(0, 1), //bottom left
 				Vector2i.from(1, 1)  //bottom right
 		);
-
-		Assert.assertTrue(cheese.getHoles().isEmpty());
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(32, 0), shape.getPoint(0));  //top right
-		Assert.assertEquals(Vector2d.from(32, 32), shape.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(0, 32), shape.getPoint(2));  //bottom left
-		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3));   //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(32, 0),  //top right
+				Vector2d.from(32, 32), //bottom right
+				Vector2d.from(0, 32),  //bottom left
+				Vector2d.from(0, 0)    //top left
+		)));
 	}
 
 	@Test
@@ -100,15 +107,12 @@ public class CheeseTest {
 				Vector2i.from(1, 1), //bottom right
 				Vector2i.from(0, 0)  //top left
 		);
-
-		Assert.assertTrue(cheese.getHoles().isEmpty());
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(32, 0), shape.getPoint(0));  //top right
-		Assert.assertEquals(Vector2d.from(32, 32), shape.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(0, 32), shape.getPoint(2));  //bottom left
-		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3));   //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(32, 0),  //top right
+				Vector2d.from(32, 32), //bottom right
+				Vector2d.from(0, 32),  //bottom left
+				Vector2d.from(0, 0)    //top left
+		)));
 	}
 
 	@Test
@@ -137,17 +141,14 @@ public class CheeseTest {
 				Vector2i.from(0, 0),  //top right
 				Vector2i.from(-1, 1)  //bottom (left)
 		);
-
-		Assert.assertTrue(cheese.getHoles().isEmpty());
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(6, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(16, 0), shape.getPoint(0));   //top right
-		Assert.assertEquals(Vector2d.from(16, 16), shape.getPoint(1));  //middle right
-		Assert.assertEquals(Vector2d.from(0, 16), shape.getPoint(2));   //center
-		Assert.assertEquals(Vector2d.from(0, 32), shape.getPoint(3));   //bottom middle
-		Assert.assertEquals(Vector2d.from(-16, 32), shape.getPoint(4)); //bottom left
-		Assert.assertEquals(Vector2d.from(-16, 0), shape.getPoint(5));  //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(16, 0),   //top right
+				Vector2d.from(16, 16),  //middle right
+				Vector2d.from(0, 16),   //center
+				Vector2d.from(0, 32),   //bottom middle
+				Vector2d.from(-16, 32), //bottom left
+				Vector2d.from(-16, 0)   //top left
+		)));
 	}
 
 	@Test
@@ -183,23 +184,19 @@ public class CheeseTest {
 				Vector2i.from(0, 1),   //bottom middle
 				Vector2i.from(1, 1)    //bottom right
 		);
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(32, -16), shape.getPoint(0));  //top right
-		Assert.assertEquals(Vector2d.from(32, 32), shape.getPoint(1));   //bottom right
-		Assert.assertEquals(Vector2d.from(-16, 32), shape.getPoint(2));  //bottom left
-		Assert.assertEquals(Vector2d.from(-16, -16), shape.getPoint(3)); //top left
-
-		Shape[] holes = cheese.getHoles().toArray(Shape[]::new);
-		Assert.assertEquals(1, holes.length);
-
-		Shape hole = holes[0];
-		Assert.assertEquals(4, hole.getPointCount());
-		Assert.assertEquals(Vector2d.from(0, 16), hole.getPoint(0));  //bottom left
-		Assert.assertEquals(Vector2d.from(16, 16), hole.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(16, 0), hole.getPoint(2));  //top right
-		Assert.assertEquals(Vector2d.from(0, 0), hole.getPoint(3));   //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(32, -16), //top right
+				Vector2d.from(32, 32),  //bottom right
+				Vector2d.from(-16, 32), //bottom left
+				Vector2d.from(-16, -16) //top left
+		),
+				new Shape(
+						Vector2d.from(0, 16),  //bottom left
+						Vector2d.from(16, 16), //bottom right
+						Vector2d.from(16, 0),  //top right
+						Vector2d.from(0, 0)    //top left
+				)
+		));
 	}
 
 	@Test
@@ -244,37 +241,47 @@ public class CheeseTest {
 				Vector2i.from(3, 1)    //bottom right
 		);
 
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(64, -16), shape.getPoint(0));  //top right
-		Assert.assertEquals(Vector2d.from(64, 32), shape.getPoint(1));   //bottom right
-		Assert.assertEquals(Vector2d.from(-16, 32), shape.getPoint(2));  //bottom left
-		Assert.assertEquals(Vector2d.from(-16, -16), shape.getPoint(3)); //top left
-
-		Shape[] holes = cheese.getHoles().toArray(Shape[]::new);
-		Assert.assertEquals(2, holes.length);
-
-		Shape leftHole = holes[0];
-		Assert.assertEquals(4, leftHole.getPointCount());
-		Assert.assertEquals(Vector2d.from(0, 16), leftHole.getPoint(0));  //bottom left
-		Assert.assertEquals(Vector2d.from(16, 16), leftHole.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(16, 0), leftHole.getPoint(2));  //top right
-		Assert.assertEquals(Vector2d.from(0, 0), leftHole.getPoint(3));   //top left
-
-		Shape rightHole = holes[1];
-		Assert.assertEquals(4, rightHole.getPointCount());
-		Assert.assertEquals(Vector2d.from(32, 16), rightHole.getPoint(0)); //bottom left
-		Assert.assertEquals(Vector2d.from(48, 16), rightHole.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(48, 0), rightHole.getPoint(2));  //top right
-		Assert.assertEquals(Vector2d.from(32, 0), rightHole.getPoint(3));  //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(64, -16), //top right
+				Vector2d.from(64, 32),  //bottom right
+				Vector2d.from(-16, 32), //bottom left
+				Vector2d.from(-16, -16) //top left
+		),
+				new Shape(
+						Vector2d.from(0, 16),  //bottom left
+						Vector2d.from(16, 16), //bottom right
+						Vector2d.from(16, 0),  //top right
+						Vector2d.from(0, 0)   //top left
+				),
+				new Shape(
+						Vector2d.from(32, 16), //bottom left
+						Vector2d.from(48, 16), //bottom right
+						Vector2d.from(48, 0),  //top right
+						Vector2d.from(32, 0)  //top left
+				)
+		));
 	}
 
 	@Test
-	public void twoSeparatedChunks() {
-		Cheese.createSingleFromChunks(
+	public void twoSeparatedChunksWithSingle() {
+		Cheese cheese = Cheese.createSingleFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(12, 34)
+		); // Returns just the first shape
+		Shape cheeseShape = cheese.getShape();
+
+		Shape testShape = new Shape(
+				Vector2d.from(16, 0),  //top right
+				Vector2d.from(16, 16), //bottom right
+				Vector2d.from(0, 16),  //bottom left
+				Vector2d.from(0, 0)    //top left
 		);
+
+		Assert.assertEquals(testShape.getPointCount(), cheeseShape.getPointCount());
+		Assert.assertArrayEquals(testShape.getPoints(), cheeseShape.getPoints());
+
+		// Somehow, the other chunk is still in the holes
+		// But I will not test for that, as it's undefined behaviour
 	}
 
 	//endregion Chunks
@@ -289,23 +296,26 @@ public class CheeseTest {
 				Vector2i.from(0, 1), //bottom left
 				Vector2i.from(1, 1)  //bottom right
 		);
-
-		Assert.assertTrue(cheese.getHoles().isEmpty());
-
-		Shape shape = cheese.getShape();
-		Assert.assertEquals(4, shape.getPointCount());
-		Assert.assertEquals(Vector2d.from(20, 0), shape.getPoint(0)); //top right
-		Assert.assertEquals(Vector2d.from(20, 20), shape.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(0, 20), shape.getPoint(2)); //bottom left
-		Assert.assertEquals(Vector2d.from(0, 0), shape.getPoint(3)); //top left
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(20, 0),  //top right
+				Vector2d.from(20, 20), //bottom right
+				Vector2d.from(0, 20),  //bottom left
+				Vector2d.from(0, 0)    //top left
+		)));
 	}
 
 	@Test
-	public void disconnectedCustomCells() {
-		Cheese.createSingleFromCells(Vector2d.from(8),
+	public void customDecimalCellSize() {
+		Cheese cheese = Cheese.createSingleFromCells(Vector2d.from(8.3),
 				Vector2i.from(0, 0),
-				Vector2i.from(12, 34)
+				Vector2i.from(1, 0)
 		);
+		compareCheese(cheese, new Cheese(new Shape(
+				Vector2d.from(16.6, 0),   //top right
+				Vector2d.from(16.6, 8.3), //bottom right
+				Vector2d.from(0, 8.3),    //bottom left
+				Vector2d.from(0, 0)       //top left
+		)));
 	}
 
 	//endregion Cells
@@ -316,72 +326,120 @@ public class CheeseTest {
 	//region Platter
 
 	@Test
-	public void cheesePlatter() {
-		Collection<Cheese> platter = Cheese.createPlatterFromChunks(
-				Vector2i.from(0, 0),
-				Vector2i.from(1, 0),
-				Vector2i.from(12, 34)
-		);
-
-		Assert.assertEquals(2, platter.size());
-
-		Cheese[] cheeseArray = platter.toArray(Cheese[]::new);
-
-		Cheese cheese1 = cheeseArray[0];
-		Assert.assertTrue(cheese1.getHoles().isEmpty());
-		Shape shape1 = cheese1.getShape();
-		Assert.assertEquals(4, shape1.getPointCount());
-		Assert.assertEquals(Vector2d.from(32, 0), shape1.getPoint(0));  //top right
-		Assert.assertEquals(Vector2d.from(32, 16), shape1.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(0, 16), shape1.getPoint(2));  //bottom left
-		Assert.assertEquals(Vector2d.from(0, 0), shape1.getPoint(3));   //top left
-
-		Cheese cheese2 = cheeseArray[1];
-		Assert.assertTrue(cheese2.getHoles().isEmpty());
-		Shape shape2 = cheese2.getShape();
-		Assert.assertEquals(4, shape2.getPointCount());
-		Assert.assertEquals(Vector2d.from(208, 544), shape2.getPoint(0)); //top right
-		Assert.assertEquals(Vector2d.from(208, 560), shape2.getPoint(1)); //bottom right
-		Assert.assertEquals(Vector2d.from(192, 560), shape2.getPoint(2)); //bottom left
-		Assert.assertEquals(Vector2d.from(192, 544), shape2.getPoint(3)); //top left
+	public void cheesePlatterEmpty() {
+		// No inputs
+		Assert.assertTrue(Cheese.createPlatterFromChunks().isEmpty());
 	}
 
 	@Test
-	public void countCheesesOnPlatters() {
-		//TODO: Convert these to full tests, like above, instead of just counting
-
-		// No inputs
-		Assert.assertTrue(Cheese.createPlatterFromChunks().isEmpty());
-
+	public void cheesePlatterWithSingleCheese() {
 		// Single point
-		Assert.assertEquals(1, Cheese.createPlatterFromChunks(
+		Cheese[] platter = Cheese.createPlatterFromChunks(
 				Vector2i.from(1, 2)
-		).size());
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(1, platter.length);
 
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, 32), //top right
+				Vector2d.from(32, 48), //bottom right
+				Vector2d.from(16, 48), //bottom left
+				Vector2d.from(16, 32)  //top left
+		)));
+	}
+
+	@Test
+	public void cheesePlatterTwoNeighbours() {
 		// ##.##
-		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
+		Cheese[] platter = Cheese.createPlatterFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(1, 0),
 				Vector2i.from(3, 0),
 				Vector2i.from(4, 0)
-		).size());
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(2, platter.length);
 
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, 0),  //top right
+				Vector2d.from(32, 16), //bottom right
+				Vector2d.from(0, 16),  //bottom left
+				Vector2d.from(0, 0)    //top left
+		)));
+
+		compareCheese(platter[1], new Cheese(new Shape(
+				Vector2d.from(80, 0),  //top right
+				Vector2d.from(80, 16), //bottom right
+				Vector2d.from(48, 16), //bottom left
+				Vector2d.from(48, 0)   //top left
+		)));
+	}
+
+	@Test
+	public void cheesePlatterWithFarawayCheeses() {
+		// ##.....
+		// .......
+		// ......# <- actually even further away
+		Cheese[] platter = Cheese.createPlatterFromChunks(
+				Vector2i.from(0, 0),
+				Vector2i.from(1, 0),
+				Vector2i.from(12, 34)
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(2, platter.length);
+
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, 0),  //top right
+				Vector2d.from(32, 16), //bottom right
+				Vector2d.from(0, 16),  //bottom left
+				Vector2d.from(0, 0)    //top left
+		)));
+
+		compareCheese(platter[1], new Cheese(new Shape(
+				Vector2d.from(208, 544), //top right
+				Vector2d.from(208, 560), //bottom right
+				Vector2d.from(192, 560), //bottom left
+				Vector2d.from(192, 544)  //top left
+		)));
+	}
+
+	@Test
+	public void cheesePlatter4() {
 		// ##..#
 		// #..##
-		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
+		Cheese[] platter = Cheese.createPlatterFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(1, 0),
 				Vector2i.from(0, 1),
 				Vector2i.from(4, 0),
 				Vector2i.from(3, 1),
 				Vector2i.from(4, 1)
-		).size());
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(2, platter.length);
 
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, 0),  //top right
+				Vector2d.from(32, 16), //right bottom
+				Vector2d.from(16, 16), //middle
+				Vector2d.from(16, 32), //bottom right
+				Vector2d.from(0, 32),  //bottom left
+				Vector2d.from(0, 0)    //top left
+		)));
+
+		compareCheese(platter[1], new Cheese(new Shape(
+				Vector2d.from(64, 16), //middle
+				Vector2d.from(64, 0),  //top left
+				Vector2d.from(80, 0),  //top right
+				Vector2d.from(80, 32), //bottom right
+				Vector2d.from(48, 32), //bottom left
+				Vector2d.from(48, 16)  //left top
+		)));
+	}
+
+	@Test
+	public void cheesePlatterTwoBigDiagonalNeighbours() {
 		// .##...
 		// .##...
 		// ...##.
 		// ...##.
-		Assert.assertEquals(2, Cheese.createPlatterFromChunks(
+		Cheese[] platter = Cheese.createPlatterFromChunks(
 				Vector2i.from(1, 0),
 				Vector2i.from(2, 0),
 
@@ -393,30 +451,237 @@ public class CheeseTest {
 
 				Vector2i.from(3, 3),
 				Vector2i.from(4, 3)
-		).size());
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(2, platter.length);
 
-		// ##..#
-		// ###..
-		// ##..#
-		Assert.assertEquals(3, Cheese.createPlatterFromChunks(
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(48, 0),  //top right
+				Vector2d.from(48, 32), //bottom right
+				Vector2d.from(16, 32), //bottom left
+				Vector2d.from(16, 0)   //top left
+		)));
+
+		compareCheese(platter[1], new Cheese(new Shape(
+				Vector2d.from(80, 32), //top right
+				Vector2d.from(80, 64), //bottom left
+				Vector2d.from(48, 64), //bottom right
+				Vector2d.from(48, 32)  //top left
+		)));
+	}
+
+	@Test
+	public void cheesePlatterCreeperFace() {
+		// ##..##
+		// ##..##
+		// ..##..
+		// .####.
+		// .####.
+		// .#..#.
+		Cheese[] platter = Cheese.createPlatterFromChunks(
 				Vector2i.from(0, 0),
 				Vector2i.from(1, 0),
 				Vector2i.from(4, 0),
+				Vector2i.from(5, 0),
 
 				Vector2i.from(0, 1),
 				Vector2i.from(1, 1),
-				Vector2i.from(2, 1),
+				Vector2i.from(4, 1),
+				Vector2i.from(5, 1),
 
-				Vector2i.from(0, 2),
-				Vector2i.from(1, 2),
-				Vector2i.from(4, 2)
-		).size());
+				Vector2i.from(2, 2),
+				Vector2i.from(3, 2),
 
+				Vector2i.from(1, 3),
+				Vector2i.from(2, 3),
+				Vector2i.from(3, 3),
+				Vector2i.from(4, 3),
+
+				Vector2i.from(1, 4),
+				Vector2i.from(2, 4),
+				Vector2i.from(3, 4),
+				Vector2i.from(4, 4),
+
+				Vector2i.from(1, 5),
+				Vector2i.from(4, 5)
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(3, platter.length);
+
+		compareCheese(platter[1], new Cheese(new Shape(
+				Vector2d.from(32, 48), //nose bottom left
+				Vector2d.from(32, 32), //nose top left
+				Vector2d.from(64, 32), //nose top right
+				Vector2d.from(64, 48), //nose bottom right
+				Vector2d.from(80, 48), //right (cheek)
+				Vector2d.from(80, 96), //bottom right most
+				Vector2d.from(64, 96), //bottom mouth bottom right
+				Vector2d.from(64, 80), //bottom mouth top right
+				Vector2d.from(32, 80), //bottom mouth top left
+				Vector2d.from(32, 96), //bottom mouth bottom left
+				Vector2d.from(16, 96), //bottom left most
+				Vector2d.from(16, 48)  //left (cheek)
+		)));
+
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, 0),  //top right
+				Vector2d.from(32, 32), //bottom right
+				Vector2d.from(0, 32),  //bottom left
+				Vector2d.from(0, 0)    //top left
+		)));
+
+		compareCheese(platter[2], new Cheese(new Shape(
+				Vector2d.from(96, 0),  //top right
+				Vector2d.from(96, 32), //bottom right
+				Vector2d.from(64, 32), //bottom left
+				Vector2d.from(64, 0)   //top left
+		)));
+	}
+
+	@Test
+	public void cheesePlatterWithHole() {
+		// ###
+		// #.#
+		// ###
+		Cheese[] platter = Cheese.createPlatterFromChunks(
+				Vector2i.from(-1, -1), //top left
+				Vector2i.from(0, -1),  //top middle
+				Vector2i.from(1, -1),  //top right
+				Vector2i.from(-1, 0),  //middle left
+				Vector2i.from(1, 0),   //middle right
+				Vector2i.from(-1, 1),  //bottom left
+				Vector2i.from(0, 1),   //bottom middle
+				Vector2i.from(1, 1)    //bottom right
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(1, platter.length);
+
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, -16), //top right
+				Vector2d.from(32, 32),  //bottom right
+				Vector2d.from(-16, 32), //bottom left
+				Vector2d.from(-16, -16) //top left
+		),
+				new Shape(
+						Vector2d.from(0, 16),  //bottom left
+						Vector2d.from(16, 16), //bottom right
+						Vector2d.from(16, 0),  //top right
+						Vector2d.from(0, 0)    //top left
+				)
+		));
+	}
+
+	@Test
+	public void cheesePlatterPairOfSquareBrackets() {
+		// ##.##
+		// #...#
+		// ##.##
+
+		Cheese[] platter = Cheese.createPlatterFromChunks(
+				Vector2i.from(0, 0), //[ left top
+				Vector2i.from(0, 1), //[ left middle
+				Vector2i.from(0, 2), //[ left bottom
+
+				Vector2i.from(1, 0), //[ right top
+				Vector2i.from(1, 2), //[ right bottom
+
+				Vector2i.from(3, 0), //] left top
+				Vector2i.from(3, 2), //] left bottom
+
+				Vector2i.from(4, 0), //] right top
+				Vector2i.from(4, 1), //] right middle
+				Vector2i.from(4, 2)  //] right bottom
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(2, platter.length);
+
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, 0), //[ right top
+				Vector2d.from(32, 16),  //[ right middle top right
+				Vector2d.from(16, 16), //[ right middle top left
+				Vector2d.from(16, 32), //[ right middle bottom left
+				Vector2d.from(32, 32), //[ right middle bottom right
+				Vector2d.from(32, 48),  //[ right bottom
+				Vector2d.from(0, 48), //[ left bottom
+				Vector2d.from(0, 0) //[ left top
+		)));
+
+		compareCheese(platter[1], new Cheese(new Shape(
+				Vector2d.from(80, 0), //] right top
+				Vector2d.from(80, 48), //] right bottom
+				Vector2d.from(48, 48), //] left bottom
+				Vector2d.from(48, 32), //] left middle bottom left
+				Vector2d.from(64, 32), //] left middle bottom right
+				Vector2d.from(64, 16), //] left middle top right
+				Vector2d.from(48, 16), //] left middle top left
+				Vector2d.from(48, 0) //] left top
+		)));
+	}
+
+	@Test
+	public void cheesePlatterTwoSquaresWithHoles() {
+		// ###..###
+		// #.#..#.#
+		// ###..###
+		Cheese[] platter = Cheese.createPlatterFromChunks(
+				Vector2i.from(-1, -1), //L top left
+				Vector2i.from(0, -1),  //L top middle
+				Vector2i.from(1, -1),  //L top right
+
+				Vector2i.from(-1, 0),  //L middle left
+				Vector2i.from(1, 0),   //L middle right
+
+				Vector2i.from(-1, 1),  //L bottom left
+				Vector2i.from(0, 1),   //L bottom middle
+				Vector2i.from(1, 1),   //L bottom right
+
+				Vector2i.from(4, -1), //R top left
+				Vector2i.from(5, -1), //R top middle
+				Vector2i.from(6, -1), //R top right
+
+				Vector2i.from(4, 0),  //R middle left
+				Vector2i.from(6, 0),  //R middle right
+
+				Vector2i.from(4, 1),  //R bottom left
+				Vector2i.from(5, 1),  //R bottom middle
+				Vector2i.from(6, 1)   //R bottom right
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(2, platter.length);
+
+		// Left square
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(32, -16), //top right
+				Vector2d.from(32, 32),  //bottom right
+				Vector2d.from(-16, 32), //bottom left
+				Vector2d.from(-16, -16) //top left
+		),
+				new Shape(
+						Vector2d.from(0, 16),  //bottom left
+						Vector2d.from(16, 16), //bottom right
+						Vector2d.from(16, 0),  //top right
+						Vector2d.from(0, 0)    //top left
+				)
+		));
+
+		// Right square
+		compareCheese(platter[1], new Cheese(new Shape(
+				Vector2d.from(112, -16), //top right
+				Vector2d.from(112, 32),  //bottom right
+				Vector2d.from(64, 32),   //bottom left
+				Vector2d.from(64, -16)   //top left
+		),
+				new Shape(
+						Vector2d.from(80, 16), //bottom left
+						Vector2d.from(96, 16), //bottom right
+						Vector2d.from(96, 0),  //top right
+						Vector2d.from(80, 0)   //top left
+				)
+		));
+	}
+
+	@Test
+	public void cheesePlatterBluesWonkyShape() {
 		// .###...
 		// .###...
 		// .#..##.
 		// .#####.
-		Assert.assertEquals(1, Cheese.createPlatterFromChunks(
+		Cheese[] platter = Cheese.createPlatterFromChunks(
 				Vector2i.from(1, 0),
 				Vector2i.from(2, 0),
 				Vector2i.from(3, 0),
@@ -434,7 +699,24 @@ public class CheeseTest {
 				Vector2i.from(3, 3),
 				Vector2i.from(4, 3),
 				Vector2i.from(5, 3)
-		).size());
+		).toArray(Cheese[]::new);
+		Assert.assertEquals(1, platter.length);
+
+		compareCheese(platter[0], new Cheese(new Shape(
+				Vector2d.from(64, 0),  //top right
+				Vector2d.from(64, 32), //top right middle
+				Vector2d.from(96, 32), //bottom right top
+				Vector2d.from(96, 64), //bottom right bottom
+				Vector2d.from(16, 64), //bottom left
+				Vector2d.from(16, 0)   //top left
+		),
+				new Shape(
+						Vector2d.from(32, 48), //top left
+						Vector2d.from(64, 48), //top right
+						Vector2d.from(64, 32), //bottom right
+						Vector2d.from(32, 32)   //bottom left
+				)
+		));
 	}
 
 	//endregion Platter
