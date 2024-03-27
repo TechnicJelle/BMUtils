@@ -26,7 +26,7 @@ and to abide by the [license](LICENSE) terms!
 
 ## Usage/Overview of Features
 This section just contains a brief overview of some of the most useful features of this library.\
-Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils.html)
+Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils)
 
 - [Copying Assets](#copying-assets)
 	- [Copy Jar Resource](#copy-jar-resource)
@@ -36,7 +36,7 @@ Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](ht
 - [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area)
 - [Expand/Shrink a Shape](#expandshrink-a-shape)
 
-### Copying Assets
+### Copying Assets ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMCopy.html))
 #### Copy Jar Resource
 This function copies any resource file from your jar to the BlueMap assets folder.\
 Useful for adding custom icons, scripts, or styles from your own addon.\
@@ -79,7 +79,7 @@ Do not use this method for copying scripts or styles, as those need to be instal
 BMCopy.streamToMap(BlueMapMap, InputStream in, String toAsset, boolean overwrite)
 ```
 
-### Get Player Head Icon Address
+### Get Player Head Icon Address ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMSkin.html))
 This function returns the address of a player head icon,
 and automatically generates the icon if it doesn't exist yet.\
 Useful when you want to use a playerhead from the map.\
@@ -88,7 +88,7 @@ For example, when adding custom icons to the map that involve the player head.
 BMSkin.getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap)
 ```
 
-### Create Marker around a Claimed Area
+### Create Marker around a Claimed Area ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/Cheese.html))
 With the Cheese class, you can create a [BlueMap Shape](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.\
 Useful for when you want to create a marker around a claimed area.
 
@@ -153,7 +153,7 @@ void onPlayerClaimEvent(Player player, Town claimedTown) {
 
 _Thanks to [@TBlueF](https://github.com/TBlueF) for contributing this function, and the funny name!_
 
-### Expand/Shrink a Shape
+### Expand/Shrink a Shape ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/ShapeExtensions.html))
 In the ShapeExtensions class, you can find multiple functions to expand or shrink a shape.\
 Useful when you just created a shape through a Cheese, and you want to shrink it a little bit to prevent Z-fighting.
 
@@ -188,4 +188,4 @@ and ask your questions in [#3rd-party-support](https://discord.com/channels/6658
 I've set up automatic performance reports for this library, to keep track of how it performs over time.\
 You can view a graph of the performance reports over time [here!](https://technicjelle.com/BMUtils-PerformanceReports/)
 
-If you'd like to test the performance on your own computer, in IntelliJ, you can use [this plugin](https://github.com/artyushov/idea-jmh-plugin).
+If you'd like to test the performance on your own computer, in IntelliJ IDEA, you can use [this plugin](https://github.com/artyushov/idea-jmh-plugin).
