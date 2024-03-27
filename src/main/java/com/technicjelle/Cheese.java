@@ -64,7 +64,7 @@ public class Cheese {
 	}
 
 	public static Collection<Cheese> createPlatterFromCells(Vector2d cellSize, Vector2i... cells) {
-		Set<Vector2i> remainingCells = new HashSet<>(Set.of(cells));
+		Set<Vector2i> remainingCells = new HashSet<>(List.of(cells));
 		List<Cheese> platter = new ArrayList<>();
 
 		while (!remainingCells.isEmpty()) {
