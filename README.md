@@ -146,7 +146,7 @@ void onPlayerClaimEvent(Player player, Town claimedTown) {
 		.collect(Collectors.toList());
 
 	Cheese cheese = Cheese.createFromChunks(chunkCoordinates);
-	ShapeMarker chunkMarker = new ExtrudeMarker.builder()
+	ExtrudeMarker chunkMarker = new ExtrudeMarker.builder()
 		.label(claimedTown.getName())
 		.shape(cheese.getShape())
 		.holes(cheese.getHoles())
