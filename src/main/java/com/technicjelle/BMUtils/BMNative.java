@@ -10,7 +10,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.technicjelle;
+package com.technicjelle.BMUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

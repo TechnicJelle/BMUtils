@@ -11,7 +11,7 @@
  */
 
 import com.flowpowered.math.vector.Vector2d;
-import com.technicjelle.ShapeExtensions;
+import com.technicjelle.BMUtils.ShapeExtensions;
 import de.bluecolored.bluemap.api.math.Shape;
 import org.junit.Assert;
 import org.junit.Test;

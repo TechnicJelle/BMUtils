@@ -12,7 +12,7 @@
 
 import com.flowpowered.math.vector.Vector2d;
 import com.flowpowered.math.vector.Vector2i;
-import com.technicjelle.Cheese;
+import com.technicjelle.BMUtils.Cheese;
 import de.bluecolored.bluemap.api.math.Shape;
 import org.junit.Assert;
 import org.junit.Test;
