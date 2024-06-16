@@ -28,13 +28,13 @@ and to abide by the [license](LICENSE) terms!
 This section just contains a brief overview of some of the most useful features of this library.\
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils)
 
-- [Copying Assets](#copying-assets)
+- [Copying Assets](#copying-assets-docs)
 	- [Copy Jar Resource](#copy-jar-resource)
 	- [Copy Any File](#copy-any-file)
 	- [Copy Any Stream](#copy-any-stream)
-- [Get Player Head Icon Address](#get-player-head-icon-address)
-- [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area)
-- [Expand/Shrink a Shape](#expandshrink-a-shape)
+- [Get Player Head Icon Address](#get-player-head-icon-address-docs)
+- [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area-docs)
+- [Expand/Shrink a Shape](#expandshrink-a-shape-docs )
 
 ### Copying Assets ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMCopy.html))
 #### Copy Jar Resource
