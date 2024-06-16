@@ -190,4 +190,95 @@ public class BMCopy {
 			streamToMap(map, in, toAsset, overwrite);
 		}
 	}
+
+	/**
+	 * Utility functions <b>only</b> for copying stuff to BlueMap Native Addons.
+	 */
+	public static class Native {
+		private Native() {
+			throw new IllegalStateException("Utility class");
+		}
+
+		/**
+		 * Every native BlueMap addon has its own config directory, which is allocated by BlueMap.<br>
+		 * This function copies a stream to that directory.
+		 *
+		 * @param blueMapAPI  The BlueMapAPI instance
+		 * @param classLoader The class loader to get the addon ID from
+		 * @param in          The input stream to copy from
+		 * @param toFile      The asset to copy to, relative to the allocated config directory
+		 * @param overwrite   Whether to overwrite the asset if it already exists
+		 * @throws IOException If the stream could not be copied
+		 */
+		public static void streamToAllocatedConfigDirectory(
+				final @NotNull BlueMapAPI blueMapAPI,
+				final @NotNull ClassLoader classLoader,
+				final @NotNull InputStream in,
+				final @NotNull String toFile,
+				final boolean overwrite
+		) throws IOException {
+			final Path configDirectory = BMNative.getAllocatedConfigDirectory(blueMapAPI, classLoader);
+			final Path toPath = configDirectory.resolve(toFile);
+
+			//Copy resource
+			if (Files.exists(toPath) && !overwrite) return;
+			Files.createDirectories(toPath.getParent());
+			try (
+					final OutputStream out = Files.newOutputStream(toPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+			) {
+				in.transferTo(out);
+			}
+		}
+
+		/**
+		 * Every native BlueMap addon has its own config directory, which is allocated by BlueMap.<br>
+		 * This function copies a file to that directory.
+		 *
+		 * @param blueMapAPI  The BlueMapAPI instance
+		 * @param classLoader The class loader to get the addon ID from
+		 * @param from        The file to copy
+		 * @param toFile      The file to copy to, relative to the allocated config directory
+		 * @param overwrite   Whether to overwrite the asset if it already exists
+		 * @throws IOException If the file could not be found or copied
+		 */
+		public static void fileToAllocatedConfigDirectory(
+				final @NotNull BlueMapAPI blueMapAPI,
+				final @NotNull ClassLoader classLoader,
+				final @NotNull Path from,
+				final @NotNull String toFile,
+				final boolean overwrite
+		) throws IOException {
+			try (
+					final InputStream in = Files.newInputStream(from)
+			) {
+				streamToAllocatedConfigDirectory(blueMapAPI, classLoader, in, toFile, overwrite);
+			}
+		}
+
+		/**
+		 * Every native BlueMap addon has its own config directory, which is allocated by BlueMap.<br>
+		 * This function copies a resource from the jar to that directory.
+		 *
+		 * @param blueMapAPI   The BlueMapAPI instance
+		 * @param classLoader  The class loader to get the addon ID from and to get the resource out of the jar from
+		 * @param fromResource The resource to copy from the jar
+		 * @param toFile       The file to copy to, relative to the allocated config directory
+		 * @param overwrite    Whether to overwrite the asset if it already exists
+		 * @throws IOException If the resource could not be found or copied
+		 */
+		public static void jarResourceToAllocatedConfigDirectory(
+				final @NotNull BlueMapAPI blueMapAPI,
+				final @NotNull ClassLoader classLoader,
+				final @NotNull String fromResource,
+				final @NotNull String toFile,
+				final boolean overwrite
+		) throws IOException {
+			try (
+					final InputStream in = classLoader.getResourceAsStream(fromResource)
+			) {
+				if (in == null) throw new IOException("Resource not found: " + fromResource);
+				streamToAllocatedConfigDirectory(blueMapAPI, classLoader, in, toFile, overwrite);
+			}
+		}
+	}
 }

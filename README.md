@@ -6,7 +6,8 @@ Please check them out if you're interested:
 [TechnicJelle.com BlueMap Addons](https://technicjelle.com/#%F0%9F%8C%90-bluemap-addons)
 
 Should work with any plugin/mod-loader. Currently only tested with Paper.
-Please let me know if you have any issues when using other platforms!
+Please let me know if you have any issues when using other platforms!  
+Now also has functions for Native BlueMap Addons!
 
 ## Installation
 There are two ways to use this library:
@@ -32,6 +33,7 @@ Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](ht
 	- [Copy Jar Resource](#copy-jar-resource)
 	- [Copy Any File](#copy-any-file)
 	- [Copy Any Stream](#copy-any-stream)
+	- [Copy to Native BlueMap Addon's Allocated Config Directory](#copy-to-native-bluemap-addons-allocated-config-directory-docs)
 - [Get Player Head Icon Address](#get-player-head-icon-address-docs)
 - [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area-docs)
 - [Expand/Shrink a Shape](#expandshrink-a-shape-docs )
@@ -77,6 +79,18 @@ Also available for copying to a specific BlueMap map's [asset storage](https://b
 Do not use this method for copying scripts or styles, as those need to be installed in the webapp.
 ```java
 BMCopy.streamToMap(BlueMapMap, InputStream in, String toAsset, boolean overwrite)
+```
+
+#### Copy to Native BlueMap Addon's Allocated Config Directory ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMCopy.Native.html))
+Each Native BlueMap Addon has its own allocated config directory, where you can store your addon's configuration files.\
+With these functions, you can copy a jar resource, file, or generic stream
+to a Native BlueMap Addon's allocated config directory.\
+This is useful for when you want to provide default configuration files with your addon.
+
+```java
+BMCopy.Native.jarResourceToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, String fromResource, String toFile, boolean overwrite)
+BMCopy.Native.fileToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, Path from, String toFile, boolean overwrite)
+BMCopy.Native.streamToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, InputStream in, String toFile, boolean overwrite)
 ```
 
 ### Get Player Head Icon Address ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMSkin.html))
