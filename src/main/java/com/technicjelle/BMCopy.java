@@ -56,7 +56,7 @@ public class BMCopy {
 		if (toAsset.endsWith(".js")) blueMapAPI.getWebApp().registerScript(assetPath);
 		if (toAsset.endsWith(".css")) blueMapAPI.getWebApp().registerStyle(assetPath);
 
-		//Copy resource
+		//Copy stream
 		if (Files.exists(toPath) && !overwrite) return;
 		Files.createDirectories(toPath.getParent());
 		try (
@@ -82,7 +82,7 @@ public class BMCopy {
 			final @NotNull String toAsset,
 			final boolean overwrite
 	) throws IOException {
-		//Copy resource
+		//Copy stream
 		if (map.getAssetStorage().assetExists(toAsset) && !overwrite) return;
 		try (
 				final OutputStream out = map.getAssetStorage().writeAsset(toAsset)
