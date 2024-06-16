@@ -6,7 +6,7 @@
 
 	<groupId>com.technicjelle</groupId>
 	<artifactId>BMUtils</artifactId>
-	<version>3.0</version>
+	<version>4.0</version>
 
 	<properties>
 		<maven.compiler.source>16</maven.compiler.source>
