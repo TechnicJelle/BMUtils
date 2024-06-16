@@ -34,6 +34,7 @@ Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](ht
 	- [Copy Any File](#copy-any-file)
 	- [Copy Any Stream](#copy-any-stream)
 	- [Copy to Native BlueMap Addon's Allocated Config Directory](#copy-to-native-bluemap-addons-allocated-config-directory-docs)
+- [Functions for BlueMap Native Addons](#functions-for-bluemap-native-addons-docs)
 - [Get Player Head Icon Address](#get-player-head-icon-address-docs)
 - [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area-docs)
 - [Expand/Shrink a Shape](#expandshrink-a-shape-docs )
@@ -91,6 +92,25 @@ This is useful for when you want to provide default configuration files with you
 BMCopy.Native.jarResourceToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, String fromResource, String toFile, boolean overwrite)
 BMCopy.Native.fileToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, Path from, String toFile, boolean overwrite)
 BMCopy.Native.streamToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, InputStream in, String toFile, boolean overwrite)
+```
+
+### Functions for BlueMap Native Addons ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMNative.html))
+With this function, you can get the path to the allocated config directory of your Native BlueMap Addon.
+```java
+BMNative.getAllocatedConfigDirectory(BlueMapAPI, ClassLoader)
+```
+
+This function returns the path to BlueMap's own addons directory.\
+Probably shouldn't be necessary for most addons,
+because the other functions in BMUtils should hopefully cover all your needs already,
+but it's there if you need it.
+```java
+BMNative.getAddonsDirectory(BlueMapAPI)
+```
+
+This function gets the ID of your Native BlueMap Addon.
+```java
+BMNative.getAddonID(ClassLoader)
 ```
 
 ### Get Player Head Icon Address ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMSkin.html))
