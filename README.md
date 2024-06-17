@@ -113,6 +113,11 @@ This function gets the ID of your Native BlueMap Addon.
 BMNative.getAddonID(ClassLoader)
 ```
 
+With this function, you can get any arbitrary key from your Native BlueMap Addon's config file.
+```java
+BMNative.getAddonMetadataKey(ClassLoader, String key)
+```
+
 ### Get Player Head Icon Address ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMSkin.html))
 This function returns the address of a player head icon,
 and automatically generates the icon if it doesn't exist yet.\

@@ -74,13 +74,25 @@ public class BMNative {
 	 * @throws IOException If the metadata file could not be read
 	 */
 	public static String getAddonID(ClassLoader classLoader) throws IOException {
+		return getAddonMetadataKey(classLoader, KEY_ID);
+	}
+
+	/**
+	 * Gets any arbitrary key from the addon metadata file. (<code>bluemap.addon.json</code>)
+	 *
+	 * @param classLoader The class loader of the addon
+	 * @param key         The key to get
+	 * @return The value of the key
+	 * @throws IOException If the metadata file could not be read
+	 */
+	public static String getAddonMetadataKey(ClassLoader classLoader, String key) throws IOException {
 		try (
 				final InputStream in = classLoader.getResourceAsStream(ADDON_METADATA_FILE)
 		) {
 			if (in == null) throw new IOException("Resource not found: " + ADDON_METADATA_FILE);
 			final String json = new String(in.readAllBytes());
 			final JsonObject o = JSON_PARSER.parse(json).getAsJsonObject();
-			return o.get(KEY_ID).getAsString();
+			return o.get(key).getAsString();
 		}
 	}
 }
