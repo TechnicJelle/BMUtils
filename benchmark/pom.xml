@@ -24,7 +24,7 @@
 			<!-- Parent Project -->
 			<groupId>com.technicjelle</groupId>
 			<artifactId>BMUtils</artifactId>
-			<version>4.0</version>
+			<version>4.2</version>
 		</dependency>
 		<!-- The code of the benchmarks itself: -->
 		<dependency>
