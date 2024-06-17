@@ -40,16 +40,33 @@ public class Cheese {
 	private final Shape shape;
 	private final Collection<Shape> holes;
 
+	/**
+	 * Creates a new Cheese with no holes.
+	 *
+	 * @param shape The outer shape of the cheese.
+	 */
 	public Cheese(Shape shape) {
 		this.shape = shape;
 		this.holes = Collections.emptyList();
 	}
 
+	/**
+	 * Creates a new Cheese with holes.
+	 *
+	 * @param shape The outer shape of the cheese.
+	 * @param holes Any holes in the cheese.
+	 */
 	public Cheese(Shape shape, Shape... holes) {
 		this.shape = shape;
 		this.holes = Arrays.asList(holes);
 	}
 
+	/**
+	 * Creates a new Cheese with holes.
+	 *
+	 * @param shape The outer shape of the cheese.
+	 * @param holes Any holes in the cheese.
+	 */
 	public Cheese(Shape shape, Collection<Shape> holes) {
 		this.shape = shape;
 		this.holes = holes;

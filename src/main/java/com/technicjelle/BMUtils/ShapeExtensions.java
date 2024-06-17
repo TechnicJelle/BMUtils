@@ -31,8 +31,10 @@ public class ShapeExtensions {
 	 * <br>
 	 * Example: expanding a 16x16 square by 1 in each direction results in an 18x18 square
 	 *
+	 * @param shape  The shape to expand
 	 * @param amount The amount (in blocks) to expand the shape by. May be negative to shrink the shape.
 	 * @see #shrinkShapeRect(Shape, double)
+	 * @return A new shape, expanded by the given amount
 	 */
 	public static Shape expandShapeRect(@NotNull Shape shape, double amount) {
 		final int size = shape.getPointCount();
@@ -74,8 +76,10 @@ public class ShapeExtensions {
 	 * <br>
 	 * Example: shrinking a 16x16 square by 1 in each direction results in a 14x14 square
 	 *
+	 * @param shape  The shape to shrink
 	 * @param amount The amount (in blocks) to expand the shape by. May be negative to expand the shape.
 	 * @see #expandShapeRect(Shape, double)
+	 * @return A new shape, shrunk by the given amount
 	 */
 	public static Shape shrinkShapeRect(@NotNull Shape shape, double amount) {
 		return expandShapeRect(shape, -amount);
@@ -88,8 +92,10 @@ public class ShapeExtensions {
 	 * <br>
 	 * Example: expanding a square by 1 in each direction will only offset each edge by (√2)/2
 	 *
+	 * @param shape  The shape to expand
 	 * @param amount The amount to expand the shape by. May be negative to shrink the shape.
 	 * @see #shrinkShapeAccurate(Shape, double)
+	 * @return A new shape, expanded by the given amount
 	 */
 	public static Shape expandShapeAccurate(@NotNull Shape shape, double amount) {
 		return shrinkShapeAccurate(shape, -amount);
@@ -102,7 +108,9 @@ public class ShapeExtensions {
 	 * <br>
 	 * Example: shrinking a square by 1 in each direction will only offset each edge by (√2)/2
 	 *
+	 * @param shape  The shape to shrink
 	 * @param amount The amount to expand the shape by. May be negative to shrink the shape.
+	 * @return A new shape, shrunk by the given amount
 	 * @see #expandShapeAccurate(Shape, double)
 	 */
 	public static Shape shrinkShapeAccurate(@NotNull Shape shape, double amount) {
@@ -147,6 +155,10 @@ public class ShapeExtensions {
 
 	/**
 	 * Scales a shape by a given factor, around the origin (0, 0)
+	 *
+	 * @param shape The shape to scale
+	 * @param scale The factor to scale by
+	 * @return A new scaled shape
 	 */
 	public static Shape scaleShapeOrigin(@NotNull Shape shape, double scale) {
 		Vector2d[] points = new Vector2d[shape.getPointCount()];
@@ -158,6 +170,10 @@ public class ShapeExtensions {
 
 	/**
 	 * Scales a shape by a given factor, around the middle of the shape
+	 *
+	 * @param shape The shape to scale
+	 * @param scale The factor to scale by
+	 * @return A new scaled shape
 	 */
 	public static @NotNull Shape scaleShapeMiddle(@NotNull Shape shape, double scale) {
 		Vector2d middle = shape.getMin().add(shape.getMax()).div(2);
@@ -166,6 +182,11 @@ public class ShapeExtensions {
 
 	/**
 	 * Scales a shape by a given factor, around a given origin
+	 *
+	 * @param shape  The shape to scale
+	 * @param scale  The factor to scale by
+	 * @param origin The origin to scale around
+	 * @return A new scaled shape
 	 */
 	public static Shape scaleShapeAround(@NotNull Shape shape, double scale, Vector2d origin) {
 		Vector2d[] points = new Vector2d[shape.getPointCount()];
