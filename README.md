@@ -114,6 +114,7 @@ BMNative.getAddonID(ClassLoader)
 ```
 
 With this function, you can get any arbitrary key from your Native BlueMap Addon's config file.
+(`bluemap.addon.json`)
 ```java
 BMNative.getAddonMetadataKey(ClassLoader, String key)
 ```
