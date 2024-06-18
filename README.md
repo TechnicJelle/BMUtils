@@ -186,6 +186,35 @@ You can see a comparison of the two in the following gifs:
 |-----------------------------------------------------------|-------------------------------------------|
 | ![Expand/Shrink](.github/readme_assets/expand-shrink.gif) | ![Scale](.github/readme_assets/scale.gif) |
 
+### Utilities for Native BlueMap Addons ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMNative.html))
+BMUtils also has a collection of functions for Native BlueMap Addons.
+These are usually prefixed with BMN, instead of BM, to indicate that they are only to be used for Native BlueMap Addons.
+
+#### Config Directory ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMNative/BMNConfigDirectory.html))
+BMUtils allocates a config directory for every native BlueMap addon,
+where you can store your addon's configuration files and other assets.
+
+With the functions in BMNConfigDirectory, you can easily get the path to your addon's config directory.
+
+It also has functions similar to BMCopy, to copy files to your addon's config directory.
+([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMNative/BMNConfigDirectory.BMNCopy.html))  
+This is useful for when you want to unpack default configuration files from your jar to the config directory.
+
+#### Metadata ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMNative/BMNMetadata.html))
+Each BlueMap Native Addon has a metadata file: `bluemap.addon.json`.
+The BMNMetadata class has functions to read from this file.
+You probably won't need to use these functions directly, as the other BMUtils functions will handle this for you.
+
+#### Logger ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMNative/BMNLogger.html))
+Logging stuff to the console is an important part of debugging.
+For this, BMUtils has a logger that you can use to log messages to the console,
+in a bit of a neater fashion than just printing to the standard output.
+
+You can log debug, info, warning, and error messages with this logger.
+
+There are also the noFlood versions of these functions, which will only actually show the log once in a while,
+instead of flooding the console with the same message over and over again.
+
 ## Contributing
 If you have any suggestions for more useful functions to add, please let me know by creating an issue on GitHub.
 
