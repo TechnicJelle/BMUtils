@@ -19,123 +19,80 @@ on how to add this library to your project.
 You may want to shade the library!
 
 ### Copy the source code
-You can also just copy only the specific source code files you need into your own project.\
+You can also just copy only the specific source code files you need into your own project.  
 This is useful if you only need a few functions and don't want to add a whole new dependency.
 
 Please make sure to keep the license and author information in the source code files,
 and to abide by the [license](LICENSE) terms!
 
 ## Usage/Overview of Features
-This section just contains a brief overview of some of the most useful features of this library.\
+This section just contains a brief overview of some of the most useful features of this library.  
 Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils)
 
 - [Copying Assets](#copying-assets-docs)
-	- [Copy Jar Resource](#copy-jar-resource)
-	- [Copy Any File](#copy-any-file)
-	- [Copy Any Stream](#copy-any-stream)
-	- [Copy to Native BlueMap Addon's Allocated Config Directory](#copy-to-native-bluemap-addons-allocated-config-directory-docs)
-- [Functions for BlueMap Native Addons](#functions-for-bluemap-native-addons-docs)
 - [Get Player Head Icon Address](#get-player-head-icon-address-docs)
 - [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area-docs)
-- [Expand/Shrink a Shape](#expandshrink-a-shape-docs )
+- [Expand/Shrink a Shape](#expandshrink-a-shape-docs)
+- [BMUtils for Native BlueMap Addons](#utilities-for-native-bluemap-addons-docs)
+  - [Config Directory](#config-directory-docs)
+  - [Metadata](#metadata-docs)
+  - [Logger](#logger-docs)
 
-### Copying Assets ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMCopy.html))
-#### Copy Jar Resource
-This function copies any resource file from your jar to the BlueMap assets folder.\
-Useful for adding custom icons, scripts, or styles from your own addon.\
-Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
-```java
-BMCopy.jarResourceToWebApp(BlueMapAPI, ClassLoader, String fromResource, String toAsset, boolean overwrite)
-```
+### Copying Assets ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMCopy.html))
+The BMCopy class has functions to copy files to various places where BlueMap may need them.  
+The following table shows from where you can copy, and where you can copy to.
 
-Also available for copying to a specific BlueMap map's [asset storage](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/AssetStorage.html).\
-Do not use this method for copying scripts or styles, as those need to be installed in the webapp.
-```java
-BMCopy.jarResourceToMap(BlueMapMap, ClassLoader, String fromResource, String toAsset, boolean overwrite)
-```
+| ↓ Source ╲ Destination →                                                                        | BlueMapMap                                                                                                                                                                                                            | WebApp                                                                                                                                                                                                                      |
+|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [File](https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/nio/file/Path.html)    | [`fileToMap()`](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMCopy.html#fileToMap(de.bluecolored.bluemap.api.BlueMapMap,java.nio.file.Path,java.lang.String,boolean))                                   | [`fileToWebApp()`](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMCopy.html#fileToWebApp(de.bluecolored.bluemap.api.BlueMapAPI,java.nio.file.Path,java.lang.String,boolean))                                   |
+| Jar Resource                                                                                    | [`jarResourceToMap()`](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMCopy.html#jarResourceToMap(de.bluecolored.bluemap.api.BlueMapMap,java.lang.ClassLoader,java.lang.String,java.lang.String,boolean)) | [`jarResourceToWebApp()`](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMCopy.html#jarResourceToWebApp(de.bluecolored.bluemap.api.BlueMapAPI,java.lang.ClassLoader,java.lang.String,java.lang.String,boolean)) |
+| [Stream](https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/io/InputStream.html) | [`streamToMap()`](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMCopy.html#streamToMap(de.bluecolored.bluemap.api.BlueMapMap,java.io.InputStream,java.lang.String,boolean))                              | [`streamToWebApp()`](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMCopy.html#streamToWebApp(de.bluecolored.bluemap.api.BlueMapAPI,java.io.InputStream,java.lang.String,boolean))                              |
 
-#### Copy Any File
-This function copies any file to the BlueMap assets folder.\
-Useful for copying user-provided assets to BlueMap, from a configuration directory for example.\
-Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
-```java
-BMCopy.fileToWebApp(BlueMapAPI, Path from, String toAsset, boolean overwrite)
-```
+Each of these functions has an `overwrite` parameter,
+with which you can specify whether to overwrite the file if it already exists.
 
-Also available for copying to a specific BlueMap map's [asset storage](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/AssetStorage.html).\
-Do not use this method for copying scripts or styles, as those need to be installed in the webapp.
-```java
-BMCopy.fileToMap(BlueMapMap, Path from, String toAsset, boolean overwrite)
-```
+#### Sources
+Copying from a **jar resource** is useful for copying any resource file from your own addon's jar.
 
-#### Copy Any Stream
-This function copies any stream to the BlueMap assets folder.\
-Useful for when you have a stream of data, for example from a URL.\
-Any scripts or styles that are copied with this function will be automatically registered with BlueMap.
-```java
-BMCopy.streamToWebApp(BlueMapAPI, InputStream in, String toAsset, boolean overwrite)
-```
+Copying from a **file** is useful for copying user-provided assets to BlueMap, from a configuration directory, for example.
 
-Also available for copying to a specific BlueMap map's [asset storage](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/AssetStorage.html).\
-Do not use this method for copying scripts or styles, as those need to be installed in the webapp.
-```java
-BMCopy.streamToMap(BlueMapMap, InputStream in, String toAsset, boolean overwrite)
-```
+Copying from a **stream** is useful for when you have a stream of data, for example, from a URL.
 
-#### Copy to Native BlueMap Addon's Allocated Config Directory ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMCopy.Native.html))
-Each Native BlueMap Addon has its own allocated config directory, where you can store your addon's configuration files.\
-With these functions, you can copy a jar resource, file, or generic stream
-to a Native BlueMap Addon's allocated config directory.\
-This is useful for when you want to provide default configuration files with your addon.
+In some cases, I copy something from a jar resource to my addon's configuration directory,
+and then copy that file to BlueMap.
 
-```java
-BMCopy.Native.jarResourceToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, String fromResource, String toFile, boolean overwrite)
-BMCopy.Native.fileToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, Path from, String toFile, boolean overwrite)
-BMCopy.Native.streamToAllocatedConfigDirectory(BlueMapAPI, ClassLoader, InputStream in, String toFile, boolean overwrite)
-```
+#### Destinations
+Copying to the **webapp** is useful for e.g. adding custom icons, scripts, or styles.  
+Any scripts or styles you copy with these functions will be automatically registered with BlueMap.
 
-### Functions for BlueMap Native Addons ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMNative.html))
-With this function, you can get the path to the allocated config directory of your Native BlueMap Addon.
-```java
-BMNative.getAllocatedConfigDirectory(BlueMapAPI, ClassLoader)
-```
+Copying to a **specific map** copies it into that
+map's [asset storage](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/AssetStorage.html),
+which means it can be stored on disk, or in a database.  
+This is useful for adding e.g. custom icons or other assets to a specific map.  
+It can also make managing all the custom assets slightly easier for people who are using custom webservers,
+because maps are automatically be synced, while the webapp is not.
 
-This function returns the path to BlueMap's own addons directory.\
-Probably shouldn't be necessary for most addons,
-because the other functions in BMUtils should hopefully cover all your needs already,
-but it's there if you need it.
-```java
-BMNative.getAddonsDirectory(BlueMapAPI)
-```
-
-This function gets the ID of your Native BlueMap Addon.
-```java
-BMNative.getAddonID(ClassLoader)
-```
-
-With this function, you can get any arbitrary key from your Native BlueMap Addon's config file.
-(`bluemap.addon.json`)
-```java
-BMNative.getAddonMetadataKey(ClassLoader, String key)
-```
-
-### Get Player Head Icon Address ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMSkin.html))
+### Get Player Head Icon Address ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMSkin.html))
 This function returns the address of a player head icon,
-and automatically generates the icon if it doesn't exist yet.\
-Useful when you want to use a playerhead from the map.\
+and automatically generates the icon if it doesn't exist yet.  
+Useful when you want to use a playerhead from the map.  
 For example, when adding custom icons to the map that involve the player head.
 ```java
 BMSkin.getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap)
 ```
 
-### Create Marker around a Claimed Area ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/Cheese.html))
-With the Cheese class, you can create a [BlueMap Shape](https://bluecolored.de/bluemapapi/latest/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.\
+### Create Marker around a Claimed Area ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/Cheese.html))
+With the Cheese class, you can create a [BlueMap Shape](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.  
 Useful for when you want to create a marker around a claimed area.
 
-To get started, feed a list of Chunk coordinates into `createPlatterFromChunks()`.\
+To get started, feed a list of Chunk coordinates into `createPlatterFromChunks()`.  
 This will return a collection of Cheese objects, which you can use to create your markers.
+The Cheese object contains the outline shape of the claimed area, and any holes in it.
+It's specifically designed to be fed directly into a 
+[ShapeMarker](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/markers/ShapeMarker.html) or
+[ExtrudeMarker](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/markers/ExtrudeMarker.html).
 
-The Platter functions return multiple Cheeses; a "platter" of them, if you will.\
+The Platter functions return multiple Cheeses; a "platter" of them, if you will.  
 It does this, because the input chunk coordinates might not be all connected,
 which means you have to create multiple markers for the same claimed area.
 
@@ -203,24 +160,26 @@ to create a Cheese from a collection of non-16x16 cells.
 
 _Thanks to [@TBlueF](https://github.com/TBlueF) for contributing this function, and the funny name!_
 
-### Expand/Shrink a Shape ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/ShapeExtensions.html))
-In the ShapeExtensions class, you can find multiple functions to expand or shrink a shape.\
-Useful when you just created a shape through a Cheese, and you want to shrink it a little bit to prevent Z-fighting.
+### Expand/Shrink a Shape ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/ShapeExtensions.html))
+In the ShapeExtensions class, you can find multiple functions to expand or shrink a shape.  
+Useful when you have just created a shape through a Cheese,
+and you want to shrink it a little bit to prevent [Z-fighting](https://en.wikipedia.org/wiki/Z-fighting).
 
 There are two kinds of expand/shrink functions: Rect, and Accurate. Both are useful in different situations.
 
 For shapes generated by a Cheese, I would recommend using the Rect functions,
-as they work more intuitively on the kind of rectangular shapes that Cheeses generate.\
-For example, expanding a 16x16 square by 1 will result in a 18x18 shape, as each side is expanded by 1.
+as they work more intuitively on the kind of rectangular shapes that Cheeses generate.  
+For example, expanding a 16x16 square by 1 will result in an 18x18 shape, as each side is expanded by 1.
 
 For more complex, free-form shapes, like curves, arcs, ellipses, circles, etc.,
 I would recommend using the Accurate functions,
-as they work more intuitively on those kinds of shapes.\
+as they work more intuitively on those kinds of shapes.  
 For example, expanding a circle with a radius of 8 by 1 will result in a circle with a radius of 9.
 
+#### Simple Scaling
 There are also some functions for scaling a shape. This is different from expanding/shrinking,
 as it will scale the whole shape relative to a single point,
-instead of from each separate edge/point of the shape itself.\
+instead of from each separate edge/point of the shape itself.  
 You can see a comparison of the two in the following gifs:
 
 | Expand/Shrink                                             | Scale                                     |
@@ -235,7 +194,7 @@ To get support with this library, join the [BlueMap Discord server](https://blue
 and ask your questions in [#3rd-party-support](https://discord.com/channels/665868367416131594/863844716047106068). You're welcome to ping me, @TechnicJelle.
 
 ## Performance Reports
-I've set up automatic performance reports for this library, to keep track of how it performs over time.\
+I've set up automatic performance reports for this library, to keep track of how it performs over time.  
 You can view a graph of the performance reports over time [here!](https://technicjelle.com/BMUtils-PerformanceReports/)
 
 If you'd like to test the performance on your own computer, in IntelliJ IDEA, you can use [this plugin](https://github.com/artyushov/idea-jmh-plugin).
