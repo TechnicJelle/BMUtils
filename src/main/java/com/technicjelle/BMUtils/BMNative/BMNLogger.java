@@ -38,6 +38,15 @@ public class BMNLogger extends AbstractLogger {
 	/**
 	 * Logs an error message
 	 *
+	 * @param message The message to log
+	 */
+	public void logError(String message) {
+		bmGlobalLogger.logError(prefix + message, null);
+	}
+
+	/**
+	 * Logs an error message with an exception
+	 *
 	 * @param message   The message to log
 	 * @param throwable The exception to log
 	 */
