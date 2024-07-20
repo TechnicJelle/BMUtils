@@ -12,9 +12,9 @@ Now also has functions for Native BlueMap Addons!
 ## Installation
 There are two ways to use this library:
 
-### Import as a Maven/Gradle dependency
-Visit https://jitpack.io/#TechnicJelle/BMUtils for detailed instructions
-on how to add this library to your project.
+### Import as a dependency in Maven/Gradle (Recommended)
+Visit https://repo.bluecolored.de/#/releases/com/technicjelle/BMUtils
+for instructions on how to add this library as a dependency to your project.
 
 You may want to shade the library!
 
