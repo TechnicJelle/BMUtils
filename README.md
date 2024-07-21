@@ -1,4 +1,6 @@
 # BMUtils
+[![Latest Release](https://repo.bluecolored.de/api/badge/latest/releases/com/technicjelle/BMUtils?name=Latest%20Release&prefix=v)](https://repo.bluecolored.de/#/releases/com/technicjelle/BMUtils)
+
 A small library with a collection of useful functions for BlueMap addons,
 that I have created while working on my own BlueMap addons.
 
@@ -9,26 +11,19 @@ Should work with any plugin/mod-loader. Currently only tested with Paper.
 Please let me know if you have any issues when using other platforms!  
 Now also has functions for Native BlueMap Addons!
 
-## Installation
-There are two ways to use this library:
-
-### Import as a dependency in Maven/Gradle (Recommended)
+## Install as dependency in Maven/Gradle
 Visit https://repo.bluecolored.de/#/releases/com/technicjelle/BMUtils
 for instructions on how to add this library as a dependency to your project.
 
 You may want to shade the library!
 
-### Copy the source code
-You can also just copy only the specific source code files you need into your own project.  
-This is useful if you only need a few functions and don't want to add a whole new dependency.
-
-Please make sure to keep the license and author information in the source code files,
-and to abide by the [license](LICENSE) terms!
-
 ## Usage/Overview of Features
-This section just contains a brief overview of some of the most useful features of this library.  
-Please see the javadoc for the full API reference: [technicjelle.com/BMUtils](https://technicjelle.com/BMUtils)
+Please see the javadoc for the full API reference:
+- main (latest commit): https://technicjelle.com/BMUtils
+- latest release: https://repo.bluecolored.de/javadoc/releases/com/technicjelle/BMUtils/latest
+  - Also has docs for previous releases (v4.2 and up)
 
+This section just contains a brief overview of some of the most useful features of this library:
 - [Copying Assets](#copying-assets-docs)
 - [Get Player Head Icon Address](#get-player-head-icon-address-docs)
 - [Create Marker around a Claimed Area](#create-marker-around-a-claimed-area-docs)
