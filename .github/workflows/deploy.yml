@@ -6,6 +6,13 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      TAG_NAME:
+        description: 'GitHub Tag Name (for comparing with project version)'
+        required: true
+
+env:
+  TAG_NAME: ${{ github.event.inputs.TAG_NAME || github.event.release.tag_name }}
 
 jobs:
   deploy:
@@ -18,6 +25,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Check tag with project version
+        run: |
+          PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          # Remove 'v' prefix from tag name
+          TAG_VERSION=$(sed 's/^v//g' <<< "$TAG_NAME")
+          if [ "$PROJECT_VERSION" != "$TAG_VERSION" ]; then
+              echo "Project version ($PROJECT_VERSION) does not match tag ($TAG_VERSION)"
+              exit 1
+          fi
       - name: Set up credentials
         shell: bash
         env:
