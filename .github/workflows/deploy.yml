@@ -18,5 +18,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Set up credentials
+        run: echo "<settings><servers><server><id>bluecolored-releases</id><username>${{ secrets.MAVEN_NAME }}</username><password>${{ secrets.MAVEN_SECRET }}</password></server></servers></settings>" > ~/.m2/settings.xml
       - name: Deploy
         run: mvn clean deploy
