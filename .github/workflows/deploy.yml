@@ -21,8 +21,7 @@ jobs:
       - name: Set up credentials
         shell: bash
         env:
-          USERNAME: ${{ secrets.MAVEN_NAME }}
           PASSWORD: ${{ secrets.MAVEN_SECRET }}
-        run: echo "<settings><servers><server><id>bluecolored-releases</id><username>$USERNAME</username><password>$PASSWORD</password></server></servers></settings>" > ~/.m2/settings.xml
+        run: echo "<settings><servers><server><id>bluecolored-releases</id><username>technicjelle</username><password>$PASSWORD</password></server></servers></settings>" > ~/.m2/settings.xml
       - name: Deploy
         run: mvn clean deploy
