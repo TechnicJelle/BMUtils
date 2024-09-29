@@ -20,7 +20,7 @@
 			<!-- Parent Project -->
 			<groupId>com.technicjelle</groupId>
 			<artifactId>BMUtils</artifactId>
-			<version>4.2</version>
+			<version>4.2.2</version>
 		</dependency>
 		<!-- The code of the benchmarks itself: -->
 		<dependency>
@@ -62,7 +62,7 @@
 		<jmh.version>1.37</jmh.version>
 
 		<!-- Java source/target to use for compilation. -->
-		<javac.target>11</javac.target>
+		<javac.target>21</javac.target>
 
 		<!-- Name of the benchmark Uber-JAR to generate. -->
 		<uberjar.name>benchmarks</uberjar.name>
