@@ -58,8 +58,8 @@
 				<configuration>
 					<links>
 						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/</link>
-						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapCommon/5.4/raw/</link>
-						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapCore/5.4/raw/</link>
+						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-common/5.4/raw/</link>
+						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-core/5.4/raw/</link>
 						<link>https://javadoc.io/doc/com.flowpowered/flow-math/1.0.3/</link>
 					</links>
 				</configuration>
