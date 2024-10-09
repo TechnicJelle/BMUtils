@@ -100,20 +100,20 @@ void onPlayerClaimEvent(Player player, Town claimedTown) {
 	//assuming a class member of Map<World, MarkerSet> markerSetMap;
 	MarkerSet markerSet = markerSetMap.get(claimedTown.getWorld());
 
-	Collection<Vector2i> chunkCoordinates = claimedTown.getClaimedChunks().stream()
+	Vector2i[] chunkCoordinates = claimedTown.getClaimedChunks().stream()
 		.map(chunk -> new Vector2i(chunk.getX(), chunk.getZ()))
-		.collect(Collectors.toList());
+		.toArray(Vector2i[]::new);
 
 	Collection<Cheese> platter = Cheese.createPlatterFromChunks(chunkCoordinates);
-	for (int i = 0; i < platter.size(); i++) {
-		Cheese cheese = platter[i];
+	int i = 0;
+	for (Cheese cheese : platter) {
 		ShapeMarker chunkMarker = new ShapeMarker.Builder()
 			.label(claimedTown.getName())
-			.shape(cheese.getShape())
-			.holes(cheese.getHoles())
+			.shape(cheese.getShape(), 80)
+			.holes(cheese.getHoles().toArray(Shape[]::new))
 			//...
 			.build();
-		markerSet.put("town-" + claimedTown.getName() + "-segment-" + i, chunkMarker);
+		markerSet.put("town-" + claimedTown.getName() + "-segment-" + (i++), chunkMarker);
 	}
 }
 ```
@@ -133,15 +133,15 @@ void onPlayerClaimEvent(Player player, Town claimedTown) {
 	//assuming a class member of Map<World, MarkerSet> markerSetMap;
 	MarkerSet markerSet = markerSetMap.get(claimedTown.getWorld());
 
-	Collection<Vector2i> chunkCoordinates = claimedTown.getClaimedChunks().stream()
+	Vector2i[] chunkCoordinates = claimedTown.getClaimedChunks().stream()
 		.map(chunk -> new Vector2i(chunk.getX(), chunk.getZ()))
-		.collect(Collectors.toList());
+		.toArray(Vector2i[]::new);
 
-	Cheese cheese = Cheese.createFromChunks(chunkCoordinates);
+	Cheese cheese = Cheese.createSingleFromChunks(chunkCoordinates);
 	ExtrudeMarker chunkMarker = new ExtrudeMarker.builder()
 		.label(claimedTown.getName())
-		.shape(cheese.getShape())
-		.holes(cheese.getHoles())
+		.shape(cheese.getShape(), 50, 80)
+		.holes(cheese.getHoles().toArray(Shape[]::new))
 		//...
 		.build();
 	markerSet.put("town-" + claimedTown.getName(), chunkMarker);
