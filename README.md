@@ -61,7 +61,7 @@ Copying to the **webapp** is useful for e.g. adding custom icons, scripts, or st
 Any scripts or styles you copy with these functions will be automatically registered with BlueMap.
 
 Copying to a **specific map** copies it into that
-map's [asset storage](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/AssetStorage.html),
+map's [asset storage](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-api/2.7.3/raw/de/bluecolored/bluemap/api/AssetStorage.html),
 which means it can be stored on disk, or in a database.  
 This is useful for adding e.g. custom icons or other assets to a specific map.  
 It can also make managing all the custom assets slightly easier for people who are using custom webservers,
@@ -77,15 +77,15 @@ BMSkin.getPlayerHeadIconAddress(BlueMapAPI, UUID playerUUID, BlueMapMap)
 ```
 
 ### Create Marker around a Claimed Area ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/Cheese.html))
-With the Cheese class, you can create a [BlueMap Shape](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.  
+With the Cheese class, you can create a [BlueMap Shape](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-api/2.7.3/raw/de/bluecolored/bluemap/api/math/Shape.html) from a collection of chunks.  
 Useful for when you want to create a marker around a claimed area.
 
 To get started, feed a list of Chunk coordinates into `createPlatterFromChunks()`.  
 This will return a collection of Cheese objects, which you can use to create your markers.
 The Cheese object contains the outline shape of the claimed area, and any holes in it.
 It's specifically designed to be fed directly into a 
-[ShapeMarker](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/markers/ShapeMarker.html) or
-[ExtrudeMarker](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/de/bluecolored/bluemap/api/markers/ExtrudeMarker.html).
+[ShapeMarker](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-api/2.7.3/raw/de/bluecolored/bluemap/api/markers/ShapeMarker.html) or
+[ExtrudeMarker](https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-api/2.7.3/raw/de/bluecolored/bluemap/api/markers/ExtrudeMarker.html).
 
 The Platter functions return multiple Cheeses; a "platter" of them, if you will.  
 It does this, because the input chunk coordinates might not be all connected,

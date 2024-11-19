@@ -45,7 +45,7 @@ public class BMNConfigDirectory {
 	 * @throws IOException If the directory could not be created
 	 */
 	public static Path getAllocatedDirectory(BlueMapAPI api, ClassLoader classLoader) throws IOException {
-		return getAddonsDirectory(api).resolve(BMNMetadata.getAddonID(classLoader));
+		return getPacksDirectory(api).resolve(BMNMetadata.getAddonID(classLoader));
 	}
 
 	/**
@@ -55,15 +55,15 @@ public class BMNConfigDirectory {
 	 * @param api The BlueMapAPI instance
 	 * @return BlueMap's own addons directory
 	 */
-	public static Path getAddonsDirectory(BlueMapAPI api) {
+	public static Path getPacksDirectory(BlueMapAPI api) {
 		BlueMapAPIImpl apiImpl = (BlueMapAPIImpl) api;
 		@Nullable Plugin plugin = apiImpl.plugin();
 		if (plugin == null) {
 			//cli
-			return Path.of(".", "config", "addons");
+			return Path.of(".", "config", "packs");
 		} else {
 			//installed on a server (spigot/paper/fabric/forge/sponge/etc)
-			return plugin.getServerInterface().getConfigFolder().resolve("addons");
+			return plugin.getServerInterface().getConfigFolder().resolve("packs");
 		}
 	}
 

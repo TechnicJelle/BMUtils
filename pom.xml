@@ -6,7 +6,7 @@
 
 	<groupId>com.technicjelle</groupId>
 	<artifactId>BMUtils</artifactId>
-	<version>4.2.2</version>
+	<version>4.3.0</version>
 
 	<properties>
 		<java.version>21</java.version>
@@ -57,9 +57,9 @@
 				</executions>
 				<configuration>
 					<links>
-						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap/BlueMapAPI/2.7.2/raw/</link>
-						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-common/5.4/raw/</link>
-						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-core/5.4/raw/</link>
+						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-api/2.7.3/raw/</link>
+						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-common/5.5/raw/</link>
+						<link>https://repo.bluecolored.de/javadoc/releases/de/bluecolored/bluemap-core/5.5/raw/</link>
 						<link>https://javadoc.io/doc/com.flowpowered/flow-math/1.0.3/</link>
 					</links>
 				</configuration>
@@ -96,9 +96,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>de.bluecolored.bluemap</groupId>
-			<artifactId>BlueMapAPI</artifactId>
-			<version>2.7.2</version>
+			<groupId>de.bluecolored</groupId>
+			<artifactId>bluemap-api</artifactId>
+			<version>2.7.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -110,7 +110,7 @@
 		<dependency>
 			<groupId>de.bluecolored</groupId>
 			<artifactId>bluemap-common</artifactId>
-			<version>5.4</version>
+			<version>5.5</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
