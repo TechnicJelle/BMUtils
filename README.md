@@ -65,7 +65,7 @@ map's [asset storage](https://repo.bluecolored.de/javadoc/releases/de/bluecolore
 which means it can be stored on disk, or in a database.  
 This is useful for adding e.g. custom icons or other assets to a specific map.  
 It can also make managing all the custom assets slightly easier for people who are using custom webservers,
-because maps are automatically be synced, while the webapp is not.
+because map storages are automatically synced, while the webapp is not.
 
 ### Get Player Head Icon Address ([Docs](https://technicjelle.com/BMUtils/com/technicjelle/BMUtils/BMSkin.html))
 This function returns the address of a player head icon,
