@@ -20,7 +20,7 @@
 			<!-- Parent Project -->
 			<groupId>com.technicjelle</groupId>
 			<artifactId>BMUtils</artifactId>
-			<version>LATEST</version>
+			<version>5.0.0</version>
 		</dependency>
 		<!-- The code of the benchmarks itself: -->
 		<dependency>
