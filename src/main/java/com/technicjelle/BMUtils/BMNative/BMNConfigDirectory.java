@@ -45,7 +45,7 @@ public class BMNConfigDirectory {
 	 * @throws IOException If the directory could not be created
 	 */
 	public static Path getAllocatedDirectory(BlueMapAPI api, ClassLoader classLoader) throws IOException {
-		return getPacksDirectory(api).resolve(BMNMetadata.getAddonID(classLoader));
+		return getServerConfigDirectory(api).resolve(BMNMetadata.getAddonID(classLoader));
 	}
 
 	/**
