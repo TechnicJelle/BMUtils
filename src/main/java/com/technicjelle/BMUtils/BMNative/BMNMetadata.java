@@ -23,7 +23,6 @@ import java.io.InputStream;
  * (<code>bluemap.addon.json</code>)
  */
 public class BMNMetadata {
-	private final static JsonParser JSON_PARSER = new JsonParser();
 	private final static String ADDON_METADATA_FILE = "bluemap.addon.json";
 	private final static String KEY_ID = "id";
 
@@ -58,7 +57,7 @@ public class BMNMetadata {
 		) {
 			if (in == null) throw new IOException("Resource not found: " + ADDON_METADATA_FILE);
 			final String json = new String(in.readAllBytes());
-			final JsonObject o = JSON_PARSER.parse(json).getAsJsonObject();
+			final JsonObject o = JsonParser.parseString(json).getAsJsonObject();
 			return o.get(key).getAsString();
 		}
 	}
