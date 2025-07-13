@@ -5,8 +5,12 @@
 
 version: 2
 updates:
-  - package-ecosystem: "maven" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "maven"
+    directory: "/" # Location of package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/benchmark/" # Location of package manifest
     schedule:
       interval: "weekly"
   - package-ecosystem: "github-actions"
