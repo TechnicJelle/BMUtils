@@ -49,6 +49,31 @@ public class BMNConfigDirectory {
 	}
 
 	/**
+	 * Gets the directory where the server stores the mod/plugin configuration directories.
+	 * <ul>
+	 *     <li>Paper &amp; Spigot: <code>/plugins/</code></li>
+	 *     <li>Forge &amp; Fabric: <code>/config/</code></li>
+	 *     <li>CLI: <code>./</code> (next to the <code>bluemap-(version)-cli.jar</code>)</li>
+	 * </ul>
+	 * <br>
+	 * Probably shouldn't be used directly, use {@link #getAllocatedDirectory(BlueMapAPI, ClassLoader)} instead.
+	 *
+	 * @param api The BlueMapAPI instance
+	 * @return The server config directory
+	 */
+	public static Path getServerConfigDirectory(BlueMapAPI api) {
+		BlueMapAPIImpl apiImpl = (BlueMapAPIImpl) api;
+		@Nullable Plugin plugin = apiImpl.plugin();
+		if (plugin == null) {
+			//cli
+			return Path.of(".");
+		} else {
+			//installed on a server (spigot/paper/fabric/forge/sponge/etc)
+			return plugin.getServerInterface().getConfigFolder().getParent();
+		}
+	}
+
+	/**
 	 * Gets the directory where BlueMap Native Addons are stored.<br>
 	 * Probably shouldn't be used directly, use {@link #getAllocatedDirectory(BlueMapAPI, ClassLoader)} instead.
 	 *
