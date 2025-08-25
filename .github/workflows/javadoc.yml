@@ -39,7 +39,7 @@ jobs:
       - name: Generate JavaDoc
         run: mvn javadoc:javadoc -Dmaven.test.skip=true
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: 'target/reports/apidocs/'
       - name: Deploy to GitHub Pages
