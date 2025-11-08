@@ -107,7 +107,7 @@ void onPlayerClaimEvent(Player player, Town claimedTown) {
 	Collection<Cheese> platter = Cheese.createPlatterFromChunks(chunkCoordinates);
 	int i = 0;
 	for (Cheese cheese : platter) {
-		ShapeMarker chunkMarker = new ShapeMarker.Builder()
+		ShapeMarker chunkMarker = ShapeMarker.builder()
 			.label(claimedTown.getName())
 			.shape(cheese.getShape(), 80)
 			.holes(cheese.getHoles().toArray(Shape[]::new))
@@ -138,7 +138,7 @@ void onPlayerClaimEvent(Player player, Town claimedTown) {
 		.toArray(Vector2i[]::new);
 
 	Cheese cheese = Cheese.createSingleFromChunks(chunkCoordinates);
-	ExtrudeMarker chunkMarker = new ExtrudeMarker.builder()
+	ExtrudeMarker chunkMarker = ExtrudeMarker.builder()
 		.label(claimedTown.getName())
 		.shape(cheese.getShape(), 50, 80)
 		.holes(cheese.getHoles().toArray(Shape[]::new))
