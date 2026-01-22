@@ -26,12 +26,26 @@ public class BMNLogger extends AbstractLogger {
 
 	/**
 	 * Creates a new logger for a BlueMap Native Addon
+	 * <p>
+	 * If you're not using BlueMap itself as the addon loader, please use {@link BMNLogger(String)} instead
 	 *
 	 * @param classLoader The class loader of the addon
-	 * @throws IOException If the addon ID could not be retrieved
+	 * @throws IOException If the addon ID could not be retrieved from the <code>bluemap.addon.json</code> file
 	 */
 	public BMNLogger(ClassLoader classLoader) throws IOException {
 		String addonID = BMNMetadata.getAddonID(classLoader);
+		prefix = "[" + addonID + "] ";
+	}
+
+
+	/**
+	 * Creates a new logger for a BlueMap Addon
+	 * <p>
+	 * If you're using BlueMap itself as the addon loader, please use {@link BMNLogger(ClassLoader)} instead
+	 *
+	 * @param addonID The ID of this addon, for use as the prefix of the log messages
+	 */
+	public BMNLogger(String addonID) {
 		prefix = "[" + addonID + "] ";
 	}
 
