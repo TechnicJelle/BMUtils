@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.technicjelle</groupId>
@@ -75,6 +75,14 @@
 					<compilerVersion>${javac.target}</compilerVersion>
 					<source>${javac.target}</source>
 					<target>${javac.target}</target>
+					<!--
+						As of Java 22, annotation processing is disabled by default.
+						This <compilerArgs> enables it again.
+						https://stackoverflow.com/a/79096948/8109619
+					-->
+					<compilerArgs>
+						<arg>-proc:full</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
