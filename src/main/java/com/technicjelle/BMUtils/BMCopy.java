@@ -32,6 +32,8 @@ public class BMCopy {
 		throw new IllegalStateException("Utility class");
 	}
 
+	//region Stream to Webapp -->
+
 	/**
 	 * Copies any stream to the BlueMap asset folder.<br>
 	 * If the resource is a script or style, it will be registered with BlueMap.<br>
@@ -66,6 +68,10 @@ public class BMCopy {
 		}
 	}
 
+	//endregion <-- Stream to Webapp
+
+	//region Stream to Map -->
+
 	/**
 	 * Copies any stream to the BlueMap asset folder of a specific map.<br>
 	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
@@ -91,6 +97,10 @@ public class BMCopy {
 		}
 	}
 
+	//endregion <-- Stream to Map
+
+	//region File to WebApp -->
+
 	/**
 	 * Copies any file to the BlueMap asset folder.<br>
 	 * If the resource is a script or style, it will be registered with BlueMap.<br>
@@ -115,6 +125,10 @@ public class BMCopy {
 		}
 	}
 
+	//endregion <-- File to WebApp
+
+	//region File to Map -->
+
 	/**
 	 * Copies any file to the BlueMap asset folder of a specific map.<br>
 	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
@@ -137,6 +151,10 @@ public class BMCopy {
 			streamToMap(map, in, toAsset, overwrite);
 		}
 	}
+
+	//endregion <-- File to Map
+
+	//region Jar Resource to WebApp -->
 
 	/**
 	 * Copies a resource from the jar to the BlueMap asset folder.<br>
@@ -165,6 +183,10 @@ public class BMCopy {
 		}
 	}
 
+	//endregion <-- Jar Resource to WebApp
+
+	//region Jar Resource to Map -->
+
 	/**
 	 * Copies a resource from the jar to the BlueMap asset folder of a specific map.<br>
 	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
@@ -190,4 +212,6 @@ public class BMCopy {
 			streamToMap(map, in, toAsset, overwrite);
 		}
 	}
+
+	//endregion <-- Jar Resource to Map
 }
