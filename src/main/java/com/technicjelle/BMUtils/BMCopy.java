@@ -122,6 +122,25 @@ public class BMCopy {
 
 	/**
 	 * Copies any stream to the BlueMap asset folder of a specific map.<br>
+	 * If the resource already exists, it will be overwritten.<br>
+	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
+	 *
+	 * @param map     The map to copy the stream to
+	 * @param in      The input stream to copy from
+	 * @param toAsset The map's asset to copy to, relative to the map's asset folder (<code>bluemap/web/maps/{map}/assets/</code>)
+	 * @throws IOException If the resource could not be copied
+	 * @see BMCopy#streamToMap(BlueMapMap, InputStream, String, boolean)
+	 */
+	public static void streamToMap(
+			final @NotNull BlueMapMap map,
+			final @NotNull InputStream in,
+			final @NotNull String toAsset
+	) throws IOException {
+		streamToMap(map, in, toAsset, true);
+	}
+
+	/**
+	 * Copies any stream to the BlueMap asset folder of a specific map.<br>
 	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
 	 *
 	 * @param map       The map to copy the stream to
@@ -129,6 +148,7 @@ public class BMCopy {
 	 * @param toAsset   The map's asset to copy to, relative to the map's asset folder (<code>bluemap/web/maps/{map}/assets/</code>)
 	 * @param overwrite Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be copied
+	 * @see BMCopy#streamToMap(BlueMapMap, InputStream, String)
 	 */
 	public static void streamToMap(
 			final @NotNull BlueMapMap map,
@@ -225,6 +245,25 @@ public class BMCopy {
 
 	/**
 	 * Copies any file to the BlueMap asset folder of a specific map.<br>
+	 * If the resource already exists, it will be overwritten.<br>
+	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
+	 *
+	 * @param map     The map to copy the file to
+	 * @param from    The file to copy
+	 * @param toAsset The map's asset to copy to, relative to the map's asset folder (<code>bluemap/web/maps/{map}/assets/</code>)
+	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#fileToMap(BlueMapMap, Path, String, boolean)
+	 */
+	public static void fileToMap(
+			final @NotNull BlueMapMap map,
+			final @NotNull Path from,
+			final @NotNull String toAsset
+	) throws IOException {
+		fileToMap(map, from, toAsset, true);
+	}
+
+	/**
+	 * Copies any file to the BlueMap asset folder of a specific map.<br>
 	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
 	 *
 	 * @param map       The map to copy the file to
@@ -232,6 +271,7 @@ public class BMCopy {
 	 * @param toAsset   The map's asset to copy to, relative to the map's asset folder (<code>bluemap/web/maps/{map}/assets/</code>)
 	 * @param overwrite Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#fileToMap(BlueMapMap, Path, String)
 	 */
 	public static void fileToMap(
 			final @NotNull BlueMapMap map,
@@ -333,6 +373,27 @@ public class BMCopy {
 
 	/**
 	 * Copies a resource from the jar to the BlueMap asset folder of a specific map.<br>
+	 * If the resource already exists, it will be overwritten.<br>
+	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
+	 *
+	 * @param map          The map to copy the resource to
+	 * @param classLoader  The class loader to get the resource from the correct jar
+	 * @param fromResource The resource to copy from the jar
+	 * @param toAsset      The asset to copy to, relative to the map's asset folder (<code>bluemap/web/maps/{map}/assets/</code>)
+	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#jarResourceToMap(BlueMapMap, ClassLoader, String, String, boolean)
+	 */
+	public static void jarResourceToMap(
+			final @NotNull BlueMapMap map,
+			final @NotNull ClassLoader classLoader,
+			final @NotNull String fromResource,
+			final @NotNull String toAsset
+	) throws IOException {
+		jarResourceToMap(map, classLoader, fromResource, toAsset, true);
+	}
+
+	/**
+	 * Copies a resource from the jar to the BlueMap asset folder of a specific map.<br>
 	 * Do not use this method for copying scripts or styles, as those need to be installed in the webapp.<br>
 	 *
 	 * @param map          The map to copy the resource to
@@ -341,6 +402,7 @@ public class BMCopy {
 	 * @param toAsset      The asset to copy to, relative to the map's asset folder (<code>bluemap/web/maps/{map}/assets/</code>)
 	 * @param overwrite    Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#jarResourceToMap(BlueMapMap, ClassLoader, String, String)
 	 */
 	public static void jarResourceToMap(
 			final @NotNull BlueMapMap map,
