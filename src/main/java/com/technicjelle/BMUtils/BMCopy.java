@@ -36,6 +36,27 @@ public class BMCopy {
 
 	/**
 	 * Copies any stream to the BlueMap asset folder.<br>
+	 * If the resource already exists, it will be overwritten.<br>
+	 * If the resource is a script or style, it will be registered with BlueMap.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI The BlueMapAPI instance
+	 * @param in         The input stream to copy from
+	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @throws IOException If the resource could not be copied
+	 * @see BMCopy#streamToWebApp(BlueMapAPI, InputStream, String, boolean)
+	 * @see BMCopy#streamToWebApp(BlueMapAPI, InputStream, String, boolean, boolean)
+	 */
+	public static void streamToWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull InputStream in,
+			final @NotNull String toAsset
+	) throws IOException {
+		streamToWebApp(blueMapAPI, in, toAsset, true);
+	}
+
+	/**
+	 * Copies any stream to the BlueMap asset folder.<br>
 	 * If the resource is a script or style, it will be registered with BlueMap.<br>
 	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
 	 *
@@ -44,6 +65,8 @@ public class BMCopy {
 	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
 	 * @param overwrite  Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be copied
+	 * @see BMCopy#streamToWebApp(BlueMapAPI, InputStream, String)
+	 * @see BMCopy#streamToWebApp(BlueMapAPI, InputStream, String, boolean, boolean)
 	 */
 	public static void streamToWebApp(
 			final @NotNull BlueMapAPI blueMapAPI,
@@ -51,12 +74,37 @@ public class BMCopy {
 			final @NotNull String toAsset,
 			final boolean overwrite
 	) throws IOException {
+		streamToWebApp(blueMapAPI, in, toAsset, overwrite, true);
+	}
+
+	/**
+	 * Copies any stream to the BlueMap asset folder.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI The BlueMapAPI instance
+	 * @param in         The input stream to copy from
+	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @param overwrite  Whether to overwrite the asset if it already exists
+	 * @param register   Whether to register the asset with BlueMap, in case it is a registerable script or style
+	 * @throws IOException If the resource could not be copied
+	 * @see BMCopy#streamToWebApp(BlueMapAPI, InputStream, String)
+	 * @see BMCopy#streamToWebApp(BlueMapAPI, InputStream, String, boolean)
+	 */
+	public static void streamToWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull InputStream in,
+			final @NotNull String toAsset,
+			final boolean overwrite,
+			final boolean register
+	) throws IOException {
 		final Path toPath = blueMapAPI.getWebApp().getWebRoot().resolve("assets").resolve(toAsset);
 
 		//Register script or style
-		final String assetPath = "assets/" + toAsset;
-		if (toAsset.endsWith(".js")) blueMapAPI.getWebApp().registerScript(assetPath);
-		if (toAsset.endsWith(".css")) blueMapAPI.getWebApp().registerStyle(assetPath);
+		if (register) {
+			final String assetPath = "assets/" + toAsset;
+			if (toAsset.endsWith(".js")) blueMapAPI.getWebApp().registerScript(assetPath);
+			if (toAsset.endsWith(".css")) blueMapAPI.getWebApp().registerStyle(assetPath);
+		}
 
 		//Copy stream
 		if (Files.exists(toPath) && !overwrite) return;
@@ -103,6 +151,27 @@ public class BMCopy {
 
 	/**
 	 * Copies any file to the BlueMap asset folder.<br>
+	 * If the resource already exists, it will be overwritten.<br>
+	 * If the resource is a script or style, it will be registered with BlueMap.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI The BlueMapAPI instance
+	 * @param from       The file to copy
+	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#fileToWebApp(BlueMapAPI, Path, String, boolean)
+	 * @see BMCopy#fileToWebApp(BlueMapAPI, Path, String, boolean, boolean)
+	 */
+	public static void fileToWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull Path from,
+			final @NotNull String toAsset
+	) throws IOException {
+		fileToWebApp(blueMapAPI, from, toAsset, true);
+	}
+
+	/**
+	 * Copies any file to the BlueMap asset folder.<br>
 	 * If the resource is a script or style, it will be registered with BlueMap.<br>
 	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
 	 *
@@ -111,6 +180,8 @@ public class BMCopy {
 	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
 	 * @param overwrite  Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#fileToWebApp(BlueMapAPI, Path, String)
+	 * @see BMCopy#fileToWebApp(BlueMapAPI, Path, String, boolean, boolean)
 	 */
 	public static void fileToWebApp(
 			final @NotNull BlueMapAPI blueMapAPI,
@@ -118,10 +189,33 @@ public class BMCopy {
 			final @NotNull String toAsset,
 			final boolean overwrite
 	) throws IOException {
+		fileToWebApp(blueMapAPI, from, toAsset, overwrite, true);
+	}
+
+	/**
+	 * Copies any file to the BlueMap asset folder.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI The BlueMapAPI instance
+	 * @param from       The file to copy
+	 * @param toAsset    The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @param overwrite  Whether to overwrite the asset if it already exists
+	 * @param register   Whether to register the asset with BlueMap, in case it is a registerable script or style
+	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#fileToWebApp(BlueMapAPI, Path, String)
+	 * @see BMCopy#fileToWebApp(BlueMapAPI, Path, String, boolean)
+	 */
+	public static void fileToWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull Path from,
+			final @NotNull String toAsset,
+			final boolean overwrite,
+			final boolean register
+	) throws IOException {
 		try (
 				final InputStream in = Files.newInputStream(from)
 		) {
-			streamToWebApp(blueMapAPI, in, toAsset, overwrite);
+			streamToWebApp(blueMapAPI, in, toAsset, overwrite, register);
 		}
 	}
 
@@ -158,6 +252,29 @@ public class BMCopy {
 
 	/**
 	 * Copies a resource from the jar to the BlueMap asset folder.<br>
+	 * If the resource already exists, it will be overwritten.<br>
+	 * If the resource is a script or style, it will be registered with BlueMap.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI   The BlueMapAPI instance
+	 * @param classLoader  The class loader to get the resource from the correct jar
+	 * @param fromResource The resource to copy from the jar
+	 * @param toAsset      The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#jarResourceToWebApp(BlueMapAPI, ClassLoader, String, String, boolean)
+	 * @see BMCopy#jarResourceToWebApp(BlueMapAPI, ClassLoader, String, String, boolean, boolean)
+	 */
+	public static void jarResourceToWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull ClassLoader classLoader,
+			final @NotNull String fromResource,
+			final @NotNull String toAsset
+	) throws IOException {
+		jarResourceToWebApp(blueMapAPI, classLoader, fromResource, toAsset, true);
+	}
+
+	/**
+	 * Copies a resource from the jar to the BlueMap asset folder.<br>
 	 * If the resource is a script or style, it will be registered with BlueMap.<br>
 	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
 	 *
@@ -167,6 +284,8 @@ public class BMCopy {
 	 * @param toAsset      The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
 	 * @param overwrite    Whether to overwrite the asset if it already exists
 	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#jarResourceToWebApp(BlueMapAPI, ClassLoader, String, String)
+	 * @see BMCopy#jarResourceToWebApp(BlueMapAPI, ClassLoader, String, String, boolean, boolean)
 	 */
 	public static void jarResourceToWebApp(
 			final @NotNull BlueMapAPI blueMapAPI,
@@ -175,11 +294,36 @@ public class BMCopy {
 			final @NotNull String toAsset,
 			final boolean overwrite
 	) throws IOException {
+		jarResourceToWebApp(blueMapAPI, classLoader, fromResource, toAsset, overwrite, true);
+	}
+
+	/**
+	 * Copies a resource from the jar to the BlueMap asset folder.<br>
+	 * <b>This function should be called directly inside {@link BlueMapAPI#onEnable(Consumer)}, not in a separate thread.</b>
+	 *
+	 * @param blueMapAPI   The BlueMapAPI instance
+	 * @param classLoader  The class loader to get the resource from the correct jar
+	 * @param fromResource The resource to copy from the jar
+	 * @param toAsset      The asset to copy to, relative to BlueMap's asset folder (<code>bluemap/web/assets</code>)
+	 * @param overwrite    Whether to overwrite the asset if it already exists
+	 * @param register     Whether to register the asset with BlueMap, in case it is a registerable script or style
+	 * @throws IOException If the resource could not be found or copied
+	 * @see BMCopy#jarResourceToWebApp(BlueMapAPI, ClassLoader, String, String)
+	 * @see BMCopy#jarResourceToWebApp(BlueMapAPI, ClassLoader, String, String, boolean)
+	 */
+	public static void jarResourceToWebApp(
+			final @NotNull BlueMapAPI blueMapAPI,
+			final @NotNull ClassLoader classLoader,
+			final @NotNull String fromResource,
+			final @NotNull String toAsset,
+			final boolean overwrite,
+			final boolean register
+	) throws IOException {
 		try (
 				final InputStream in = classLoader.getResourceAsStream(fromResource)
 		) {
 			if (in == null) throw new IOException("Resource not found: " + fromResource);
-			streamToWebApp(blueMapAPI, in, toAsset, overwrite);
+			streamToWebApp(blueMapAPI, in, toAsset, overwrite, register);
 		}
 	}
 
